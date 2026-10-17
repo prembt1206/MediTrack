@@ -110,43 +110,50 @@ export function ChatWidget() {
   return (
     <div className="fixed bottom-6 right-6 z-50">
       
-      {/* Floating Launcher Button */}
+      {/* Floating Launcher Button with Ambient Floating Pill */}
       {!isOpen && (
-        <button
-          onClick={() => setIsOpen(true)}
-          className="group relative flex items-center gap-2.5 h-14 px-5 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white shadow-xl shadow-emerald-600/30 hover:shadow-emerald-600/40 hover:scale-105 transition-all duration-300"
-          aria-label="Open MediBot AI Pharmacy Assistant"
-        >
-          <div className="relative">
-            <Bot className="h-6 w-6" />
-            <span className="absolute -top-1 -right-1 flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-400" />
-            </span>
+        <div className="relative">
+          <div className="animate-float-slow absolute -top-8 right-1 pointer-events-none flex items-center gap-1 text-[10px] font-semibold bg-slate-900/90 text-emerald-300 border border-emerald-500/40 px-2.5 py-0.5 rounded-full shadow-lg shadow-emerald-950/50 backdrop-blur-md whitespace-nowrap">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span>MediBot AI Online</span>
           </div>
-          <div className="text-left hidden sm:block">
-            <p className="text-xs font-semibold leading-tight flex items-center gap-1">
-              MediBot AI <Sparkles className="h-3 w-3 text-amber-300" />
-            </p>
-            <p className="text-[10px] text-teal-100 opacity-90">Multilingual Stock Chat</p>
-          </div>
-        </button>
+
+          <button
+            onClick={() => setIsOpen(true)}
+            className="group relative flex items-center gap-2.5 h-14 px-5 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white shadow-xl shadow-emerald-600/30 hover:shadow-emerald-600/50 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
+            aria-label="Open MediBot AI Pharmacy Assistant"
+          >
+            <div className="relative">
+              <Bot className="h-6 w-6 group-hover:rotate-6 transition-transform" />
+              <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-400" />
+              </span>
+            </div>
+            <div className="text-left hidden sm:block">
+              <p className="text-xs font-semibold leading-tight flex items-center gap-1">
+                MediBot AI <Sparkles className="h-3 w-3 text-amber-300" />
+              </p>
+              <p className="text-[10px] text-teal-100 opacity-90">Multilingual Stock Chat</p>
+            </div>
+          </button>
+        </div>
       )}
 
       {/* Floating Chat Modal */}
       {isOpen && (
-        <div className="w-[360px] sm:w-[420px] h-[550px] max-h-[85vh] rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
+        <div className="w-[360px] sm:w-[420px] h-[550px] max-h-[85vh] rounded-2xl bg-slate-900/95 border border-slate-800 shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300 glass-card backdrop-blur-xl">
           
           {/* Header */}
-          <div className="p-4 bg-gradient-to-r from-emerald-700 via-teal-700 to-cyan-800 text-white flex items-center justify-between shadow-md">
+          <div className="p-4 bg-gradient-to-r from-emerald-800 via-teal-800 to-cyan-900 text-white flex items-center justify-between shadow-md">
             <div className="flex items-center gap-2.5">
               <div className="h-9 w-9 rounded-xl bg-white/15 backdrop-blur-md flex items-center justify-center text-white">
                 <Bot className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="text-sm font-bold flex items-center gap-1.5">
+                <h3 className="text-sm font-bold flex items-center gap-1.5 text-white">
                   MediBot AI
-                  <Badge variant="default" className="text-[9px] px-1.5 py-0 bg-sky-500/40 text-sky-100 border-none flex items-center gap-1">
+                  <Badge variant="outline" className="text-[9px] px-1.5 py-0 bg-sky-500/20 text-sky-200 border-sky-400/30 flex items-center gap-1">
                     Google Cloud AI
                   </Badge>
                 </h3>
@@ -160,7 +167,7 @@ export function ChatWidget() {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setIsOpen(false)}
-                className="h-8 w-8 rounded-lg hover:bg-white/15 flex items-center justify-center text-white transition-colors"
+                className="h-8 w-8 rounded-lg hover:bg-white/15 active:scale-90 flex items-center justify-center text-white transition-all cursor-pointer"
                 aria-label="Close Chat"
               >
                 <X className="h-5 w-5" />
@@ -169,18 +176,18 @@ export function ChatWidget() {
           </div>
 
           {/* Language Selector Bar */}
-          <div className="px-3 py-2 bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs">
-            <div className="flex items-center gap-1.5 text-slate-500 font-medium">
-              <Languages className="h-3.5 w-3.5 text-emerald-600" />
+          <div className="px-3 py-2 bg-slate-950/80 border-b border-slate-800 flex items-center justify-between text-xs">
+            <div className="flex items-center gap-1.5 text-slate-400 font-medium">
+              <Languages className="h-3.5 w-3.5 text-emerald-400" />
               <span>Language:</span>
             </div>
             <select
               value={selectedLanguage}
               onChange={(e) => setSelectedLanguage(e.target.value)}
-              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 rounded-md px-2 py-1 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer"
+              className="bg-slate-900 border border-slate-800 text-slate-200 rounded-lg px-2.5 py-1 text-xs font-semibold focus:outline-none focus:border-emerald-500 cursor-pointer"
             >
               {SUPPORTED_LANGUAGES.map((lang) => (
-                <option key={lang.code} value={lang.code}>
+                <option key={lang.code} value={lang.code} className="bg-slate-900 text-slate-200">
                   {lang.flag} {lang.label}
                 </option>
               ))}
@@ -188,7 +195,7 @@ export function ChatWidget() {
           </div>
 
           {/* Messages Container */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3.5 bg-slate-50/50 dark:bg-slate-950/40 text-xs">
+          <div className="flex-1 overflow-y-auto p-4 space-y-3.5 bg-slate-950/50 text-xs">
             {messages.map((msg) => {
               const isBot = msg.role === 'assistant';
               return (
@@ -197,7 +204,7 @@ export function ChatWidget() {
                   className={`flex items-start gap-2 ${isBot ? 'justify-start' : 'justify-end'}`}
                 >
                   {isBot && (
-                    <div className="h-7 w-7 rounded-lg bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="h-7 w-7 rounded-lg bg-emerald-950 border border-emerald-700/60 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
                       <Bot className="h-4 w-4" />
                     </div>
                   )}
@@ -205,8 +212,8 @@ export function ChatWidget() {
                   <div
                     className={`max-w-[80%] rounded-2xl p-3 shadow-sm ${
                       isBot
-                        ? 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 border border-slate-200/80 dark:border-slate-700'
-                        : 'bg-emerald-600 text-white'
+                        ? 'bg-slate-900 text-slate-200 border border-slate-800'
+                        : 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-900/30'
                     }`}
                   >
                     <p className="whitespace-pre-line leading-relaxed">{msg.content}</p>
@@ -217,7 +224,7 @@ export function ChatWidget() {
                     >
                       <span>{msg.timestamp}</span>
                       {msg.inventoryContextUsed && (
-                        <span className="flex items-center gap-0.5 text-[8px] bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 px-1 py-0.2 rounded font-medium">
+                        <span className="flex items-center gap-0.5 text-[8px] bg-emerald-950 text-emerald-300 border border-emerald-800 px-1.5 py-0.5 rounded font-medium">
                           ✓ Verified Stock
                         </span>
                       )}
@@ -234,8 +241,8 @@ export function ChatWidget() {
             })}
 
             {loading && (
-              <div className="flex items-center gap-2 text-slate-500 text-xs py-2">
-                <RefreshCw className="h-4 w-4 animate-spin text-emerald-600" />
+              <div className="flex items-center gap-2 text-slate-400 text-xs py-2">
+                <RefreshCw className="h-4 w-4 animate-spin text-emerald-400" />
                 <span>Checking live pharmacy inventory in {selectedLanguage}...</span>
               </div>
             )}
@@ -243,19 +250,19 @@ export function ChatWidget() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Quick Suggested Inquiries */}
-          <div className="px-3 py-2 bg-slate-50 dark:bg-slate-900/90 border-t border-slate-200 dark:border-slate-800 overflow-x-auto flex gap-1.5 no-scrollbar">
+          {/* Quick Suggested Inquiries with Tactile Buttons */}
+          <div className="px-3 py-2 bg-slate-950 border-t border-slate-800/80 overflow-x-auto flex gap-1.5 no-scrollbar">
             <button
               type="button"
               onClick={() => handleSendMessage('Is Dolo 650 in stock near Koramangala?')}
-              className="text-[10px] whitespace-nowrap px-2.5 py-1 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300"
+              className="text-[10px] whitespace-nowrap px-2.5 py-1 rounded-full bg-slate-900 hover:bg-emerald-950/80 text-slate-300 hover:text-emerald-300 border border-slate-800 hover:border-emerald-700/80 active:scale-95 transition-all cursor-pointer"
             >
               💊 Dolo 650 Stock
             </button>
             <button
               type="button"
               onClick={() => handleSendMessage('Do you have Augmentin 625 Duo?')}
-              className="text-[10px] whitespace-nowrap px-2.5 py-1 rounded-full bg-teal-50 hover:bg-teal-100 text-teal-800 border border-teal-200 dark:bg-teal-950/40 dark:text-teal-300"
+              className="text-[10px] whitespace-nowrap px-2.5 py-1 rounded-full bg-slate-900 hover:bg-teal-950/80 text-slate-300 hover:text-teal-300 border border-slate-800 hover:border-teal-700/80 active:scale-95 transition-all cursor-pointer"
             >
               🏥 Augmentin Antibiotic
             </button>
@@ -265,33 +272,33 @@ export function ChatWidget() {
                 setSelectedLanguage('Kannada');
                 handleSendMessage('ನನಗೆ ಡೋಲೋ 650 ಸಿಗುತ್ತಾ? (Do you have Dolo 650 in Kannada?)');
               }}
-              className="text-[10px] whitespace-nowrap px-2.5 py-1 rounded-full bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-300"
+              className="text-[10px] whitespace-nowrap px-2.5 py-1 rounded-full bg-slate-900 hover:bg-amber-950/80 text-slate-300 hover:text-amber-300 border border-slate-800 hover:border-amber-700/80 active:scale-95 transition-all cursor-pointer"
             >
               🇮🇳 ಕನ್ನಡ ಪ್ರಶ್ನೆ
             </button>
           </div>
 
-          {/* Input & Send Form */}
+          {/* Input & Send Form with Tactile Button */}
           <form
             onSubmit={(e) => {
               e.preventDefault();
               handleSendMessage();
             }}
-            className="p-3 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex items-center gap-2"
+            className="p-3 bg-slate-900 border-t border-slate-800 flex items-center gap-2"
           >
             <Input
               type="text"
               placeholder={`Ask in ${selectedLanguage} (e.g. Is Pan 40 available?)...`}
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
-              className="text-xs h-9"
+              className="text-xs h-9 bg-slate-950 border-slate-800 text-white placeholder:text-slate-500 rounded-xl focus:border-emerald-500"
               disabled={loading}
             />
             <Button
               type="submit"
               size="sm"
               variant="gradient"
-              className="h-9 px-3 shrink-0"
+              className="h-9 px-3.5 shrink-0 active:scale-90 transition-transform shadow-md shadow-emerald-500/20"
               disabled={loading || !inputMessage.trim()}
             >
               <Send className="h-4 w-4" />

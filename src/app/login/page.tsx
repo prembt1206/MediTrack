@@ -229,11 +229,27 @@ function LoginFormContent() {
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-[300px] h-[300px] bg-teal-500/10 rounded-full blur-[100px] pointer-events-none" />
 
+      {/* Floating Ambient Status Icons */}
+      <div className="hidden md:flex items-center justify-between pointer-events-none absolute top-12 max-w-2xl w-full px-6">
+        <div className="animate-float-slow flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-emerald-500/30 text-emerald-300 text-xs shadow-lg shadow-emerald-950/40 backdrop-blur-md">
+          <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+          <span>Encrypted Supabase Auth</span>
+        </div>
+        <div className="animate-float-reverse flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-teal-500/30 text-teal-300 text-xs shadow-lg shadow-teal-950/40 backdrop-blur-md">
+          <Activity className="h-3.5 w-3.5 text-teal-400 animate-pulse" />
+          <span>Real-Time RLS Active</span>
+        </div>
+      </div>
+
       {/* Brand Header */}
       <div className="text-center mb-8 max-w-lg z-10">
         <Link href="/" className="inline-flex items-center gap-2.5 mb-4 group">
-          <div className="h-12 w-12 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center text-white shadow-xl shadow-emerald-500/25 group-hover:scale-105 transition-transform">
+          <div className="relative h-12 w-12 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center text-white shadow-xl shadow-emerald-500/25 group-hover:scale-105 group-hover:rotate-3 active:scale-95 transition-all duration-300">
             <Pill className="h-6 w-6" />
+            <span className="absolute -top-1 -right-1 flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-cyan-300" />
+            </span>
           </div>
           <span className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
             MediTrack
@@ -256,18 +272,18 @@ function LoginFormContent() {
         {/* Step 1: Distinct Portal Selector */}
         <div className="grid grid-cols-2 gap-3 p-1.5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl backdrop-blur-md">
           
-          {/* Patient Portal Button */}
+          {/* Patient Portal Button with Tactile Bounce */}
           <button
             type="button"
             onClick={() => handleRoleChange('Patient')}
-            className={`flex flex-col items-start p-4 rounded-xl transition-all text-left relative ${
+            className={`flex flex-col items-start p-4 rounded-xl transition-all text-left relative cursor-pointer active:scale-95 ${
               isPatient
                 ? 'bg-gradient-to-br from-emerald-950/80 to-slate-900 border-2 border-emerald-500 text-white shadow-lg shadow-emerald-500/10'
                 : 'border-2 border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
             }`}
           >
             <div className="flex items-center justify-between w-full mb-1.5">
-              <div className={`h-8 w-8 rounded-lg flex items-center justify-center ${
+              <div className={`h-8 w-8 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110 ${
                 isPatient ? 'bg-emerald-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-400'
               }`}>
                 <User className="h-4 w-4" />
@@ -284,18 +300,18 @@ function LoginFormContent() {
             </span>
           </button>
 
-          {/* Pharmacy Owner Portal Button */}
+          {/* Pharmacy Owner Portal Button with Tactile Bounce */}
           <button
             type="button"
             onClick={() => handleRoleChange('Pharmacy Owner')}
-            className={`flex flex-col items-start p-4 rounded-xl transition-all text-left relative ${
+            className={`flex flex-col items-start p-4 rounded-xl transition-all text-left relative cursor-pointer active:scale-95 ${
               !isPatient
                 ? 'bg-gradient-to-br from-teal-950/80 to-slate-900 border-2 border-teal-500 text-white shadow-lg shadow-teal-500/10'
                 : 'border-2 border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
             }`}
           >
             <div className="flex items-center justify-between w-full mb-1.5">
-              <div className={`h-8 w-8 rounded-lg flex items-center justify-center ${
+              <div className={`h-8 w-8 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110 ${
                 !isPatient ? 'bg-teal-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-400'
               }`}>
                 <Store className="h-4 w-4" />
