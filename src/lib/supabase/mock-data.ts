@@ -1,29 +1,41 @@
 import { Pharmacy, InventoryItem, Profile } from '@/types/database';
 
+export const DEMO_UUIDS = {
+  OWNER_APOLLO: 'a1111111-1111-1111-1111-111111111111',
+  OWNER_MEDPLUS: 'a2222222-2222-2222-2222-222222222222',
+  OWNER_WELLNESS: 'a3333333-3333-3333-3333-333333333333',
+  PATIENT_DEMO: 'b1111111-1111-1111-1111-111111111111',
+
+  PHARM_APOLLO: 'c1111111-1111-1111-1111-111111111111',
+  PHARM_MEDPLUS: 'c2222222-2222-2222-2222-222222222222',
+  PHARM_WELLNESS: 'c3333333-3333-3333-3333-333333333333',
+  PHARM_GREENCROSS: 'c4444444-4444-4444-4444-444444444444',
+};
+
 export const INITIAL_PROFILES: Profile[] = [
   {
-    id: 'owner-apollo-1',
+    id: DEMO_UUIDS.OWNER_APOLLO,
     role: 'Pharmacy Owner',
     full_name: 'Apollo Pharmacy Lead Pharmacist',
-    phone: '+91 9876543210',
+    phone: '+91 80 2553 4321',
     created_at: '2026-01-10T10:00:00Z',
   },
   {
-    id: 'owner-medplus-2',
+    id: DEMO_UUIDS.OWNER_MEDPLUS,
     role: 'Pharmacy Owner',
     full_name: 'MedPlus Store Manager',
-    phone: '+91 9876543211',
+    phone: '+91 80 2521 9876',
     created_at: '2026-01-12T11:00:00Z',
   },
   {
-    id: 'owner-wellness-3',
+    id: DEMO_UUIDS.OWNER_WELLNESS,
     role: 'Pharmacy Owner',
     full_name: 'Wellness Forever Caretaker',
-    phone: '+91 9876543212',
+    phone: '+91 80 2258 7766',
     created_at: '2026-01-15T12:00:00Z',
   },
   {
-    id: 'patient-demo-1',
+    id: DEMO_UUIDS.PATIENT_DEMO,
     role: 'Patient',
     full_name: 'Rahul Sharma',
     phone: '+91 9823456789',
@@ -33,48 +45,48 @@ export const INITIAL_PROFILES: Profile[] = [
 
 export const INITIAL_PHARMACIES: Pharmacy[] = [
   {
-    id: 'pharm-apollo-1',
+    id: DEMO_UUIDS.PHARM_APOLLO,
     name: 'Apollo Pharmacy - Koramangala',
     address: '80 Feet Road, 4th Block, Koramangala, Bengaluru',
     latitude: 12.9345,
     longitude: 77.6265,
-    owner_id: 'owner-apollo-1',
+    owner_id: DEMO_UUIDS.OWNER_APOLLO,
     phone: '+91 80 2553 4321',
     license_number: 'KA-B1-102934',
     opening_hours: '24 Hours Open',
     created_at: '2026-01-10T10:00:00Z',
   },
   {
-    id: 'pharm-medplus-2',
+    id: DEMO_UUIDS.PHARM_MEDPLUS,
     name: 'MedPlus Pharmacy - Indiranagar',
     address: '100 Feet Road, HAL 2nd Stage, Indiranagar, Bengaluru',
     latitude: 12.9719,
     longitude: 77.6412,
-    owner_id: 'owner-medplus-2',
+    owner_id: DEMO_UUIDS.OWNER_MEDPLUS,
     phone: '+91 80 2521 9876',
     license_number: 'KA-B2-847291',
     opening_hours: '7:30 AM - 11:00 PM',
     created_at: '2026-01-12T11:00:00Z',
   },
   {
-    id: 'pharm-wellness-3',
+    id: DEMO_UUIDS.PHARM_WELLNESS,
     name: 'Wellness Forever - HSR Layout',
     address: '27th Main Rd, Sector 1, HSR Layout, Bengaluru',
     latitude: 12.9116,
     longitude: 77.6534,
-    owner_id: 'owner-wellness-3',
+    owner_id: DEMO_UUIDS.OWNER_WELLNESS,
     phone: '+91 80 2258 7766',
     license_number: 'KA-B3-392817',
     opening_hours: '24 Hours Open',
     created_at: '2026-01-15T12:00:00Z',
   },
   {
-    id: 'pharm-greencross-4',
+    id: DEMO_UUIDS.PHARM_GREENCROSS,
     name: 'GreenCross Medicals - BTM Layout',
     address: 'Outer Ring Rd, BTM 2nd Stage, Bengaluru',
     latitude: 12.9166,
     longitude: 77.6101,
-    owner_id: 'owner-apollo-1',
+    owner_id: DEMO_UUIDS.OWNER_APOLLO,
     phone: '+91 80 2668 5544',
     license_number: 'KA-B4-610293',
     opening_hours: '8:00 AM - 10:30 PM',
@@ -85,8 +97,8 @@ export const INITIAL_PHARMACIES: Pharmacy[] = [
 export const INITIAL_INVENTORY: InventoryItem[] = [
   // Apollo Koramangala
   {
-    id: 'inv-1',
-    pharmacy_id: 'pharm-apollo-1',
+    id: 'd1111111-0000-0000-0000-000000000001',
+    pharmacy_id: DEMO_UUIDS.PHARM_APOLLO,
     medicine_name: 'Dolo 650',
     generic_name: 'Paracetamol',
     dosage: '650mg tablet',
@@ -95,8 +107,8 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
     expiry_date: '2027-08-30',
   },
   {
-    id: 'inv-2',
-    pharmacy_id: 'pharm-apollo-1',
+    id: 'd1111111-0000-0000-0000-000000000002',
+    pharmacy_id: DEMO_UUIDS.PHARM_APOLLO,
     medicine_name: 'Augmentin 625 Duo',
     generic_name: 'Amoxicillin + Clavulanic Acid',
     dosage: '625mg tablet',
@@ -105,8 +117,8 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
     expiry_date: '2026-12-15',
   },
   {
-    id: 'inv-3',
-    pharmacy_id: 'pharm-apollo-1',
+    id: 'd1111111-0000-0000-0000-000000000003',
+    pharmacy_id: DEMO_UUIDS.PHARM_APOLLO,
     medicine_name: 'Azithral 500',
     generic_name: 'Azithromycin',
     dosage: '500mg tablet',
@@ -115,8 +127,8 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
     expiry_date: '2027-03-20',
   },
   {
-    id: 'inv-4',
-    pharmacy_id: 'pharm-apollo-1',
+    id: 'd1111111-0000-0000-0000-000000000004',
+    pharmacy_id: DEMO_UUIDS.PHARM_APOLLO,
     medicine_name: 'Pan 40',
     generic_name: 'Pantoprazole',
     dosage: '40mg tablet',
@@ -125,8 +137,8 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
     expiry_date: '2027-11-10',
   },
   {
-    id: 'inv-5',
-    pharmacy_id: 'pharm-apollo-1',
+    id: 'd1111111-0000-0000-0000-000000000005',
+    pharmacy_id: DEMO_UUIDS.PHARM_APOLLO,
     medicine_name: 'Glycomet 500 SR',
     generic_name: 'Metformin Hydrochloride',
     dosage: '500mg tablet',
@@ -135,8 +147,8 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
     expiry_date: '2028-01-15',
   },
   {
-    id: 'inv-6',
-    pharmacy_id: 'pharm-apollo-1',
+    id: 'd1111111-0000-0000-0000-000000000006',
+    pharmacy_id: DEMO_UUIDS.PHARM_APOLLO,
     medicine_name: 'Montair LC',
     generic_name: 'Montelukast + Levocetirizine',
     dosage: '10mg/5mg tablet',
@@ -147,8 +159,8 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
 
   // MedPlus Indiranagar
   {
-    id: 'inv-7',
-    pharmacy_id: 'pharm-medplus-2',
+    id: 'd1111111-0000-0000-0000-000000000007',
+    pharmacy_id: DEMO_UUIDS.PHARM_MEDPLUS,
     medicine_name: 'Dolo 650',
     generic_name: 'Paracetamol',
     dosage: '650mg tablet',
@@ -157,8 +169,8 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
     expiry_date: '2027-05-15',
   },
   {
-    id: 'inv-8',
-    pharmacy_id: 'pharm-medplus-2',
+    id: 'd1111111-0000-0000-0000-000000000008',
+    pharmacy_id: DEMO_UUIDS.PHARM_MEDPLUS,
     medicine_name: 'Calpol 500',
     generic_name: 'Paracetamol',
     dosage: '500mg tablet',
@@ -167,18 +179,18 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
     expiry_date: '2027-09-10',
   },
   {
-    id: 'inv-9',
-    pharmacy_id: 'pharm-medplus-2',
+    id: 'd1111111-0000-0000-0000-000000000009',
+    pharmacy_id: DEMO_UUIDS.PHARM_MEDPLUS,
     medicine_name: 'Augmentin 625 Duo',
     generic_name: 'Amoxicillin + Clavulanic Acid',
     dosage: '625mg tablet',
-    quantity: 0, // Out of stock example
+    quantity: 0,
     price: 198.0,
     expiry_date: '2026-11-20',
   },
   {
-    id: 'inv-10',
-    pharmacy_id: 'pharm-medplus-2',
+    id: 'd1111111-0000-0000-0000-000000000010',
+    pharmacy_id: DEMO_UUIDS.PHARM_MEDPLUS,
     medicine_name: 'Azithral 500',
     generic_name: 'Azithromycin',
     dosage: '500mg tablet',
@@ -187,8 +199,8 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
     expiry_date: '2027-04-18',
   },
   {
-    id: 'inv-11',
-    pharmacy_id: 'pharm-medplus-2',
+    id: 'd1111111-0000-0000-0000-000000000011',
+    pharmacy_id: DEMO_UUIDS.PHARM_MEDPLUS,
     medicine_name: 'Shelcal 500',
     generic_name: 'Calcium + Vitamin D3',
     dosage: '500mg tablet',
@@ -199,8 +211,8 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
 
   // Wellness Forever HSR
   {
-    id: 'inv-12',
-    pharmacy_id: 'pharm-wellness-3',
+    id: 'd1111111-0000-0000-0000-000000000012',
+    pharmacy_id: DEMO_UUIDS.PHARM_WELLNESS,
     medicine_name: 'Dolo 650',
     generic_name: 'Paracetamol',
     dosage: '650mg tablet',
@@ -209,8 +221,8 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
     expiry_date: '2027-12-01',
   },
   {
-    id: 'inv-13',
-    pharmacy_id: 'pharm-wellness-3',
+    id: 'd1111111-0000-0000-0000-000000000013',
+    pharmacy_id: DEMO_UUIDS.PHARM_WELLNESS,
     medicine_name: 'Crocin 650',
     generic_name: 'Paracetamol',
     dosage: '650mg tablet',
@@ -219,8 +231,8 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
     expiry_date: '2027-08-15',
   },
   {
-    id: 'inv-14',
-    pharmacy_id: 'pharm-wellness-3',
+    id: 'd1111111-0000-0000-0000-000000000014',
+    pharmacy_id: DEMO_UUIDS.PHARM_WELLNESS,
     medicine_name: 'Augmentin 625 Duo',
     generic_name: 'Amoxicillin + Clavulanic Acid',
     dosage: '625mg tablet',
@@ -229,8 +241,8 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
     expiry_date: '2026-10-15',
   },
   {
-    id: 'inv-15',
-    pharmacy_id: 'pharm-wellness-3',
+    id: 'd1111111-0000-0000-0000-000000000015',
+    pharmacy_id: DEMO_UUIDS.PHARM_WELLNESS,
     medicine_name: 'Thyronorm 50mcg',
     generic_name: 'Levothyroxine Sodium',
     dosage: '50mcg tablet',
@@ -239,8 +251,8 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
     expiry_date: '2028-05-20',
   },
   {
-    id: 'inv-16',
-    pharmacy_id: 'pharm-wellness-3',
+    id: 'd1111111-0000-0000-0000-000000000016',
+    pharmacy_id: DEMO_UUIDS.PHARM_WELLNESS,
     medicine_name: 'Ecosprin 75',
     generic_name: 'Aspirin',
     dosage: '75mg tablet',
@@ -251,8 +263,8 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
 
   // GreenCross BTM
   {
-    id: 'inv-17',
-    pharmacy_id: 'pharm-greencross-4',
+    id: 'd1111111-0000-0000-0000-000000000017',
+    pharmacy_id: DEMO_UUIDS.PHARM_GREENCROSS,
     medicine_name: 'Dolo 650',
     generic_name: 'Paracetamol',
     dosage: '650mg tablet',
@@ -261,8 +273,8 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
     expiry_date: '2027-07-20',
   },
   {
-    id: 'inv-18',
-    pharmacy_id: 'pharm-greencross-4',
+    id: 'd1111111-0000-0000-0000-000000000018',
+    pharmacy_id: DEMO_UUIDS.PHARM_GREENCROSS,
     medicine_name: 'Azithral 500',
     generic_name: 'Azithromycin',
     dosage: '500mg tablet',
@@ -271,8 +283,8 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
     expiry_date: '2026-12-30',
   },
   {
-    id: 'inv-19',
-    pharmacy_id: 'pharm-greencross-4',
+    id: 'd1111111-0000-0000-0000-000000000019',
+    pharmacy_id: DEMO_UUIDS.PHARM_GREENCROSS,
     medicine_name: 'Pan D',
     generic_name: 'Pantoprazole + Domperidone',
     dosage: '40mg/30mg capsule',
@@ -281,8 +293,8 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
     expiry_date: '2027-04-15',
   },
   {
-    id: 'inv-20',
-    pharmacy_id: 'pharm-greencross-4',
+    id: 'd1111111-0000-0000-0000-000000000020',
+    pharmacy_id: DEMO_UUIDS.PHARM_GREENCROSS,
     medicine_name: 'Zifi 200',
     generic_name: 'Cefixime',
     dosage: '200mg tablet',

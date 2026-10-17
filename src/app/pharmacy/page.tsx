@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { dataService } from '@/lib/supabase/data-service';
 import { InventoryItem, Pharmacy } from '@/types/database';
-import { formatCurrency, formatDate } from '@/lib/utils';
+import { formatCurrency, formatDate, toValidUUID } from '@/lib/utils';
+import { DEMO_UUIDS } from '@/lib/supabase/mock-data';
 import { Navbar } from '@/components/Navbar';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -128,8 +129,9 @@ export default function PharmacyDashboardPage() {
 
     setIsSubmitting(true);
     try {
+      const validPharmId = toValidUUID(pharmacy.id, DEMO_UUIDS.PHARM_APOLLO);
       const newItem = await dataService.addInventoryItem({
-        pharmacy_id: pharmacy.id,
+        pharmacy_id: validPharmId,
         medicine_name: medicineName.trim(),
         generic_name: genericName.trim() || null,
         dosage: dosage.trim() || 'Standard dose',

@@ -4,6 +4,8 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
 import { dataService } from '@/lib/supabase/data-service';
 import { Profile, UserRole } from '@/types/database';
+import { DEMO_UUIDS } from '@/lib/supabase/mock-data';
+import { toValidUUID, generateUUID } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 
 export interface UserSession {
@@ -101,17 +103,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const saved = localStorage.getItem('meditrack_current_user');
       if (saved) {
         const parsed = JSON.parse(saved);
-        setUser(parsed);
+        const validId = toValidUUID(
+          parsed.id,
+          parsed.role === 'Pharmacy Owner' ? DEMO_UUIDS.OWNER_APOLLO : DEMO_UUIDS.PATIENT_DEMO
+        );
+        const cleanUser: UserSession = {
+          ...parsed,
+          id: validId,
+        };
+        setUser(cleanUser);
         setProfile({
-          id: parsed.id,
-          role: parsed.role,
-          full_name: parsed.fullName,
-          phone: '+91 9876543210',
+          id: validId,
+          role: cleanUser.role,
+          full_name: cleanUser.fullName,
+          phone: '+91 80 2553 4321',
         });
+        localStorage.setItem('meditrack_current_user', JSON.stringify(cleanUser));
       } else {
         // Default hackathon initial state: demo patient
         const defaultUser: UserSession = {
-          id: 'patient-demo-1',
+          id: DEMO_UUIDS.PATIENT_DEMO,
           email: 'patient@meditrack.org',
           fullName: 'Rahul Sharma (Patient)',
           role: 'Patient',
@@ -155,7 +166,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       // Demo fallback login
       const role: UserRole = email.toLowerCase().includes('pharmacy') ? 'Pharmacy Owner' : 'Patient';
-      const id = role === 'Pharmacy Owner' ? 'owner-apollo-1' : 'patient-demo-1';
+      const id = role === 'Pharmacy Owner' ? DEMO_UUIDS.OWNER_APOLLO : DEMO_UUIDS.PATIENT_DEMO;
       const sessionUser: UserSession = {
         id,
         email,
@@ -360,7 +371,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const switchDemoRole = (role: UserRole) => {
     const isOwner = role === 'Pharmacy Owner';
     const updatedUser: UserSession = {
-      id: isOwner ? 'owner-apollo-1' : 'patient-demo-1',
+      id: isOwner ? DEMO_UUIDS.OWNER_APOLLO : DEMO_UUIDS.PATIENT_DEMO,
       email: isOwner ? 'apollo.owner@meditrack.org' : 'patient@meditrack.org',
       fullName: isOwner ? 'Apollo Pharmacy Manager' : 'Rahul Sharma (Patient)',
       role,
@@ -370,7 +381,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       id: updatedUser.id,
       role,
       full_name: updatedUser.fullName,
-      phone: '+91 9876543210',
+      phone: '+91 80 2553 4321',
     });
     localStorage.setItem('meditrack_current_user', JSON.stringify(updatedUser));
     router.push(isOwner ? '/pharmacy' : '/patient');
