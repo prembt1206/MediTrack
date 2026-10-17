@@ -37,6 +37,7 @@ interface AuthContextType {
   sendOtp: (email: string, role?: UserRole) => Promise<{ error?: string }>;
   verifyOtp: (email: string, token: string, role: UserRole) => Promise<{ error?: string }>;
   signInWithGoogle: (role: UserRole) => Promise<{ error?: string }>;
+  signInWithGoogleDemo: (role: UserRole) => Promise<void>;
   signOut: () => Promise<void>;
   switchDemoRole: (role: UserRole) => void;
 }
@@ -361,38 +362,75 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  // 4. Google OAuth
+  // 4. Google OAuth with Provider Verification
   const signInWithGoogle = async (role: UserRole): Promise<{ error?: string }> => {
     try {
       if (isSupabaseConfigured && supabase) {
-        const { error } = await supabase.auth.signInWithOAuth({
+        const { data, error } = await supabase.auth.signInWithOAuth({
           provider: 'google',
           options: {
             redirectTo: `${window.location.origin}/auth/callback?role=${role}`,
+            skipBrowserRedirect: true,
             queryParams: {
               prompt: 'select_account',
             },
           },
         });
         if (error) throw error;
-        return {};
+
+        if (data?.url) {
+          // Probe whether Google OAuth provider is enabled in the user's Supabase project
+          try {
+            const probeRes = await fetch(data.url, { method: 'GET' });
+            if (!probeRes.ok) {
+              const probeJson = await probeRes.json().catch(() => null);
+              if (
+                probeJson?.msg?.includes('provider is not enabled') ||
+                probeJson?.error_code === 'validation_failed'
+              ) {
+                return {
+                  error:
+                    'Google OAuth provider is not enabled in your Supabase project yet. In Supabase Dashboard -> Authentication -> Providers -> Google, paste your Google Cloud Client ID & Secret and turn on the Enable toggle.',
+                };
+              }
+            }
+          } catch {
+            // A redirect to accounts.google.com means provider is active
+          }
+
+          // If enabled, proceed to Google Auth
+          window.location.href = data.url;
+          return {};
+        }
       }
 
-      // Demo simulation
-      const googleUser: UserSession = {
-        id: 'google-user-' + Math.random().toString(36).substring(2, 8),
-        email: 'alex.google@meditrack.org',
-        fullName: 'Alex Google User',
-        role,
-      };
-      setUser(googleUser);
-      localStorage.setItem('meditrack_current_user', JSON.stringify(googleUser));
-      router.push(role === 'Pharmacy Owner' ? '/pharmacy' : '/patient');
+      // Fallback Google Sign-In
+      await signInWithGoogleDemo(role);
       return {};
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Google sign-in failed';
       return { error: message };
     }
+  };
+
+  // 4b. Instant Google Test Account Login
+  const signInWithGoogleDemo = async (role: UserRole) => {
+    const isOwner = role === 'Pharmacy Owner';
+    const googleUser: UserSession = {
+      id: isOwner ? DEMO_UUIDS.OWNER_APOLLO : DEMO_UUIDS.PATIENT_DEMO,
+      email: isOwner ? 'apollo.google@meditrack.org' : 'rahul.google@meditrack.org',
+      fullName: isOwner ? 'Apollo Pharmacist (Google Account)' : 'Rahul Sharma (Google Account)',
+      role,
+    };
+    setUser(googleUser);
+    setProfile({
+      id: googleUser.id,
+      role,
+      full_name: googleUser.fullName,
+      phone: null,
+    });
+    localStorage.setItem('meditrack_current_user', JSON.stringify(googleUser));
+    router.push(isOwner ? '/pharmacy' : '/patient');
   };
 
   // Sign out
@@ -443,6 +481,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         sendOtp,
         verifyOtp,
         signInWithGoogle,
+        signInWithGoogleDemo,
         signOut,
         switchDemoRole,
       }}

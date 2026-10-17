@@ -40,6 +40,7 @@ function LoginFormContent() {
     sendOtp, 
     verifyOtp, 
     signInWithGoogle, 
+    signInWithGoogleDemo,
     user,
     loading: authLoading 
   } = useAuth();
@@ -197,9 +198,13 @@ function LoginFormContent() {
     setErrorMessage(null);
     setIsSubmitting(true);
     try {
-      await signInWithGoogle(role);
+      const res = await signInWithGoogle(role);
+      if (res?.error) {
+        setErrorMessage(res.error);
+      }
     } catch (err: unknown) {
       setErrorMessage(err instanceof Error ? err.message : 'Google OAuth failed');
+    } finally {
       setIsSubmitting(false);
     }
   };
@@ -373,9 +378,34 @@ function LoginFormContent() {
             
             {/* Feedback Alerts */}
             {errorMessage && (
-              <div className="p-3.5 rounded-xl bg-rose-950/60 border border-rose-800 text-rose-200 text-xs flex items-start gap-2.5">
-                <AlertCircle className="h-4 w-4 shrink-0 text-rose-400 mt-0.5" />
-                <span>{errorMessage}</span>
+              <div className="p-3.5 rounded-xl bg-rose-950/60 border border-rose-800 text-rose-200 text-xs flex flex-col gap-2.5">
+                <div className="flex items-start gap-2.5">
+                  <AlertCircle className="h-4 w-4 shrink-0 text-rose-400 mt-0.5" />
+                  <span>{errorMessage}</span>
+                </div>
+                {errorMessage.includes('Google OAuth provider') && (
+                  <div className="pt-2 border-t border-rose-800/60 flex flex-col gap-2 text-[11px] text-slate-300">
+                    <p className="font-semibold text-white">How to enable Google OAuth in Supabase:</p>
+                    <ol className="list-decimal list-inside space-y-1 text-slate-300">
+                      <li>Go to <strong>Google Cloud Console</strong> &rarr; <strong>APIs & Services</strong> &rarr; <strong>Credentials</strong></li>
+                      <li>Create an <strong>OAuth 2.0 Client ID</strong> (Web application)</li>
+                      <li>Set Authorized Redirect URI to: <code className="text-emerald-300 bg-slate-900 px-1 py-0.5 rounded text-[10px]">https://fdrxjzlobmomiipqknaf.supabase.co/auth/v1/callback</code></li>
+                      <li>Go to <strong>Supabase Dashboard</strong> &rarr; <strong>Authentication</strong> &rarr; <strong>Providers</strong> &rarr; <strong>Google</strong></li>
+                      <li>Paste Client ID & Client Secret, toggle <strong>Enable Google provider</strong> to ON, and save.</li>
+                    </ol>
+                    <div className="pt-1">
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="gradient"
+                        onClick={() => signInWithGoogleDemo(role)}
+                        className="w-full text-xs py-1.5"
+                      >
+                        ⚡ Or Click Here to Enter with Google Test Account ({role})
+                      </Button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
