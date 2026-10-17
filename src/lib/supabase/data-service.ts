@@ -5,10 +5,10 @@ import { calculateDistanceKm, isValidUUID, generateUUID, toValidUUID } from '../
 
 // Local storage keys for fallback demo mode
 const STORAGE_KEYS = {
-  PROFILES: 'meditrack_profiles_v4',
-  PHARMACIES: 'meditrack_pharmacies_v4',
-  INVENTORY: 'meditrack_inventory_v4',
-  AUTH_USER: 'meditrack_auth_user_v4',
+  PROFILES: 'meditrack_profiles_v5',
+  PHARMACIES: 'meditrack_pharmacies_v5',
+  INVENTORY: 'meditrack_inventory_v5',
+  AUTH_USER: 'meditrack_auth_user_v5',
 };
 
 // Normalize legacy non-UUID IDs from older versions

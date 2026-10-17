@@ -42,17 +42,31 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
-// Expanded locations in Bengaluru mapped to top medical hubs
-const LOCATIONS = [
-  { name: 'Koramangala 4th Block', lat: 12.9345, lon: 77.6265 },
-  { name: 'Indiranagar 100ft Rd', lat: 12.9719, lon: 77.6412 },
-  { name: 'HSR Layout Sector 1', lat: 12.9116, lon: 77.6534 },
-  { name: 'BTM 2nd Stage', lat: 12.9166, lon: 77.6101 },
-  { name: 'Whitefield ITPL Rd', lat: 12.9856, lon: 77.7315 },
-  { name: 'Jayanagar 4th Block', lat: 12.9284, lon: 77.5834 },
-  { name: 'Bannerghatta Road', lat: 12.8950, lon: 77.5980 },
-  { name: 'Malleshwaram 8th Cross', lat: 12.9984, lon: 77.5709 },
-  { name: 'MG Road Metro', lat: 12.9756, lon: 77.6095 },
+export interface LocationOption {
+  name: string;
+  lat: number;
+  lon: number;
+  isLiveGps?: boolean;
+  city?: string;
+  displayName?: string;
+}
+
+// Medical hubs in Mangaluru & Bengaluru
+const LOCATIONS: LocationOption[] = [
+  // Mangaluru Hubs (Dakshina Kannada)
+  { name: 'Mangaluru - Balmatta Road', lat: 12.8710, lon: 74.8465, city: 'Mangaluru' },
+  { name: 'Mangaluru - Hampankatta / KS Rao Rd', lat: 12.8695, lon: 74.8390, city: 'Mangaluru' },
+  { name: 'Mangaluru - Jyothi / Ambedkar Circle', lat: 12.8732, lon: 74.8480, city: 'Mangaluru' },
+  { name: 'Mangaluru - Kadri / Mallikatte', lat: 12.8792, lon: 74.8584, city: 'Mangaluru' },
+  { name: 'Mangaluru - KMC Attavar', lat: 12.8640, lon: 74.8440, city: 'Mangaluru' },
+  // Bengaluru Hubs
+  { name: 'Bengaluru - Koramangala 4th Block', lat: 12.9345, lon: 77.6265, city: 'Bengaluru' },
+  { name: 'Bengaluru - Indiranagar 100ft Rd', lat: 12.9719, lon: 77.6412, city: 'Bengaluru' },
+  { name: 'Bengaluru - HSR Layout Sector 1', lat: 12.9116, lon: 77.6534, city: 'Bengaluru' },
+  { name: 'Bengaluru - BTM 2nd Stage', lat: 12.9166, lon: 77.6101, city: 'Bengaluru' },
+  { name: 'Bengaluru - Whitefield ITPL Rd', lat: 12.9856, lon: 77.7315, city: 'Bengaluru' },
+  { name: 'Bengaluru - Jayanagar 4th Block', lat: 12.9284, lon: 77.5834, city: 'Bengaluru' },
+  { name: 'Bengaluru - Malleshwaram 8th Cross', lat: 12.9984, lon: 77.5709, city: 'Bengaluru' },
 ];
 
 // Interactive Category Filter Pills
@@ -80,8 +94,13 @@ export default function PatientSearchPage() {
   const [sortBy, setSortBy] = useState<'distance' | 'price'>('distance');
 
   // Location state
-  const [patientLocation, setPatientLocation] = useState(LOCATIONS[0]);
+  const [patientLocation, setPatientLocation] = useState<LocationOption>(LOCATIONS[0]);
   const [isDetectingLocation, setIsDetectingLocation] = useState(false);
+  const [locationFeedback, setLocationFeedback] = useState<string | null>(null);
+  const [customLocationQuery, setCustomLocationQuery] = useState('');
+  const [locationSuggestions, setLocationSuggestions] = useState<LocationOption[]>([]);
+  const [isSearchingLocation, setIsSearchingLocation] = useState(false);
+  const [showLocationModal, setShowLocationModal] = useState(false);
 
   // OCR state
   const [ocrLoading, setOcrLoading] = useState(false);
@@ -102,7 +121,40 @@ export default function PatientSearchPage() {
     inStock: boolean;
   } | null>(null);
 
-  // Initial load
+  // Initial auto-detection & load
+  useEffect(() => {
+    // 1. Check if user previously saved their verified location
+    const saved = typeof window !== 'undefined' ? localStorage.getItem('meditrack_user_location') : null;
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed && parsed.lat && parsed.lon) {
+          setPatientLocation(parsed);
+          return;
+        }
+      } catch {}
+    }
+
+    // 2. Auto-detect real client location via fast server-side IP lookup
+    fetch('/api/location?action=detect')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.lat && data.lon) {
+          const autoLoc: LocationOption = {
+            name: data.name || `${data.city}, ${data.region}`,
+            lat: data.lat,
+            lon: data.lon,
+            city: data.city,
+            isLiveGps: false,
+          };
+          setPatientLocation(autoLoc);
+          localStorage.setItem('meditrack_user_location', JSON.stringify(autoLoc));
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  // Whenever location changes, re-run search to recalculate exact distances
   useEffect(() => {
     executeSearch('');
   }, [patientLocation]);
@@ -140,28 +192,126 @@ export default function PatientSearchPage() {
     }
   };
 
-  // Browser Geolocation
+  // High-Accuracy Browser Geolocation with Live Reverse Geocoding
   const detectLiveLocation = () => {
-    if (!navigator.geolocation) {
-      alert('Geolocation is not supported by your browser.');
+    setIsDetectingLocation(true);
+    setLocationFeedback('📡 Requesting high-precision GPS coordinates...');
+
+    if (typeof window === 'undefined' || !navigator.geolocation) {
+      fallbackToIpLocation('Browser does not support GPS hardware. Using IP location.');
       return;
     }
-    setIsDetectingLocation(true);
+
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setPatientLocation({
-          name: 'My GPS Location (Bengaluru)',
-          lat: pos.coords.latitude,
-          lon: pos.coords.longitude,
-        });
-        setIsDetectingLocation(false);
+      async (pos) => {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+        const accuracyMeters = Math.round(pos.coords.accuracy || 15);
+
+        try {
+          setLocationFeedback('📍 Resolving exact street and neighbourhood name...');
+          // Reverse geocode via our server API to get the authentic address
+          const revRes = await fetch(`/api/location?action=reverse&lat=${lat}&lon=${lon}`);
+          const revData = await revRes.json();
+
+          const resolvedName = revData.name || `GPS (${lat.toFixed(4)}°, ${lon.toFixed(4)}°)`;
+          const resolvedLoc: LocationOption = {
+            name: resolvedName,
+            lat,
+            lon,
+            isLiveGps: true,
+            city: revData.city,
+            displayName: revData.displayName,
+          };
+
+          setPatientLocation(resolvedLoc);
+          localStorage.setItem('meditrack_user_location', JSON.stringify(resolvedLoc));
+          setLocationFeedback(`✅ Exact GPS Confirmed: ${resolvedName} (±${accuracyMeters}m accuracy)`);
+        } catch {
+          const directLoc: LocationOption = {
+            name: `Live GPS (${lat.toFixed(4)}°, ${lon.toFixed(4)}°)`,
+            lat,
+            lon,
+            isLiveGps: true,
+          };
+          setPatientLocation(directLoc);
+          localStorage.setItem('meditrack_user_location', JSON.stringify(directLoc));
+          setLocationFeedback(`✅ GPS coordinates locked: ${lat.toFixed(4)}°, ${lon.toFixed(4)}°`);
+        } finally {
+          setIsDetectingLocation(false);
+          setTimeout(() => setLocationFeedback(null), 6000);
+        }
       },
       (err) => {
-        console.warn('Geolocation error:', err);
-        setIsDetectingLocation(false);
-        alert('Could not access GPS. Using Bengaluru Koramangala coordinates.');
+        console.warn('High accuracy geolocation error:', err.message);
+        fallbackToIpLocation('GPS permission denied or timeout. Auto-detecting via network IP...');
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
       }
     );
+  };
+
+  // Graceful fallback to IP network location
+  const fallbackToIpLocation = async (noticeMsg: string) => {
+    setLocationFeedback(noticeMsg);
+    try {
+      const ipRes = await fetch('/api/location?action=detect');
+      const ipData = await ipRes.json();
+      if (ipData.success && ipData.lat && ipData.lon) {
+        const autoLoc: LocationOption = {
+          name: ipData.name,
+          lat: ipData.lat,
+          lon: ipData.lon,
+          city: ipData.city,
+          isLiveGps: false,
+        };
+        setPatientLocation(autoLoc);
+        localStorage.setItem('meditrack_user_location', JSON.stringify(autoLoc));
+        setLocationFeedback(`🌐 Network location detected: ${ipData.name}`);
+      }
+    } catch {
+      setLocationFeedback('Could not determine exact location. Please choose your hub from the list.');
+    } finally {
+      setIsDetectingLocation(false);
+      setTimeout(() => setLocationFeedback(null), 5000);
+    }
+  };
+
+  // Search locations by text (e.g. Balmatta, Mangalore, Indiranagar)
+  const handleCustomLocationSearch = async (val: string) => {
+    setCustomLocationQuery(val);
+    if (!val.trim() || val.length < 2) {
+      setLocationSuggestions([]);
+      return;
+    }
+    setIsSearchingLocation(true);
+    try {
+      const res = await fetch(`/api/location?action=search&q=${encodeURIComponent(val)}`);
+      const json = await res.json();
+      if (json.success && Array.isArray(json.locations)) {
+        setLocationSuggestions(json.locations);
+      }
+    } catch (err) {
+      console.warn('Search location error:', err);
+    } finally {
+      setIsSearchingLocation(false);
+    }
+  };
+
+  const selectCustomLocation = (loc: LocationOption) => {
+    setPatientLocation({
+      ...loc,
+      isLiveGps: false,
+    });
+    localStorage.setItem('meditrack_user_location', JSON.stringify(loc));
+    setShowLocationModal(false);
+    setCustomLocationQuery('');
+    setLocationSuggestions([]);
+    setLocationFeedback(`📍 Location set to: ${loc.name}`);
+    setTimeout(() => setLocationFeedback(null), 5000);
   };
 
   // Handle Prescription Image Upload & Gemini Vision OCR
@@ -434,38 +584,153 @@ export default function PatientSearchPage() {
                 ))}
               </div>
 
-              {/* Patient Location Selector with 9 Bengaluru Hubs */}
-              <div className="pt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <MapPin className="h-4 w-4 text-emerald-400 shrink-0" />
-                  <span className="text-slate-400 font-medium">Your Hub:</span>
-                  <select
-                    value={patientLocation.name}
-                    onChange={(e) => {
-                      const match = LOCATIONS.find((loc) => loc.name === e.target.value);
-                      if (match) setPatientLocation(match);
-                    }}
-                    className="bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs font-semibold text-emerald-300 cursor-pointer focus:outline-none focus:border-emerald-500"
-                  >
-                    {LOCATIONS.map((loc) => (
-                      <option key={loc.name} value={loc.name} className="bg-slate-900 text-slate-200">
-                        {loc.name}
-                      </option>
-                    ))}
-                  </select>
+              {/* Patient Live Location Bar & Search */}
+              <div className="pt-3 border-t border-slate-800/80 space-y-2.5">
+                {/* Real-time Feedback Banner */}
+                {locationFeedback && (
+                  <div className="text-xs p-2.5 rounded-xl bg-teal-950/70 border border-teal-700/80 text-teal-200 flex items-center justify-between gap-2 shadow-sm animate-in fade-in">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <Navigation className="h-4 w-4 text-teal-400 shrink-0 animate-pulse" />
+                      <span className="truncate">{locationFeedback}</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setLocationFeedback(null)}
+                      className="text-slate-400 hover:text-white p-0.5 shrink-0"
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                )}
+
+                {/* Current Location Badge & GPS Controls */}
+                <div className="flex flex-wrap items-center justify-between gap-3 text-xs bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                  <div className="flex items-center gap-2 flex-wrap min-w-0">
+                    <div className="flex items-center gap-1.5 font-bold text-white">
+                      <MapPin className="h-4 w-4 text-emerald-400 shrink-0" />
+                      <span className="truncate max-w-[200px] sm:max-w-xs">{patientLocation.name}</span>
+                    </div>
+
+                    {patientLocation.isLiveGps ? (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-950/90 text-emerald-300 border border-emerald-600/70 shadow-sm shadow-emerald-950/60 animate-pulse">
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                        Exact GPS Live
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] text-slate-400 bg-slate-900 border border-slate-800">
+                        {patientLocation.city || 'Hub Selected'}
+                      </span>
+                    )}
+
+                    <span className="text-[10px] text-slate-500 font-mono hidden sm:inline">
+                      ({patientLocation.lat.toFixed(4)}°, {patientLocation.lon.toFixed(4)}°)
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2 shrink-0">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={detectLiveLocation}
+                      disabled={isDetectingLocation}
+                      className="h-8 text-xs border-emerald-700/80 bg-emerald-950/40 text-emerald-300 hover:bg-emerald-900/60 active:scale-95 transition-all shadow-sm"
+                    >
+                      <Navigation className={`h-3.5 w-3.5 mr-1 text-emerald-400 ${isDetectingLocation ? 'animate-spin' : ''}`} />
+                      {isDetectingLocation ? 'Locating...' : 'Detect Exact GPS'}
+                    </Button>
+
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setShowLocationModal(!showLocationModal)}
+                      className="h-8 text-xs text-slate-300 hover:text-white hover:bg-slate-800/80"
+                    >
+                      <Search className="h-3.5 w-3.5 mr-1 text-teal-400" />
+                      {showLocationModal ? 'Close' : 'Change Area'}
+                    </Button>
+                  </div>
                 </div>
 
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={detectLiveLocation}
-                  disabled={isDetectingLocation}
-                  className="h-8 text-xs border-slate-700 text-emerald-400 hover:bg-emerald-950/40 active:scale-95 transition-all"
-                >
-                  <Navigation className={`h-3.5 w-3.5 mr-1 text-emerald-400 ${isDetectingLocation ? 'animate-spin' : ''}`} />
-                  {isDetectingLocation ? 'Locating...' : 'Use My GPS'}
-                </Button>
+                {/* Quick Hub Dropdown & Custom Search Drawer */}
+                {showLocationModal && (
+                  <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-3 animate-in fade-in">
+                    <div>
+                      <label className="block text-[11px] font-semibold text-slate-400 uppercase mb-1">
+                        Search Any Locality or City:
+                      </label>
+                      <div className="relative">
+                        <Search className="absolute left-3 top-2.5 h-3.5 w-3.5 text-slate-400" />
+                        <Input
+                          placeholder="Type Balmatta, Kadri, Surathkal, Koramangala, Indiranagar..."
+                          value={customLocationQuery}
+                          onChange={(e) => handleCustomLocationSearch(e.target.value)}
+                          className="h-9 pl-9 text-xs bg-slate-900 border-slate-700 text-white placeholder:text-slate-500 rounded-lg"
+                        />
+                        {isSearchingLocation && (
+                          <RefreshCw className="absolute right-3 top-2.5 h-3.5 w-3.5 text-emerald-400 animate-spin" />
+                        )}
+                      </div>
+
+                      {/* Autocomplete Suggestions */}
+                      {locationSuggestions.length > 0 && (
+                        <div className="mt-2 border border-slate-800 rounded-lg bg-slate-900 overflow-hidden divide-y divide-slate-800 max-h-48 overflow-y-auto">
+                          {locationSuggestions.map((item, idx) => (
+                            <button
+                              key={idx}
+                              type="button"
+                              onClick={() => selectCustomLocation(item)}
+                              className="w-full text-left p-2.5 text-xs hover:bg-slate-800 text-slate-200 flex items-start gap-2 transition-colors cursor-pointer"
+                            >
+                              <MapPin className="h-3.5 w-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                              <div className="min-w-0">
+                                <p className="font-semibold text-white truncate">{item.name}</p>
+                                <p className="text-[10px] text-slate-400 truncate">{item.displayName}</p>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Predefined Hubs by Region */}
+                    <div>
+                      <label className="block text-[11px] font-semibold text-slate-400 uppercase mb-1">
+                        Or Pick a Medical Hub:
+                      </label>
+                      <select
+                        value={patientLocation.name}
+                        onChange={(e) => {
+                          const match = LOCATIONS.find((loc) => loc.name === e.target.value);
+                          if (match) {
+                            setPatientLocation(match);
+                            localStorage.setItem('meditrack_user_location', JSON.stringify(match));
+                            setShowLocationModal(false);
+                            setLocationFeedback(`📍 Location set to: ${match.name}`);
+                            setTimeout(() => setLocationFeedback(null), 5000);
+                          }
+                        }}
+                        className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs font-semibold text-emerald-300 cursor-pointer focus:outline-none focus:border-emerald-500"
+                      >
+                        <optgroup label="📍 Mangaluru & Coastal Karnataka Hubs" className="bg-slate-950 font-bold text-teal-300">
+                          {LOCATIONS.filter((l) => l.city === 'Mangaluru').map((loc) => (
+                            <option key={loc.name} value={loc.name} className="bg-slate-900 text-slate-200">
+                              {loc.name}
+                            </option>
+                          ))}
+                        </optgroup>
+                        <optgroup label="📍 Bengaluru Metro Hubs" className="bg-slate-950 font-bold text-emerald-300">
+                          {LOCATIONS.filter((l) => l.city === 'Bengaluru').map((loc) => (
+                            <option key={loc.name} value={loc.name} className="bg-slate-900 text-slate-200">
+                              {loc.name}
+                            </option>
+                          ))}
+                        </optgroup>
+                      </select>
+                    </div>
+                  </div>
+                )}
               </div>
 
             </CardContent>
