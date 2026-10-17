@@ -21,7 +21,19 @@ interface AuthContextType {
   loading: boolean;
   isConfigured: boolean;
   signInWithPassword: (email: string, password: string) => Promise<{ error?: string }>;
-  signUpWithPassword: (email: string, password: string, role: UserRole, fullName: string) => Promise<{ error?: string }>;
+  signUpWithPassword: (
+    email: string,
+    password: string,
+    role: UserRole,
+    fullName: string,
+    extraData?: {
+      phone?: string;
+      pharmacyName?: string;
+      pharmacyAddress?: string;
+      pharmacyPhone?: string;
+      pharmacyLicense?: string;
+    }
+  ) => Promise<{ error?: string }>;
   sendOtp: (email: string, role?: UserRole) => Promise<{ error?: string }>;
   verifyOtp: (email: string, token: string, role: UserRole) => Promise<{ error?: string }>;
   signInWithGoogle: (role: UserRole) => Promise<{ error?: string }>;
@@ -146,8 +158,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setLoading(true);
     try {
       if (isSupabaseConfigured && supabase) {
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: email.trim().toLowerCase(),
+          password,
+        });
+
+        if (error) {
+          if (error.message.toLowerCase().includes('invalid login credentials')) {
+            throw new Error(
+              'Invalid login credentials. If you previously registered using Email OTP, please use the Email OTP tab or register your password under the Register tab.'
+            );
+          }
+          throw error;
+        }
+
         if (data.user) {
           const prof = await dataService.getProfile(data.user.id);
           const role = prof?.role || (data.user.user_metadata?.role as UserRole) || 'Patient';
@@ -164,7 +188,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       }
 
-      // Demo fallback login
+      // Fallback
       const role: UserRole = email.toLowerCase().includes('pharmacy') ? 'Pharmacy Owner' : 'Patient';
       const id = role === 'Pharmacy Owner' ? DEMO_UUIDS.OWNER_APOLLO : DEMO_UUIDS.PATIENT_DEMO;
       const sessionUser: UserSession = {
@@ -184,69 +208,85 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  // 2. Email / Password Sign Up
+  // 2. Email / Password Sign Up & Full Supabase Synchronization
   const signUpWithPassword = async (
     email: string,
     password: string,
     role: UserRole,
-    fullName: string
+    fullName: string,
+    extraData?: {
+      phone?: string;
+      pharmacyName?: string;
+      pharmacyAddress?: string;
+      pharmacyPhone?: string;
+      pharmacyLicense?: string;
+    }
   ): Promise<{ error?: string }> => {
     setLoading(true);
     try {
-      if (isSupabaseConfigured && supabase) {
-        const { data, error } = await supabase.auth.signUp({
-          email,
+      // 1. Call server-side /api/auth/register endpoint which uses SUPABASE_SERVICE_ROLE_KEY
+      // to guarantee auto-confirmation, handle existing OTP accounts, and sync public.profiles & public.pharmacies
+      const regRes = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email.trim().toLowerCase(),
           password,
-          options: {
-            data: {
-              full_name: fullName,
-              role,
-            },
-          },
+          role,
+          fullName,
+          phone: extraData?.phone,
+          pharmacyName: extraData?.pharmacyName,
+          pharmacyAddress: extraData?.pharmacyAddress,
+          pharmacyPhone: extraData?.pharmacyPhone,
+          pharmacyLicense: extraData?.pharmacyLicense,
+        }),
+      });
+
+      const regJson = await regRes.json();
+      if (!regRes.ok || regJson.error) {
+        throw new Error(regJson.error || 'Registration failed');
+      }
+
+      // 2. Authenticate the client session with supabase.auth.signInWithPassword
+      if (isSupabaseConfigured && supabase) {
+        const { data: signinData, error: signinError } = await supabase.auth.signInWithPassword({
+          email: email.trim().toLowerCase(),
+          password,
         });
-        if (error) throw error;
 
-        if (data.user) {
-          const newProfile: Profile = {
-            id: data.user.id,
-            role,
-            full_name: fullName,
-            phone: null,
-          };
-          await dataService.saveProfile(newProfile);
-
+        if (!signinError && signinData.user) {
+          const prof = await dataService.getProfile(signinData.user.id);
           const sessionUser: UserSession = {
-            id: data.user.id,
-            email: data.user.email || email,
-            fullName,
+            id: signinData.user.id,
+            email: signinData.user.email || email,
+            fullName: prof?.full_name || fullName,
             role,
           };
           setUser(sessionUser);
-          setProfile(newProfile);
+          setProfile(prof);
           localStorage.setItem('meditrack_current_user', JSON.stringify(sessionUser));
           return {};
         }
       }
 
-      // Demo signup
-      const newId = 'user-' + Math.random().toString(36).substring(2, 9);
+      // 3. Fallback to server registration user object
       const sessionUser: UserSession = {
-        id: newId,
-        email,
-        fullName,
-        role,
+        id: regJson.user.id,
+        email: regJson.user.email,
+        fullName: regJson.user.fullName,
+        role: regJson.user.role,
       };
       setUser(sessionUser);
       setProfile({
-        id: newId,
-        role,
-        full_name: fullName,
-        phone: null,
+        id: regJson.user.id,
+        role: regJson.user.role,
+        full_name: regJson.user.fullName,
+        phone: extraData?.phone || null,
       });
       localStorage.setItem('meditrack_current_user', JSON.stringify(sessionUser));
       return {};
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Signup failed';
+      const message = err instanceof Error ? err.message : 'Registration failed';
       return { error: message };
     } finally {
       setLoading(false);

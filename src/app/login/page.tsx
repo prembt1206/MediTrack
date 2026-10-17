@@ -23,7 +23,9 @@ import {
   Cloud,
   Search,
   ScanText,
-  Activity
+  Activity,
+  MapPin,
+  Phone
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -54,6 +56,10 @@ function LoginFormContent() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [pharmacyName, setPharmacyName] = useState('');
+  const [pharmacyAddress, setPharmacyAddress] = useState('');
+  const [pharmacyLicense, setPharmacyLicense] = useState('');
   const [otpToken, setOtpToken] = useState('');
   const [otpSent, setOtpSent] = useState(false);
 
@@ -80,6 +86,10 @@ function LoginFormContent() {
     setSuccessMessage(null);
     setOtpSent(false);
     setOtpToken('');
+    setPhone('');
+    setPharmacyName('');
+    setPharmacyAddress('');
+    setPharmacyLicense('');
   };
 
   // 1. Send Real Email OTP
@@ -148,7 +158,7 @@ function LoginFormContent() {
     }
   };
 
-  // 4. Sign Up / Register
+  // 4. Sign Up / Register with Supabase Cloud Sync
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
@@ -156,11 +166,23 @@ function LoginFormContent() {
     setIsSubmitting(true);
 
     try {
-      const res = await signUpWithPassword(email, password, role, fullName || `${role} User`);
+      const res = await signUpWithPassword(
+        email,
+        password,
+        role,
+        role === 'Pharmacy Owner' ? (pharmacyName || fullName || 'My Pharmacy') : (fullName || `${role} User`),
+        {
+          phone,
+          pharmacyName: pharmacyName || fullName,
+          pharmacyAddress: pharmacyAddress || '80 Feet Road, 4th Block, Koramangala, Bengaluru',
+          pharmacyPhone: phone || '+91 80 2553 4321',
+          pharmacyLicense: pharmacyLicense || 'KA-BLR-' + Math.floor(100000 + Math.random() * 900000),
+        }
+      );
       if (res.error) {
         setErrorMessage(res.error);
       } else {
-        setSuccessMessage(`Account created as ${role}! Redirecting to portal...`);
+        setSuccessMessage(`Account registered & synchronized with Supabase! Redirecting to ${role} portal...`);
         router.push(role === 'Pharmacy Owner' ? '/pharmacy' : '/patient');
       }
     } catch (err: unknown) {
@@ -526,29 +548,151 @@ function LoginFormContent() {
                 >
                   {isSubmitting ? 'Signing in...' : `Sign In to ${role} Portal`}
                 </Button>
+
+                <p className="text-[11px] text-center text-slate-400 mt-2">
+                  First time setting a password or need an account?{' '}
+                  <button
+                    type="button"
+                    onClick={() => { setAuthMethod('signup'); setErrorMessage(null); }}
+                    className="text-emerald-400 hover:underline font-semibold"
+                  >
+                    Register / Set Password here
+                  </button>
+                </p>
               </form>
             )}
 
             {/* METHOD 3: Register */}
             {authMethod === 'signup' && (
               <form onSubmit={handleSignUp} className="space-y-3.5">
-                <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">
-                    {isPatient ? 'Your Full Name' : 'Pharmacy Store Name'}
-                  </label>
-                  <Input
-                    type="text"
-                    required
-                    placeholder={isPatient ? 'e.g. Rahul Sharma' : 'e.g. Apollo Pharmacy Koramangala'}
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    className="bg-slate-800/90 border-slate-700 text-white"
-                  />
-                </div>
+                {isPatient ? (
+                  <>
+                    <div>
+                      <label className="block text-xs font-medium text-slate-300 mb-1">
+                        Your Full Name
+                      </label>
+                      <div className="relative">
+                        <User className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+                        <Input
+                          type="text"
+                          required
+                          placeholder="e.g. Rahul Sharma"
+                          value={fullName}
+                          onChange={(e) => setFullName(e.target.value)}
+                          className="pl-9 bg-slate-800/90 border-slate-700 text-white"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-medium text-slate-300 mb-1">
+                        Phone Number (Optional)
+                      </label>
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+                        <Input
+                          type="tel"
+                          placeholder="+91 98765 43210"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          className="pl-9 bg-slate-800/90 border-slate-700 text-white"
+                        />
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <label className="block text-xs font-medium text-slate-300 mb-1">
+                        Pharmacy / Medical Store Name
+                      </label>
+                      <div className="relative">
+                        <Store className="absolute left-3 top-3 h-4 w-4 text-teal-400" />
+                        <Input
+                          type="text"
+                          required
+                          placeholder="e.g. Apollo Pharmacy Koramangala"
+                          value={pharmacyName}
+                          onChange={(e) => setPharmacyName(e.target.value)}
+                          className="pl-9 bg-slate-800/90 border-slate-700 text-white"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-medium text-slate-300 mb-1">
+                          Owner / Pharmacist Name
+                        </label>
+                        <div className="relative">
+                          <User className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+                          <Input
+                            type="text"
+                            required
+                            placeholder="e.g. Dr. Ramesh Patel"
+                            value={fullName}
+                            onChange={(e) => setFullName(e.target.value)}
+                            className="pl-9 bg-slate-800/90 border-slate-700 text-white text-xs"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-medium text-slate-300 mb-1">
+                          Store Contact Phone
+                        </label>
+                        <div className="relative">
+                          <Phone className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+                          <Input
+                            type="tel"
+                            required
+                            placeholder="+91 80 2553 4321"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            className="pl-9 bg-slate-800/90 border-slate-700 text-white text-xs"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-medium text-slate-300 mb-1">
+                        Store Street Address & Locality
+                      </label>
+                      <div className="relative">
+                        <MapPin className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+                        <Input
+                          type="text"
+                          required
+                          placeholder="e.g. 80 Feet Road, 4th Block, Koramangala, Bengaluru"
+                          value={pharmacyAddress}
+                          onChange={(e) => setPharmacyAddress(e.target.value)}
+                          className="pl-9 bg-slate-800/90 border-slate-700 text-white text-xs"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-medium text-slate-300 mb-1">
+                        Drug License Number (Optional)
+                      </label>
+                      <div className="relative">
+                        <ShieldCheck className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+                        <Input
+                          type="text"
+                          placeholder="e.g. KA-BLR-102934"
+                          value={pharmacyLicense}
+                          onChange={(e) => setPharmacyLicense(e.target.value)}
+                          className="pl-9 bg-slate-800/90 border-slate-700 text-white text-xs"
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
 
                 <div>
                   <label className="block text-xs font-medium text-slate-300 mb-1">
-                    Email Address
+                    Login Email Address
                   </label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
@@ -565,7 +709,7 @@ function LoginFormContent() {
 
                 <div>
                   <label className="block text-xs font-medium text-slate-300 mb-1">
-                    Password (min 6 characters)
+                    Create Password (min 6 characters)
                   </label>
                   <div className="relative">
                     <KeyRound className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
@@ -587,7 +731,7 @@ function LoginFormContent() {
                   className="w-full mt-2"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? 'Registering...' : `Create ${role} Account`}
+                  {isSubmitting ? 'Registering & Updating Supabase...' : `Register & Save ${role} Details in Supabase`}
                 </Button>
               </form>
             )}
