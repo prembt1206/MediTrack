@@ -5,10 +5,10 @@ import { calculateDistanceKm, isValidUUID, generateUUID, toValidUUID } from '../
 
 // Local storage keys for fallback demo mode
 const STORAGE_KEYS = {
-  PROFILES: 'meditrack_profiles_v3',
-  PHARMACIES: 'meditrack_pharmacies_v3',
-  INVENTORY: 'meditrack_inventory_v3',
-  AUTH_USER: 'meditrack_auth_user_v3',
+  PROFILES: 'meditrack_profiles_v4',
+  PHARMACIES: 'meditrack_pharmacies_v4',
+  INVENTORY: 'meditrack_inventory_v4',
+  AUTH_USER: 'meditrack_auth_user_v4',
 };
 
 // Normalize legacy non-UUID IDs from older versions
@@ -208,6 +208,22 @@ export const dataService = {
   async getPharmacyInventory(pharmacyId: string): Promise<InventoryItem[]> {
     const validPharmId = toValidUUID(pharmacyId, DEMO_UUIDS.PHARM_APOLLO);
 
+    // 1. First attempt to fetch from server API route
+    if (typeof window !== 'undefined') {
+      try {
+        const res = await fetch(`/api/inventory?pharmacy_id=${validPharmId}`);
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.inventory) && json.inventory.length > 0) {
+            return json.inventory as InventoryItem[];
+          }
+        }
+      } catch (err) {
+        console.warn('API /api/inventory fetch warning:', err);
+      }
+    }
+
+    // 2. Direct Supabase query fallback
     if (isSupabaseConfigured && supabase && isValidUUID(validPharmId)) {
       try {
         const { data, error } = await supabase
@@ -235,7 +251,29 @@ export const dataService = {
       pharmacy_id: validPharmId,
     };
 
-    // Attempt Supabase insert with error resilience
+    // 1. Call server API route with service role permissions to guarantee Supabase insert
+    if (typeof window !== 'undefined') {
+      try {
+        const res = await fetch('/api/inventory', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(insertPayload),
+        });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && json.item) {
+            const inventory = getLocalData<InventoryItem[]>(STORAGE_KEYS.INVENTORY, INITIAL_INVENTORY);
+            inventory.unshift(json.item as InventoryItem);
+            setLocalData(STORAGE_KEYS.INVENTORY, inventory);
+            return json.item as InventoryItem;
+          }
+        }
+      } catch (err) {
+        console.warn('API /api/inventory insert error, falling back locally:', err);
+      }
+    }
+
+    // 2. Fallback to direct client insert if API route unavailable
     if (isSupabaseConfigured && supabase && isValidUUID(validPharmId)) {
       try {
         const { data, error } = await supabase
@@ -245,23 +283,17 @@ export const dataService = {
           .single();
 
         if (!error && data) {
-          // Sync with local data for seamless fast cache
           const inventory = getLocalData<InventoryItem[]>(STORAGE_KEYS.INVENTORY, INITIAL_INVENTORY);
           inventory.unshift(data as InventoryItem);
           setLocalData(STORAGE_KEYS.INVENTORY, inventory);
           return data as InventoryItem;
         }
-
-        if (error) {
-          console.warn('Supabase insert note (falling back to resilient sync):', error.message);
-          // If the error was NOT a syntax error, but RLS or unseeded DB, we fall through to local persistence
-        }
       } catch (err) {
-        console.warn('Supabase network error during addInventoryItem:', err);
+        console.warn('Supabase direct insert error:', err);
       }
     }
 
-    // Always succeed locally so user/demo is NEVER blocked by network/RLS issues
+    // Always succeed locally so UI is never blocked
     const inventory = getLocalData<InventoryItem[]>(STORAGE_KEYS.INVENTORY, INITIAL_INVENTORY);
     const newItem: InventoryItem = {
       ...insertPayload,
@@ -275,7 +307,37 @@ export const dataService = {
 
   async updateInventoryItem(id: string, updates: Partial<InventoryItem>): Promise<InventoryItem> {
     const validId = toValidUUID(id);
+    const inventory = getLocalData<InventoryItem[]>(STORAGE_KEYS.INVENTORY, INITIAL_INVENTORY);
+    const fallbackItem = inventory.find((i) => i.id === validId || i.id === id);
 
+    // 1. Call server API route with admin privileges to guarantee persistence in Supabase
+    if (typeof window !== 'undefined') {
+      try {
+        const res = await fetch('/api/inventory', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: validId,
+            updates,
+            fallbackItem,
+          }),
+        });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && json.item) {
+            const idx = inventory.findIndex((i) => i.id === validId || i.id === id);
+            if (idx >= 0) inventory[idx] = json.item;
+            else inventory.unshift(json.item);
+            setLocalData(STORAGE_KEYS.INVENTORY, inventory);
+            return json.item as InventoryItem;
+          }
+        }
+      } catch (err) {
+        console.warn('API /api/inventory update warning:', err);
+      }
+    }
+
+    // 2. Fallback to direct client update
     if (isSupabaseConfigured && supabase && isValidUUID(validId)) {
       try {
         const { data, error } = await supabase
@@ -285,21 +347,19 @@ export const dataService = {
           .select()
           .single();
         if (!error && data) {
-          const inventory = getLocalData<InventoryItem[]>(STORAGE_KEYS.INVENTORY, INITIAL_INVENTORY);
           const idx = inventory.findIndex((i) => i.id === validId);
           if (idx >= 0) inventory[idx] = data as InventoryItem;
           setLocalData(STORAGE_KEYS.INVENTORY, inventory);
           return data as InventoryItem;
         }
       } catch (err) {
-        console.warn('Supabase updateInventoryItem error, falling back locally:', err);
+        console.warn('Supabase direct update error:', err);
       }
     }
 
-    const inventory = getLocalData<InventoryItem[]>(STORAGE_KEYS.INVENTORY, INITIAL_INVENTORY);
+    // 3. Fallback to local storage
     const idx = inventory.findIndex((i) => i.id === validId || i.id === id);
     if (idx === -1) {
-      // If not found, return modified object
       return { id: validId, ...updates } as InventoryItem;
     }
     inventory[idx] = { ...inventory[idx], ...updates, updated_at: new Date().toISOString() };
@@ -310,11 +370,23 @@ export const dataService = {
   async deleteInventoryItem(id: string): Promise<void> {
     const validId = toValidUUID(id);
 
+    // 1. Call server API route
+    if (typeof window !== 'undefined') {
+      try {
+        await fetch(`/api/inventory?id=${validId}`, {
+          method: 'DELETE',
+        });
+      } catch (err) {
+        console.warn('API /api/inventory delete warning:', err);
+      }
+    }
+
+    // 2. Direct client delete
     if (isSupabaseConfigured && supabase && isValidUUID(validId)) {
       try {
         await supabase.from('inventory').delete().eq('id', validId);
       } catch (err) {
-        console.warn('Supabase delete error:', err);
+        console.warn('Supabase direct delete error:', err);
       }
     }
 

@@ -197,31 +197,55 @@ export async function POST(req: NextRequest) {
     } else if (prescriptionType === 'chronic') {
       simulatedMedicines = [
         {
-          name: 'Glycomet 500 SR',
-          generic: 'Metformin Hydrochloride',
-          dosage: '500mg',
-          frequency: '1-0-1, PC',
-          instructions: 'Take 1 tablet twice daily with breakfast and dinner',
+          name: 'Tazloc AM 40/5',
+          generic: 'Telmisartan + Amlodipine',
+          dosage: '40mg / 5mg',
+          frequency: 'OD (BBF)',
+          instructions: 'Take 1 tablet once daily, before breakfast',
           duration: '30 days',
         },
         {
-          name: 'Telma 40',
-          generic: 'Telmisartan',
-          dosage: '40mg',
-          frequency: '1-0-0, OD',
-          instructions: 'Take 1 tablet every morning at a fixed time for BP control',
+          name: 'TriAzulix DS-2',
+          generic: 'Glimepiride + Metformin + Pioglitazone',
+          dosage: 'DS-2',
+          frequency: 'OD (BBF)',
+          instructions: 'Take 1 tablet once daily, before breakfast',
           duration: '30 days',
         },
         {
-          name: 'Shelcal 500',
-          generic: 'Calcium + Vitamin D3',
-          dosage: '500mg',
-          frequency: '0-1-0, PC',
-          instructions: 'Take 1 tablet after lunch with a glass of water',
+          name: 'Istamet XR',
+          generic: 'Sitagliptin + Metformin Hydrochloride Extended Release',
+          dosage: '100/1000mg',
+          frequency: 'OD',
+          instructions: 'Take 1 tablet once daily, after dinner',
+          duration: '30 days',
+        },
+        {
+          name: 'Atorva 20',
+          generic: 'Atorvastatin',
+          dosage: '20mg',
+          frequency: '0-0-1 (OD HS)',
+          instructions: 'Take 1 tablet once daily, at bedtime',
+          duration: '30 days',
+        },
+        {
+          name: 'Cap Pregalin',
+          generic: 'Pregabalin',
+          dosage: '75mg',
+          frequency: '0-0-1 (OD HS)',
+          instructions: 'Take 1 capsule once daily, at bedtime',
+          duration: '30 days',
+        },
+        {
+          name: 'Mecobal SL 1500',
+          generic: 'Methylcobalamin (Mecobalamin)',
+          dosage: '1500mcg',
+          frequency: '1-0-0 (OD)',
+          instructions: 'Take 1 tablet once daily sublingually (placed under the tongue)',
           duration: '30 days',
         },
       ];
-      doctorNotes = 'Type 2 Diabetes Mellitus & Stage 1 HTN. Strict low-carb diet, 30 mins brisk walking, HbA1c review in 3 months.';
+      doctorNotes = 'Prescription appears to be for the management of Type 2 Diabetes Mellitus, Hypertension, Dyslipidemia, and Diabetic Peripheral Neuropathy.';
     }
 
     return NextResponse.json({

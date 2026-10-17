@@ -423,6 +423,41 @@ export default function PharmacyDashboardPage() {
                   </button>
                   <button
                     type="button"
+                    onClick={() => applyPreset('Tazloc AM 40/5', 'Telmisartan + Amlodipine', '40mg / 5mg tablet', 85, 185.0)}
+                    className="text-[11px] px-2.5 py-1.5 rounded-lg bg-teal-950/60 hover:bg-teal-900/80 hover:border-teal-500 border border-teal-800 text-teal-300 active:scale-95 transition-all cursor-pointer shadow-sm"
+                  >
+                    + Tazloc AM 40/5
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => applyPreset('TriAzulix DS-2', 'Glimepiride + Metformin + Pioglitazone', 'DS-2 (2mg + 500mg + 15mg)', 60, 240.0)}
+                    className="text-[11px] px-2.5 py-1.5 rounded-lg bg-teal-950/60 hover:bg-teal-900/80 hover:border-teal-500 border border-teal-800 text-teal-300 active:scale-95 transition-all cursor-pointer shadow-sm"
+                  >
+                    + TriAzulix DS-2
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => applyPreset('Istamet XR', 'Sitagliptin + Metformin Hydrochloride Extended Release', '100/1000mg tablet', 45, 310.0)}
+                    className="text-[11px] px-2.5 py-1.5 rounded-lg bg-teal-950/60 hover:bg-teal-900/80 hover:border-teal-500 border border-teal-800 text-teal-300 active:scale-95 transition-all cursor-pointer shadow-sm"
+                  >
+                    + Istamet XR
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => applyPreset('Cap Pregalin', 'Pregabalin', '75mg capsule', 50, 215.0)}
+                    className="text-[11px] px-2.5 py-1.5 rounded-lg bg-teal-950/60 hover:bg-teal-900/80 hover:border-teal-500 border border-teal-800 text-teal-300 active:scale-95 transition-all cursor-pointer shadow-sm"
+                  >
+                    + Cap Pregalin
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => applyPreset('Mecobal SL 1500', 'Methylcobalamin (Mecobalamin)', '1500mcg sublingual tablet', 110, 165.0)}
+                    className="text-[11px] px-2.5 py-1.5 rounded-lg bg-teal-950/60 hover:bg-teal-900/80 hover:border-teal-500 border border-teal-800 text-teal-300 active:scale-95 transition-all cursor-pointer shadow-sm"
+                  >
+                    + Mecobal SL
+                  </button>
+                  <button
+                    type="button"
                     onClick={() => applyPreset('Augmentin 625 Duo', 'Amoxicillin + Clavulanic Acid', '625mg tablet', 50, 204.0)}
                     className="text-[11px] px-2.5 py-1.5 rounded-lg bg-slate-800/80 hover:bg-emerald-950/80 hover:border-emerald-600 border border-slate-700 text-slate-300 hover:text-emerald-300 active:scale-95 transition-all cursor-pointer shadow-sm"
                   >
