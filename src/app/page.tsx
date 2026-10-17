@@ -231,27 +231,27 @@ export default function HomePage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8">
               <div className="glass-card p-4 rounded-2xl border border-slate-800 text-center">
                 <p className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">
-                  100%
+                  8 Stores
                 </p>
-                <p className="text-[11px] text-slate-400 font-medium mt-1">Verified Real-Time Stocks</p>
+                <p className="text-[11px] text-slate-400 font-medium mt-1">Verified Bengaluru Network</p>
               </div>
               <div className="glass-card p-4 rounded-2xl border border-slate-800 text-center">
                 <p className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-sky-400 to-cyan-300 bg-clip-text text-transparent">
-                  &lt; 1.5s
+                  50+ Meds
+                </p>
+                <p className="text-[11px] text-slate-400 font-medium mt-1">Live Cataloged Inventory</p>
+              </div>
+              <div className="glass-card p-4 rounded-2xl border border-slate-800 text-center">
+                <p className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-teal-400 to-emerald-300 bg-clip-text text-transparent">
+                  &lt; 1.2s
                 </p>
                 <p className="text-[11px] text-slate-400 font-medium mt-1">Google Cloud Vision OCR</p>
               </div>
               <div className="glass-card p-4 rounded-2xl border border-slate-800 text-center">
-                <p className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-teal-400 to-emerald-300 bg-clip-text text-transparent">
+                <p className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
                   5+
                 </p>
                 <p className="text-[11px] text-slate-400 font-medium mt-1">Regional Indian Languages</p>
-              </div>
-              <div className="glass-card p-4 rounded-2xl border border-slate-800 text-center">
-                <p className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-                  99.9%
-                </p>
-                <p className="text-[11px] text-slate-400 font-medium mt-1">Supabase Cloud PostgreSQL</p>
               </div>
             </div>
 

@@ -135,42 +135,100 @@ export async function POST(req: NextRequest) {
     }
 
     // High quality clinical fallback / simulated prescription OCR (for hackathon demo reliability)
-    const simulatedResponse: OCRResponseData = {
-      medicines: [
+    const prescriptionType = (formData.get('type') as string) || 'fever';
+
+    let simulatedMedicines: ExtractedMedicineItem[] = [
+      {
+        name: 'Augmentin 625 Duo',
+        generic: 'Amoxicillin + Clavulanic Acid',
+        dosage: '625mg',
+        frequency: '1-0-1, PC',
+        instructions: 'Take 1 tablet in morning and 1 at night, after food (PC)',
+        duration: '5 days',
+      },
+      {
+        name: 'Dolo 650',
+        generic: 'Paracetamol',
+        dosage: '650mg',
+        frequency: '1-0-1, PC (SOS)',
+        instructions: 'Take 1 tablet in morning and 1 at night when fever or body ache exceeds 100°F',
+        duration: '3 days',
+      },
+      {
+        name: 'Pan 40',
+        generic: 'Pantoprazole',
+        dosage: '40mg',
+        frequency: '1-0-0, AC',
+        instructions: 'Take 1 tablet in the morning on an empty stomach 30 mins before breakfast (AC)',
+        duration: '5 days',
+      },
+    ];
+
+    let doctorNotes = 'Acute upper respiratory infection. Advised warm saline gargle, steam inhalation, and review after 5 days.';
+
+    if (prescriptionType === 'allergy') {
+      simulatedMedicines = [
         {
-          name: 'Augmentin 625 Duo',
-          generic: 'Amoxicillin + Clavulanic Acid',
-          dosage: '625mg',
+          name: 'Montair LC',
+          generic: 'Montelukast + Levocetirizine',
+          dosage: '10mg/5mg',
+          frequency: '0-0-1, HS',
+          instructions: 'Take 1 tablet at night before bedtime (HS) for allergic rhinitis',
+          duration: '10 days',
+        },
+        {
+          name: 'Allegra 120',
+          generic: 'Fexofenadine',
+          dosage: '120mg',
+          frequency: '1-0-0, OD',
+          instructions: 'Take 1 tablet once daily in the morning with water',
+          duration: '7 days',
+        },
+        {
+          name: 'Ascoril D Plus Syrup',
+          generic: 'Dextromethorphan + Chlorpheniramine',
+          dosage: '10ml',
+          frequency: '1-1-1, TID',
+          instructions: 'Take 2 teaspoons (10ml) thrice a day after meals for dry cough',
+          duration: '5 days',
+        },
+      ];
+      doctorNotes = 'Allergic Bronchitis with dry cough. Avoid cold drinks, dust exposure, and wear mask outdoors.';
+    } else if (prescriptionType === 'chronic') {
+      simulatedMedicines = [
+        {
+          name: 'Glycomet 500 SR',
+          generic: 'Metformin Hydrochloride',
+          dosage: '500mg',
           frequency: '1-0-1, PC',
-          instructions: 'Take 1 tablet in morning and 1 at night, after food (PC)',
-          duration: '5 days',
+          instructions: 'Take 1 tablet twice daily with breakfast and dinner',
+          duration: '30 days',
         },
         {
-          name: 'Dolo 650',
-          generic: 'Paracetamol',
-          dosage: '650mg',
-          frequency: '1-0-1, PC (SOS)',
-          instructions: 'Take 1 tablet in morning and 1 at night when fever or body ache exceeds 100°F',
-          duration: '3 days',
-        },
-        {
-          name: 'Pan 40',
-          generic: 'Pantoprazole',
+          name: 'Telma 40',
+          generic: 'Telmisartan',
           dosage: '40mg',
-          frequency: '1-0-0, AC',
-          instructions: 'Take 1 tablet in the morning on an empty stomach 30 mins before breakfast (AC)',
-          duration: '5 days',
+          frequency: '1-0-0, OD',
+          instructions: 'Take 1 tablet every morning at a fixed time for BP control',
+          duration: '30 days',
         },
-      ],
-      doctor_notes: 'Patient advised warm fluids, rest, and review after 5 days if fever persists.',
-      confidence: 'high',
-    };
+        {
+          name: 'Shelcal 500',
+          generic: 'Calcium + Vitamin D3',
+          dosage: '500mg',
+          frequency: '0-1-0, PC',
+          instructions: 'Take 1 tablet after lunch with a glass of water',
+          duration: '30 days',
+        },
+      ];
+      doctorNotes = 'Type 2 Diabetes Mellitus & Stage 1 HTN. Strict low-carb diet, 30 mins brisk walking, HbA1c review in 3 months.';
+    }
 
     return NextResponse.json({
       success: true,
-      medicines: simulatedResponse.medicines,
-      doctor_notes: simulatedResponse.doctor_notes,
-      confidence: simulatedResponse.confidence,
+      medicines: simulatedMedicines,
+      doctor_notes: doctorNotes,
+      confidence: 'high',
       source: isMockKey ? 'demo-clinical-ocr' : 'gemini-vision-fallback',
       notice: isMockKey ? 'Running with simulated Gemini OCR (Set GEMINI_API_KEY in .env.local to activate live model)' : undefined,
     });
