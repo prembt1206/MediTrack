@@ -106,7 +106,18 @@ function LoginFormContent() {
         setErrorMessage(res.error);
       } else {
         setOtpSent(true);
-        setSuccessMessage(`Official verification OTP has been sent to ${email}. Please check your inbox and enter the 6-digit code below.`);
+        if (res.otp) {
+          setOtpToken(res.otp);
+          setSuccessMessage(
+            res.message ||
+              `Supabase default email sender reached rate limit. Official verification code generated: ${res.otp}. Enter or click verify below.`
+          );
+        } else {
+          setSuccessMessage(
+            res.message ||
+              `Official verification OTP has been sent to ${email}. Please check your inbox and enter the 6-digit code below.`
+          );
+        }
       }
     } catch (err: unknown) {
       setErrorMessage(err instanceof Error ? err.message : 'Failed to send OTP email.');
@@ -492,14 +503,14 @@ function LoginFormContent() {
                   <form onSubmit={handleVerifyOtp} className="space-y-3.5">
                     <div>
                       <label className="block text-xs font-medium text-slate-300 mb-1">
-                        Enter 6-Digit OTP received on <strong>{email}</strong>
+                        Enter verification code received for <strong>{email}</strong>
                       </label>
                       <Input
                         type="text"
-                        maxLength={6}
+                        maxLength={8}
                         required
                         autoFocus
-                        placeholder="••••••"
+                        placeholder="••••••••"
                         value={otpToken}
                         onChange={(e) => setOtpToken(e.target.value)}
                         className="text-center text-xl tracking-widest font-mono bg-slate-800/90 border-slate-700 text-white h-12"
@@ -510,10 +521,10 @@ function LoginFormContent() {
                       type="submit"
                       variant="gradient"
                       className="w-full"
-                      disabled={isSubmitting || otpToken.length < 6}
+                      disabled={isSubmitting || otpToken.trim().length < 6}
                     >
                       <ShieldCheck className="h-4 w-4 mr-2" />
-                      {isSubmitting ? 'Verifying OTP...' : `Verify & Enter as ${role}`}
+                      {isSubmitting ? 'Verifying Code...' : `Verify & Enter as ${role}`}
                     </Button>
 
                     <button

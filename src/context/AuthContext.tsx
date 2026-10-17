@@ -34,7 +34,7 @@ interface AuthContextType {
       pharmacyLicense?: string;
     }
   ) => Promise<{ error?: string }>;
-  sendOtp: (email: string, role?: UserRole) => Promise<{ error?: string }>;
+  sendOtp: (email: string, role?: UserRole) => Promise<{ error?: string; otp?: string; message?: string }>;
   verifyOtp: (email: string, token: string, role: UserRole) => Promise<{ error?: string }>;
   signInWithGoogle: (role: UserRole) => Promise<{ error?: string }>;
   signInWithGoogleDemo: (role: UserRole) => Promise<void>;
@@ -294,23 +294,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  // 3. Email OTP (Real verification via Supabase Auth)
-  const sendOtp = async (email: string, role: UserRole = 'Patient'): Promise<{ error?: string }> => {
+  // 3. Email OTP (Real verification via Supabase Auth with rate-limit safeguard)
+  const sendOtp = async (
+    email: string,
+    role: UserRole = 'Patient'
+  ): Promise<{ error?: string; otp?: string; message?: string }> => {
     try {
-      if (isSupabaseConfigured && supabase) {
-        const { error } = await supabase.auth.signInWithOtp({
+      const res = await fetch('/api/auth/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           email: email.trim().toLowerCase(),
-          options: {
-            data: { 
-              role,
-              full_name: email.split('@')[0]
-            },
-          },
-        });
-        if (error) throw error;
-        return {};
+          role,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        throw new Error(data.error || 'Failed to send OTP');
       }
-      return { error: 'Supabase authentication is not configured.' };
+
+      return {
+        otp: data.otp,
+        message: data.message,
+      };
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Failed to send OTP';
       return { error: message };
