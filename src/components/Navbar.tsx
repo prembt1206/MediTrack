@@ -13,115 +13,132 @@ import {
   LogOut, 
   Sparkles, 
   Database,
-  ArrowRightLeft
+  Cloud,
+  FileText,
+  PackagePlus,
+  User,
+  ShieldCheck
 } from 'lucide-react';
 
 export function Navbar() {
-  const { user, signOut, switchDemoRole, isConfigured } = useAuth();
+  const { user, signOut, isConfigured } = useAuth();
   const pathname = usePathname();
 
-  const isPharmacyRoute = pathname?.startsWith('/pharmacy');
-  const isPatientRoute = pathname?.startsWith('/patient');
+  const isPatient = user?.role === 'Patient';
+  const isOwner = user?.role === 'Pharmacy Owner';
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/80 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-900/80 transition-all">
+    <header className="sticky top-0 z-40 w-full border-b border-slate-800 bg-slate-950/90 backdrop-blur-md transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-4">
           
-          {/* Logo & Brand */}
+          {/* Logo & Portal Identity */}
           <div className="flex items-center gap-6">
-            <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-emerald-600 via-teal-500 to-cyan-500 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+            <Link href={isOwner ? '/pharmacy' : '/patient'} className="flex items-center gap-2.5 group">
+              <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform">
                 <Pill className="h-5 w-5" />
               </div>
               <div>
-                <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-emerald-700 via-teal-600 to-cyan-600 dark:from-emerald-400 dark:to-teal-300 bg-clip-text text-transparent">
-                  MediTrack
-                </span>
-                <span className="hidden sm:inline-block ml-2 text-[10px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950 dark:text-emerald-300">
-                  Realtime Health
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-300 bg-clip-text text-transparent">
+                    MediTrack
+                  </span>
+                  {user && (
+                    <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
+                      isPatient
+                        ? 'bg-emerald-950 text-emerald-300 border-emerald-800'
+                        : 'bg-teal-950 text-teal-300 border-teal-800'
+                    }`}>
+                      {isPatient ? 'Patient Portal' : 'Owner Portal'}
+                    </span>
+                  )}
+                </div>
               </div>
             </Link>
 
-            {/* Navigation Links */}
-            <nav className="hidden md:flex items-center gap-1">
-              <Link
-                href="/patient"
-                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                  isPatientRoute
-                    ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800'
-                }`}
-              >
-                <Search className="h-4 w-4" />
-                <span>Patient Search</span>
-              </Link>
+            {/* Strict Role-Specific Navigation Links (NO COMBINING) */}
+            <nav className="hidden md:flex items-center gap-1.5">
+              
+              {/* If PATIENT: Show ONLY Patient topics */}
+              {isPatient && (
+                <>
+                  <Link
+                    href="/patient"
+                    className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                      pathname === '/patient'
+                        ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-800'
+                        : 'text-slate-300 hover:text-white hover:bg-slate-900'
+                    }`}
+                  >
+                    <Search className="h-4 w-4 text-emerald-400" />
+                    <span>Find Medicine</span>
+                  </Link>
+                  <Link
+                    href="/patient"
+                    className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
+                  >
+                    <FileText className="h-4 w-4 text-emerald-400" />
+                    <span>Prescription OCR</span>
+                  </Link>
+                </>
+              )}
 
-              <Link
-                href="/pharmacy"
-                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                  isPharmacyRoute
-                    ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800'
-                }`}
-              >
-                <Store className="h-4 w-4" />
-                <span>Pharmacy Portal</span>
-              </Link>
+              {/* If PHARMACY OWNER: Show ONLY Owner topics */}
+              {isOwner && (
+                <>
+                  <Link
+                    href="/pharmacy"
+                    className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                      pathname === '/pharmacy'
+                        ? 'bg-teal-950/80 text-teal-300 border border-teal-800'
+                        : 'text-slate-300 hover:text-white hover:bg-slate-900'
+                    }`}
+                  >
+                    <Store className="h-4 w-4 text-teal-400" />
+                    <span>Store Inventory</span>
+                  </Link>
+                  <Link
+                    href="/pharmacy"
+                    className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
+                  >
+                    <PackagePlus className="h-4 w-4 text-teal-400" />
+                    <span>Add Stock</span>
+                  </Link>
+                </>
+              )}
+
             </nav>
           </div>
 
           {/* Right Action Center */}
           <div className="flex items-center gap-3">
             
-            {/* Quick Demo Role Switcher (Hackathon MVP Winner UX) */}
-            <div className="hidden lg:flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-lg border border-slate-200/60 dark:border-slate-700/60 text-xs">
-              <span className="text-slate-500 font-medium px-2 flex items-center gap-1">
-                <ArrowRightLeft className="h-3 w-3" />
-                Switch Role:
-              </span>
-              <button
-                type="button"
-                onClick={() => switchDemoRole('Patient')}
-                className={`px-2.5 py-1 rounded-md font-medium transition-all ${
-                  user?.role === 'Patient'
-                    ? 'bg-white dark:bg-slate-900 text-emerald-700 dark:text-emerald-400 shadow-sm font-semibold'
-                    : 'text-slate-600 hover:text-slate-900 dark:text-slate-300'
-                }`}
-              >
-                Patient
-              </button>
-              <button
-                type="button"
-                onClick={() => switchDemoRole('Pharmacy Owner')}
-                className={`px-2.5 py-1 rounded-md font-medium transition-all ${
-                  user?.role === 'Pharmacy Owner'
-                    ? 'bg-white dark:bg-slate-900 text-emerald-700 dark:text-emerald-400 shadow-sm font-semibold'
-                    : 'text-slate-600 hover:text-slate-900 dark:text-slate-300'
-                }`}
-              >
-                Pharmacy Owner
-              </button>
-            </div>
+            {/* Google Cloud Badge */}
+            <Badge
+              variant="outline"
+              className="hidden lg:inline-flex items-center gap-1.5 border-sky-800/80 bg-sky-950/40 text-sky-300 text-[11px] py-1 px-2.5"
+            >
+              <Cloud className="h-3 w-3 text-sky-400" />
+              <span>Google Cloud AI</span>
+            </Badge>
 
             {/* Supabase Connection Status Badge */}
             <Badge
               variant={isConfigured ? 'success' : 'secondary'}
-              className="hidden sm:inline-flex items-center gap-1"
+              className="hidden sm:inline-flex items-center gap-1 text-[11px]"
             >
               <Database className="h-3 w-3" />
               {isConfigured ? 'Supabase Live' : 'Demo DB Synced'}
             </Badge>
 
-            {/* User Info / Sign Out */}
+            {/* User Info / Sign Out OR Dedicated Login Links */}
             {user ? (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <div className="text-right hidden sm:block">
-                  <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 leading-tight">
+                  <p className="text-xs font-semibold text-white leading-tight">
                     {user.fullName}
                   </p>
-                  <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
+                  <p className="text-[11px] text-emerald-400 font-medium">
                     {user.role}
                   </p>
                 </div>
@@ -129,18 +146,27 @@ export function Navbar() {
                   variant="outline"
                   size="sm"
                   onClick={() => signOut()}
-                  className="flex items-center gap-1 text-xs text-rose-600 hover:text-rose-700 hover:bg-rose-50 border-rose-200"
+                  className="flex items-center gap-1 text-xs border-rose-800 text-rose-300 hover:bg-rose-950/60"
                 >
                   <LogOut className="h-3.5 w-3.5" />
                   <span className="hidden sm:inline">Sign Out</span>
                 </Button>
               </div>
             ) : (
-              <Link href="/login">
-                <Button size="sm" variant="gradient">
-                  Sign In
-                </Button>
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link href="/login?role=Patient">
+                  <Button size="sm" variant="gradient" className="text-xs">
+                    <User className="h-3.5 w-3.5 mr-1" />
+                    Patient Sign In
+                  </Button>
+                </Link>
+                <Link href="/login?role=Pharmacy+Owner">
+                  <Button size="sm" variant="outline" className="text-xs border-teal-700 text-teal-300 hover:bg-teal-950/50">
+                    <Store className="h-3.5 w-3.5 mr-1" />
+                    Pharmacy Owner Sign In
+                  </Button>
+                </Link>
+              </div>
             )}
 
           </div>

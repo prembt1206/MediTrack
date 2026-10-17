@@ -28,8 +28,10 @@ import {
   Store,
   SlidersHorizontal,
   ChevronRight,
-  Info
+  Info,
+  Cloud
 } from 'lucide-react';
+import Link from 'next/link';
 
 // Common locations in Bengaluru for demo testing
 const LOCATIONS = [
@@ -197,6 +199,40 @@ export default function PatientSearchPage() {
       return a.price - b.price;
     });
 
+  // Strict role separation: If an owner is logged in, show only owner topics
+  if (user && user.role === 'Pharmacy Owner') {
+    return (
+      <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
+        <Navbar />
+        <div className="flex-1 flex items-center justify-center p-4">
+          <Card className="max-w-md w-full border-teal-800 bg-slate-900 text-slate-100 shadow-2xl">
+            <CardHeader>
+              <div className="h-12 w-12 rounded-xl bg-teal-950 border border-teal-800 text-teal-400 flex items-center justify-center mb-2">
+                <Store className="h-6 w-6" />
+              </div>
+              <CardTitle className="text-white">
+                Pharmacy Owner Account
+              </CardTitle>
+              <CardDescription className="text-slate-400">
+                You are currently signed in as a <strong>Pharmacy Owner</strong>. This page contains Patient medicine search topics. Please access your dedicated Pharmacy Owner Dashboard.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Link href="/pharmacy" className="block w-full">
+                <Button variant="gradient" className="w-full">
+                  Go to Store Inventory Dashboard
+                </Button>
+              </Link>
+              <Link href="/login?role=Patient" className="block w-full text-center text-xs text-slate-400 hover:text-white">
+                Sign in with a Patient account instead
+              </Link>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col">
       <Navbar />
@@ -318,8 +354,8 @@ export default function PatientSearchPage() {
                   <FileText className="h-5 w-5 text-emerald-600" />
                   Prescription OCR
                 </CardTitle>
-                <Badge variant="default" className="text-[10px] bg-emerald-600 text-white">
-                  Gemini Vision
+                <Badge variant="default" className="text-[10px] bg-sky-600 text-white flex items-center gap-1 shadow-sm">
+                  <Cloud className="h-3 w-3" /> Google Cloud Vision
                 </Badge>
               </div>
               <CardDescription>

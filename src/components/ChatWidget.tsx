@@ -146,8 +146,8 @@ export function ChatWidget() {
               <div>
                 <h3 className="text-sm font-bold flex items-center gap-1.5">
                   MediBot AI
-                  <Badge variant="default" className="text-[9px] px-1.5 py-0 bg-emerald-500/40 text-emerald-100 border-none">
-                    Gemini API
+                  <Badge variant="default" className="text-[9px] px-1.5 py-0 bg-sky-500/40 text-sky-100 border-none flex items-center gap-1">
+                    Google Cloud AI
                   </Badge>
                 </h3>
                 <p className="text-[11px] text-teal-200 flex items-center gap-1">

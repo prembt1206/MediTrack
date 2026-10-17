@@ -244,15 +244,13 @@ export default function PharmacyDashboardPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Button
-                variant="gradient"
-                className="w-full"
-                onClick={() => switchDemoRole('Pharmacy Owner')}
-              >
-                Switch Role to Pharmacy Owner
-              </Button>
-              <Link href="/patient" className="block text-center text-sm text-slate-600 hover:text-slate-900">
-                Return to Patient Search Portal
+              <Link href="/patient" className="block w-full">
+                <Button variant="gradient" className="w-full">
+                  Return to Patient Medicine Search
+                </Button>
+              </Link>
+              <Link href="/login?role=Pharmacy+Owner" className="block w-full text-center text-xs text-slate-400 hover:text-white">
+                Sign in with a Pharmacy Owner account
               </Link>
             </CardContent>
           </Card>

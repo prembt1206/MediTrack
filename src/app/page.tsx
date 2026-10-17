@@ -21,12 +21,13 @@ import {
   Database,
   ScanText,
   Activity,
-  HeartHandshake
+  HeartHandshake,
+  Cloud
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
 export default function HomePage() {
-  const { user, switchDemoRole } = useAuth();
+  const { user } = useAuth();
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col">
@@ -40,9 +41,15 @@ export default function HomePage() {
           
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-6">
             
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100/80 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 text-xs font-semibold shadow-sm animate-pulse">
-              <Sparkles className="h-3.5 w-3.5 text-emerald-600" />
-              <span>12-Hour Hackathon MVP • Built with Next.js App Router & Supabase RLS</span>
+            <div className="inline-flex flex-wrap items-center justify-center gap-2">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100/80 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 text-xs font-semibold shadow-sm">
+                <Sparkles className="h-3.5 w-3.5 text-emerald-600" />
+                <span>Next.js App Router & Supabase RLS</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-sky-100/80 dark:bg-sky-950/80 text-sky-800 dark:text-sky-300 border border-sky-300 dark:border-sky-700 text-xs font-semibold shadow-sm">
+                <Cloud className="h-3.5 w-3.5 text-sky-500" />
+                <span>Powered by Google Cloud Vision & Gemini 3.8 Flash</span>
+              </div>
             </div>
 
             <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white max-w-4xl mx-auto leading-tight">
@@ -50,7 +57,7 @@ export default function HomePage() {
             </h1>
 
             <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
-              Never visit pharmacy after pharmacy in an emergency. Check verified live stocks nearby, scan handwritten prescriptions with Gemini Vision OCR, and chat in Kannada, Hindi, or English.
+              Never visit pharmacy after pharmacy in an emergency. Check verified live stocks nearby, scan handwritten prescriptions with Google Cloud Vision & Gemini OCR, and chat in Kannada, Hindi, or English.
             </p>
 
             {/* Main Portal Action Cards */}
@@ -124,10 +131,10 @@ export default function HomePage() {
                 <ScanText className="h-5 w-5" />
               </div>
               <h3 className="font-bold text-base text-slate-900 dark:text-white">
-                1. Gemini Vision Prescription OCR
+                1. Google Cloud Vision & Gemini OCR
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Decodes doctor handwriting, parses shorthand (e.g. <code>1-0-1, AC</code>) into patient instructions, and produces validated JSON to query the database.
+                Powered by Google Cloud Vision & Gemini 3.8 Flash. Decodes doctor handwriting, parses shorthand (e.g. <code>1-0-1, AC</code>) into patient instructions, and produces validated JSON to query the database.
               </p>
             </Card>
 
@@ -137,10 +144,10 @@ export default function HomePage() {
                 <Languages className="h-5 w-5" />
               </div>
               <h3 className="font-bold text-base text-slate-900 dark:text-white">
-                2. Multilingual AI Chatbot
+                2. Google Cloud Multilingual Assistant
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Floating AI chat widget answering stock inquiries in Kannada, Hindi, English, Tamil, and Telugu, strictly grounded on real Supabase inventory records.
+                Floating AI chat widget powered by Google Cloud Gemini 3.8 Flash answering stock inquiries in Kannada, Hindi, English, Tamil, and Telugu, strictly grounded on real Supabase inventory records.
               </p>
             </Card>
 

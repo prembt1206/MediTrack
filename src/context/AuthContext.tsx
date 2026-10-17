@@ -253,20 +253,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  // 3. Email OTP (for new users)
+  // 3. Email OTP (Real verification via Supabase Auth)
   const sendOtp = async (email: string, role: UserRole = 'Patient'): Promise<{ error?: string }> => {
     try {
       if (isSupabaseConfigured && supabase) {
         const { error } = await supabase.auth.signInWithOtp({
-          email,
+          email: email.trim().toLowerCase(),
           options: {
-            data: { role },
+            data: { 
+              role,
+              full_name: email.split('@')[0]
+            },
           },
         });
         if (error) throw error;
         return {};
       }
-      return {};
+      return { error: 'Supabase authentication is not configured.' };
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Failed to send OTP';
       return { error: message };
@@ -278,39 +281,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       if (isSupabaseConfigured && supabase) {
         const { data, error } = await supabase.auth.verifyOtp({
-          email,
-          token,
+          email: email.trim().toLowerCase(),
+          token: token.trim(),
           type: 'email',
         });
         if (error) throw error;
         if (data.user) {
-          const prof = await dataService.getProfile(data.user.id);
-          const userRole = prof?.role || role;
+          let prof = await dataService.getProfile(data.user.id);
+          const userRole = prof?.role || (data.user.user_metadata?.role as UserRole) || role;
+          const fullName = prof?.full_name || (data.user.user_metadata?.full_name as string) || email.split('@')[0];
+
+          if (!prof) {
+            prof = await dataService.saveProfile({
+              id: data.user.id,
+              role: userRole,
+              full_name: fullName,
+              phone: null,
+            });
+          }
+
           const sessionUser: UserSession = {
             id: data.user.id,
             email: data.user.email || email,
-            fullName: prof?.full_name || email.split('@')[0],
+            fullName,
             role: userRole,
           };
           setUser(sessionUser);
+          setProfile(prof);
           localStorage.setItem('meditrack_current_user', JSON.stringify(sessionUser));
           return {};
         }
       }
-
-      // Demo OTP verify
-      const newId = 'otp-user-' + Math.random().toString(36).substring(2, 9);
-      const sessionUser: UserSession = {
-        id: newId,
-        email,
-        fullName: email.split('@')[0],
-        role,
-      };
-      setUser(sessionUser);
-      localStorage.setItem('meditrack_current_user', JSON.stringify(sessionUser));
-      return {};
+      return { error: 'Supabase authentication service unavailable.' };
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Invalid OTP';
+      const message = err instanceof Error ? err.message : 'Invalid OTP code. Please verify the code in your email.';
       return { error: message };
     } finally {
       setLoading(false);
