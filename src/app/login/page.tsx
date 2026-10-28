@@ -223,46 +223,44 @@ function LoginFormContent() {
   const isPatient = role === 'Patient';
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 py-10 px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center relative overflow-hidden">
+    <div className="min-h-screen bg-black text-[#f5f5f7] py-12 px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center relative overflow-hidden selection:bg-[#0071e3] selection:text-white">
       
-      {/* Background Glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[300px] h-[300px] bg-teal-500/10 rounded-full blur-[100px] pointer-events-none" />
+      {/* Subtle Apple Ambient Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] apple-subtle-glow pointer-events-none" />
 
-      {/* Floating Ambient Status Icons */}
-      <div className="hidden md:flex items-center justify-between pointer-events-none absolute top-12 max-w-2xl w-full px-6">
-        <div className="animate-float-slow flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-emerald-500/30 text-emerald-300 text-xs shadow-lg shadow-emerald-950/40 backdrop-blur-md">
-          <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+      {/* Floating Ambient Status Badges */}
+      <div className="hidden md:flex items-center justify-between pointer-events-none absolute top-8 max-w-2xl w-full px-6">
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1d1d1f] border border-[#333336] text-[#86868b] text-xs">
+          <ShieldCheck className="h-3.5 w-3.5 text-[#2997ff]" />
           <span>Encrypted Supabase Auth</span>
         </div>
-        <div className="animate-float-reverse flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-teal-500/30 text-teal-300 text-xs shadow-lg shadow-teal-950/40 backdrop-blur-md">
-          <Activity className="h-3.5 w-3.5 text-teal-400 animate-pulse" />
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1d1d1f] border border-[#333336] text-[#86868b] text-xs">
+          <Activity className="h-3.5 w-3.5 text-[#30d158]" />
           <span>Real-Time RLS Active</span>
         </div>
       </div>
 
       {/* Brand Header */}
       <div className="text-center mb-8 max-w-lg z-10">
-        <Link href="/" className="inline-flex items-center gap-2.5 mb-4 group">
-          <div className="relative h-12 w-12 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center text-white shadow-xl shadow-emerald-500/25 group-hover:scale-105 group-hover:rotate-3 active:scale-95 transition-all duration-300">
-            <Pill className="h-6 w-6" />
-            <span className="absolute -top-1 -right-1 flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-cyan-300" />
+        <Link href="/" className="inline-flex items-center gap-3 mb-4 group">
+          <div className="relative h-11 w-11 rounded-2xl bg-[#1d1d1f] border border-[#333336] flex items-center justify-center text-white group-hover:border-[#424245] group-hover:bg-[#2c2c2e] transition-all">
+            <Pill className="h-5 w-5 text-[#2997ff]" />
+            <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2997ff]" />
             </span>
           </div>
-          <span className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
+          <span className="text-3xl font-semibold tracking-tight text-white">
             MediTrack
           </span>
         </Link>
-        <p className="text-sm text-slate-400">
+        <p className="text-sm text-[#86868b]">
           Dual-Sided Real-Time Medicine Availability Marketplace
         </p>
 
         {/* Google Cloud Architecture Badge */}
-        <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs text-slate-300">
-          <Cloud className="h-3.5 w-3.5 text-sky-400" />
-          <span>Integrated with <strong>Google Cloud</strong> & Gemini 3.8 Flash</span>
+        <div className="mt-3.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1d1d1f] border border-[#333336] text-xs text-[#86868b]">
+          <Cloud className="h-3.5 w-3.5 text-[#2997ff]" />
+          <span>Integrated with <strong className="text-[#f5f5f7]">Google Cloud</strong> & Gemini 3.8 Flash</span>
         </div>
       </div>
 
@@ -270,21 +268,21 @@ function LoginFormContent() {
       <div className="w-full max-w-xl z-10 space-y-6">
         
         {/* Step 1: Distinct Portal Selector */}
-        <div className="grid grid-cols-2 gap-3 p-1.5 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl backdrop-blur-md">
+        <div className="grid grid-cols-2 gap-2.5 p-1.5 rounded-2xl bg-[#161617] border border-[#333336]">
           
-          {/* Patient Portal Button with Tactile Bounce */}
+          {/* Patient Portal Button */}
           <button
             type="button"
             onClick={() => handleRoleChange('Patient')}
-            className={`flex flex-col items-start p-4 rounded-xl transition-all text-left relative cursor-pointer active:scale-95 ${
+            className={`flex flex-col items-start p-4 rounded-xl transition-all text-left relative cursor-pointer active:scale-98 ${
               isPatient
-                ? 'bg-gradient-to-br from-emerald-950/80 to-slate-900 border-2 border-emerald-500 text-white shadow-lg shadow-emerald-500/10'
-                : 'border-2 border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                ? 'bg-[#1d1d1f] border border-[#424245] text-white shadow-sm'
+                : 'border border-transparent text-[#86868b] hover:text-[#f5f5f7] hover:bg-[#1d1d1f]/50'
             }`}
           >
-            <div className="flex items-center justify-between w-full mb-1.5">
-              <div className={`h-8 w-8 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110 ${
-                isPatient ? 'bg-emerald-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-400'
+            <div className="flex items-center justify-between w-full mb-2">
+              <div className={`h-8 w-8 rounded-lg flex items-center justify-center ${
+                isPatient ? 'bg-[#0071e3] text-white font-medium' : 'bg-[#1d1d1f] text-[#86868b] border border-[#333336]'
               }`}>
                 <User className="h-4 w-4" />
               </div>
@@ -294,64 +292,60 @@ function LoginFormContent() {
                 </Badge>
               )}
             </div>
-            <span className="font-bold text-sm block text-white">Patient Portal</span>
-            <span className="text-[11px] text-slate-400 mt-0.5 line-clamp-1">
+            <span className="font-semibold text-sm block text-white">Patient Portal</span>
+            <span className="text-[11px] text-[#86868b] mt-0.5 line-clamp-1">
               Search medicines & Gemini OCR
             </span>
           </button>
 
-          {/* Pharmacy Owner Portal Button with Tactile Bounce */}
+          {/* Pharmacy Owner Portal Button */}
           <button
             type="button"
             onClick={() => handleRoleChange('Pharmacy Owner')}
-            className={`flex flex-col items-start p-4 rounded-xl transition-all text-left relative cursor-pointer active:scale-95 ${
+            className={`flex flex-col items-start p-4 rounded-xl transition-all text-left relative cursor-pointer active:scale-98 ${
               !isPatient
-                ? 'bg-gradient-to-br from-teal-950/80 to-slate-900 border-2 border-teal-500 text-white shadow-lg shadow-teal-500/10'
-                : 'border-2 border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                ? 'bg-[#1d1d1f] border border-[#424245] text-white shadow-sm'
+                : 'border border-transparent text-[#86868b] hover:text-[#f5f5f7] hover:bg-[#1d1d1f]/50'
             }`}
           >
-            <div className="flex items-center justify-between w-full mb-1.5">
-              <div className={`h-8 w-8 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110 ${
-                !isPatient ? 'bg-teal-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-400'
+            <div className="flex items-center justify-between w-full mb-2">
+              <div className={`h-8 w-8 rounded-lg flex items-center justify-center ${
+                !isPatient ? 'bg-[#0071e3] text-white font-medium' : 'bg-[#1d1d1f] text-[#86868b] border border-[#333336]'
               }`}>
                 <Store className="h-4 w-4" />
               </div>
               {!isPatient && (
-                <Badge variant="purple" className="text-[10px]">
+                <Badge variant="default" className="text-[10px]">
                   Active Portal
                 </Badge>
               )}
             </div>
-            <span className="font-bold text-sm block text-white">Pharmacy Owner</span>
-            <span className="text-[11px] text-slate-400 mt-0.5 line-clamp-1">
+            <span className="font-semibold text-sm block text-white">Pharmacy Owner</span>
+            <span className="text-[11px] text-[#86868b] mt-0.5 line-clamp-1">
               Manage stock & inventory table
             </span>
           </button>
 
         </div>
 
-        {/* Portal-Specific Features Banner (Explaining exact topics the user gets) */}
-        <div className={`p-4 rounded-xl border text-xs flex items-center gap-3 transition-colors ${
-          isPatient
-            ? 'bg-emerald-950/40 border-emerald-800/60 text-emerald-200'
-            : 'bg-teal-950/40 border-teal-800/60 text-teal-200'
-        }`}>
+        {/* Portal-Specific Features Banner */}
+        <div className="p-4 rounded-2xl border border-[#333336] bg-[#161617] text-xs flex items-center gap-3">
           {isPatient ? (
             <>
-              <Search className="h-5 w-5 shrink-0 text-emerald-400" />
+              <Search className="h-5 w-5 shrink-0 text-[#2997ff]" />
               <div>
-                <p className="font-semibold text-emerald-100">Patient Topics & Features Only:</p>
-                <p className="text-[11px] text-emerald-300/80">
+                <p className="font-semibold text-[#f5f5f7]">Patient Topics & Features Only:</p>
+                <p className="text-[11px] text-[#86868b] mt-0.5 leading-relaxed">
                   Search nearby store stock, upload doctor prescriptions for Google Cloud OCR, compute distance in km, and reserve medicine.
                 </p>
               </div>
             </>
           ) : (
             <>
-              <Store className="h-5 w-5 shrink-0 text-teal-400" />
+              <Store className="h-5 w-5 shrink-0 text-[#2997ff]" />
               <div>
-                <p className="font-semibold text-teal-100">Pharmacy Owner Topics & Features Only:</p>
-                <p className="text-[11px] text-teal-300/80">
+                <p className="font-semibold text-[#f5f5f7]">Pharmacy Owner Topics & Features Only:</p>
+                <p className="text-[11px] text-[#86868b] mt-0.5 leading-relaxed">
                   Secure pharmacy dashboard, add/edit inventory stock, set prices (₹), monitor low-stock warnings, and publish real-time stock to local patients.
                 </p>
               </div>
@@ -360,8 +354,8 @@ function LoginFormContent() {
         </div>
 
         {/* Auth Box */}
-        <Card className="border-slate-800 bg-slate-900/95 shadow-2xl backdrop-blur-md">
-          <CardHeader className="pb-3 border-b border-slate-800/80">
+        <Card className="border-[#333336] bg-[#161617] rounded-[28px] shadow-2xl">
+          <CardHeader className="pb-3 border-b border-[#333336]">
             
             {/* Method Tabs */}
             <div className="flex gap-2">
@@ -370,8 +364,8 @@ function LoginFormContent() {
                 onClick={() => { setAuthMethod('otp'); setErrorMessage(null); setSuccessMessage(null); }}
                 className={`flex-1 pb-2.5 text-xs font-semibold border-b-2 transition-colors ${
                   authMethod === 'otp'
-                    ? isPatient ? 'border-emerald-500 text-emerald-400' : 'border-teal-500 text-teal-400'
-                    : 'border-transparent text-slate-400 hover:text-slate-200'
+                    ? 'border-[#0071e3] text-[#2997ff]'
+                    : 'border-transparent text-[#86868b] hover:text-[#f5f5f7]'
                 }`}
               >
                 Email OTP
@@ -381,8 +375,8 @@ function LoginFormContent() {
                 onClick={() => { setAuthMethod('password'); setErrorMessage(null); setSuccessMessage(null); }}
                 className={`flex-1 pb-2.5 text-xs font-semibold border-b-2 transition-colors ${
                   authMethod === 'password'
-                    ? isPatient ? 'border-emerald-500 text-emerald-400' : 'border-teal-500 text-teal-400'
-                    : 'border-transparent text-slate-400 hover:text-slate-200'
+                    ? 'border-[#0071e3] text-[#2997ff]'
+                    : 'border-transparent text-[#86868b] hover:text-[#f5f5f7]'
                 }`}
               >
                 Password Login
@@ -392,8 +386,8 @@ function LoginFormContent() {
                 onClick={() => { setAuthMethod('signup'); setErrorMessage(null); setSuccessMessage(null); }}
                 className={`flex-1 pb-2.5 text-xs font-semibold border-b-2 transition-colors ${
                   authMethod === 'signup'
-                    ? isPatient ? 'border-emerald-500 text-emerald-400' : 'border-teal-500 text-teal-400'
-                    : 'border-transparent text-slate-400 hover:text-slate-200'
+                    ? 'border-[#0071e3] text-[#2997ff]'
+                    : 'border-transparent text-[#86868b] hover:text-[#f5f5f7]'
                 }`}
               >
                 Register New {role}
@@ -405,18 +399,18 @@ function LoginFormContent() {
             
             {/* Feedback Alerts */}
             {errorMessage && (
-              <div className="p-3.5 rounded-xl bg-rose-950/60 border border-rose-800 text-rose-200 text-xs flex flex-col gap-2.5">
+              <div className="p-4 rounded-2xl bg-[#ff453a]/10 border border-[#ff453a]/30 text-[#ff453a] text-xs flex flex-col gap-2.5">
                 <div className="flex items-start gap-2.5">
-                  <AlertCircle className="h-4 w-4 shrink-0 text-rose-400 mt-0.5" />
+                  <AlertCircle className="h-4 w-4 shrink-0 text-[#ff453a] mt-0.5" />
                   <span>{errorMessage}</span>
                 </div>
                 {errorMessage.includes('Google OAuth provider') && (
-                  <div className="pt-2 border-t border-rose-800/60 flex flex-col gap-2 text-[11px] text-slate-300">
+                  <div className="pt-2 border-t border-[#ff453a]/20 flex flex-col gap-2 text-[11px] text-[#f5f5f7]">
                     <p className="font-semibold text-white">How to enable Google OAuth in Supabase:</p>
-                    <ol className="list-decimal list-inside space-y-1 text-slate-300">
+                    <ol className="list-decimal list-inside space-y-1 text-[#86868b]">
                       <li>Go to <strong>Google Cloud Console</strong> &rarr; <strong>APIs & Services</strong> &rarr; <strong>Credentials</strong></li>
                       <li>Create an <strong>OAuth 2.0 Client ID</strong> (Web application)</li>
-                      <li>Set Authorized Redirect URI to: <code className="text-emerald-300 bg-slate-900 px-1 py-0.5 rounded text-[10px]">https://fdrxjzlobmomiipqknaf.supabase.co/auth/v1/callback</code></li>
+                      <li>Set Authorized Redirect URI to: <code className="text-[#2997ff] bg-[#1d1d1f] px-1 py-0.5 rounded text-[10px]">https://fdrxjzlobmomiipqknaf.supabase.co/auth/v1/callback</code></li>
                       <li>Go to <strong>Supabase Dashboard</strong> &rarr; <strong>Authentication</strong> &rarr; <strong>Providers</strong> &rarr; <strong>Google</strong></li>
                       <li>Paste Client ID & Client Secret, toggle <strong>Enable Google provider</strong> to ON, and save.</li>
                     </ol>
@@ -424,7 +418,7 @@ function LoginFormContent() {
                       <Button
                         type="button"
                         size="sm"
-                        variant="gradient"
+                        variant="default"
                         onClick={() => signInWithGoogleDemo(role)}
                         className="w-full text-xs py-1.5"
                       >
@@ -437,8 +431,8 @@ function LoginFormContent() {
             )}
 
             {successMessage && (
-              <div className="p-3.5 rounded-xl bg-emerald-950/60 border border-emerald-800 text-emerald-200 text-xs flex items-start gap-2.5">
-                <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400 mt-0.5" />
+              <div className="p-4 rounded-2xl bg-[#30d158]/10 border border-[#30d158]/30 text-[#30d158] text-xs flex items-start gap-2.5">
+                <CheckCircle2 className="h-4 w-4 shrink-0 text-[#30d158] mt-0.5" />
                 <span>{successMessage}</span>
               </div>
             )}
@@ -447,7 +441,7 @@ function LoginFormContent() {
             <Button
               type="button"
               variant="outline"
-              className="w-full flex items-center justify-center gap-3 py-2.5 border-slate-700 bg-slate-800/80 hover:bg-slate-800 text-slate-200 text-xs font-medium"
+              className="w-full flex items-center justify-center gap-3 h-11 rounded-full border border-[#424245] bg-[#1d1d1f] hover:bg-[#2c2c2e] hover:border-[#6e6e73] text-[#f5f5f7] text-xs font-medium"
               onClick={handleGoogleLogin}
               disabled={isSubmitting}
             >
@@ -473,11 +467,11 @@ function LoginFormContent() {
             </Button>
 
             <div className="relative flex items-center justify-center my-2">
-              <div className="border-t border-slate-800 w-full" />
-              <span className="bg-slate-900 px-3 text-[10px] uppercase text-slate-500 font-bold tracking-wider">
+              <div className="border-t border-[#333336] w-full" />
+              <span className="bg-[#161617] px-3 text-[10px] uppercase text-[#86868b] font-medium tracking-wider">
                 Or with Email
               </span>
-              <div className="border-t border-slate-800 w-full" />
+              <div className="border-t border-[#333336] w-full" />
             </div>
 
             {/* METHOD 1: Real Email OTP */}
@@ -486,29 +480,29 @@ function LoginFormContent() {
                 {!otpSent ? (
                   <form onSubmit={handleSendOtp} className="space-y-3.5">
                     <div>
-                      <label className="block text-xs font-medium text-slate-300 mb-1">
+                      <label className="block text-xs font-medium text-[#86868b] mb-1.5">
                         Your Email Address
                       </label>
                       <div className="relative">
-                        <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+                        <Mail className="absolute left-3 top-3.5 h-4 w-4 text-[#86868b]" />
                         <Input
                           type="email"
                           required
                           placeholder="e.g. name@gmail.com"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          className="pl-9 bg-slate-800/90 border-slate-700 text-white"
+                          className="pl-9 bg-[#1d1d1f] border-[#333336] text-white"
                         />
                       </div>
-                      <p className="text-[11px] text-slate-400 mt-1">
+                      <p className="text-[11px] text-[#86868b] mt-1.5">
                         A real 6-digit OTP code will be sent to your email inbox.
                       </p>
                     </div>
 
                     <Button
                       type="submit"
-                      variant="gradient"
-                      className="w-full"
+                      variant="default"
+                      className="w-full h-11 text-sm font-medium"
                       disabled={isSubmitting || !email.trim()}
                     >
                       <Send className="h-4 w-4 mr-2" />
@@ -518,8 +512,8 @@ function LoginFormContent() {
                 ) : (
                   <form onSubmit={handleVerifyOtp} className="space-y-3.5">
                     <div>
-                      <label className="block text-xs font-medium text-slate-300 mb-1">
-                        Enter verification code received for <strong>{email}</strong>
+                      <label className="block text-xs font-medium text-[#86868b] mb-1.5">
+                        Enter verification code received for <strong className="text-white">{email}</strong>
                       </label>
                       <Input
                         type="text"
@@ -529,14 +523,14 @@ function LoginFormContent() {
                         placeholder="••••••••"
                         value={otpToken}
                         onChange={(e) => setOtpToken(e.target.value)}
-                        className="text-center text-xl tracking-widest font-mono bg-slate-800/90 border-slate-700 text-white h-12"
+                        className="text-center text-xl tracking-widest font-mono bg-[#1d1d1f] border-[#333336] text-white h-12"
                       />
                     </div>
 
                     <Button
                       type="submit"
-                      variant="gradient"
-                      className="w-full"
+                      variant="default"
+                      className="w-full h-11 text-sm font-medium"
                       disabled={isSubmitting || otpToken.trim().length < 6}
                     >
                       <ShieldCheck className="h-4 w-4 mr-2" />
@@ -551,7 +545,7 @@ function LoginFormContent() {
                         setErrorMessage(null);
                         setSuccessMessage(null);
                       }}
-                      className="w-full text-xs text-slate-400 hover:text-white text-center transition-colors"
+                      className="w-full text-xs text-[#86868b] hover:text-white text-center transition-colors pt-1"
                     >
                       Wrong email? Click here to change email or resend
                     </button>
@@ -564,54 +558,54 @@ function LoginFormContent() {
             {authMethod === 'password' && (
               <form onSubmit={handlePasswordLogin} className="space-y-3.5">
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">
+                  <label className="block text-xs font-medium text-[#86868b] mb-1.5">
                     Email Address
                   </label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+                    <Mail className="absolute left-3 top-3.5 h-4 w-4 text-[#86868b]" />
                     <Input
                       type="email"
                       required
                       placeholder="name@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="pl-9 bg-slate-800/90 border-slate-700 text-white"
+                      className="pl-9 bg-[#1d1d1f] border-[#333336] text-white"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">
+                  <label className="block text-xs font-medium text-[#86868b] mb-1.5">
                     Password
                   </label>
                   <div className="relative">
-                    <KeyRound className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+                    <KeyRound className="absolute left-3 top-3.5 h-4 w-4 text-[#86868b]" />
                     <Input
                       type="password"
                       required
                       placeholder="••••••••"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="pl-9 bg-slate-800/90 border-slate-700 text-white"
+                      className="pl-9 bg-[#1d1d1f] border-[#333336] text-white"
                     />
                   </div>
                 </div>
 
                 <Button
                   type="submit"
-                  variant="gradient"
-                  className="w-full mt-2"
+                  variant="default"
+                  className="w-full h-11 text-sm font-medium mt-2"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? 'Signing in...' : `Sign In to ${role} Portal`}
                 </Button>
 
-                <p className="text-[11px] text-center text-slate-400 mt-2">
+                <p className="text-[11px] text-center text-[#86868b] mt-2">
                   First time setting a password or need an account?{' '}
                   <button
                     type="button"
                     onClick={() => { setAuthMethod('signup'); setErrorMessage(null); }}
-                    className="text-emerald-400 hover:underline font-semibold"
+                    className="text-[#2997ff] hover:underline font-medium"
                   >
                     Register / Set Password here
                   </button>
@@ -625,34 +619,34 @@ function LoginFormContent() {
                 {isPatient ? (
                   <>
                     <div>
-                      <label className="block text-xs font-medium text-slate-300 mb-1">
+                      <label className="block text-xs font-medium text-[#86868b] mb-1.5">
                         Your Full Name
                       </label>
                       <div className="relative">
-                        <User className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+                        <User className="absolute left-3 top-3.5 h-4 w-4 text-[#86868b]" />
                         <Input
                           type="text"
                           required
                           placeholder="e.g. Rahul Sharma"
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
-                          className="pl-9 bg-slate-800/90 border-slate-700 text-white"
+                          className="pl-9 bg-[#1d1d1f] border-[#333336] text-white"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-medium text-slate-300 mb-1">
+                      <label className="block text-xs font-medium text-[#86868b] mb-1.5">
                         Phone Number (Optional)
                       </label>
                       <div className="relative">
-                        <Phone className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+                        <Phone className="absolute left-3 top-3.5 h-4 w-4 text-[#86868b]" />
                         <Input
                           type="tel"
                           placeholder="+91 98765 43210"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
-                          className="pl-9 bg-slate-800/90 border-slate-700 text-white"
+                          className="pl-9 bg-[#1d1d1f] border-[#333336] text-white"
                         />
                       </div>
                     </div>
@@ -660,87 +654,87 @@ function LoginFormContent() {
                 ) : (
                   <>
                     <div>
-                      <label className="block text-xs font-medium text-slate-300 mb-1">
+                      <label className="block text-xs font-medium text-[#86868b] mb-1.5">
                         Pharmacy / Medical Store Name
                       </label>
                       <div className="relative">
-                        <Store className="absolute left-3 top-3 h-4 w-4 text-teal-400" />
+                        <Store className="absolute left-3 top-3.5 h-4 w-4 text-[#2997ff]" />
                         <Input
                           type="text"
                           required
                           placeholder="e.g. Apollo Pharmacy Koramangala"
                           value={pharmacyName}
                           onChange={(e) => setPharmacyName(e.target.value)}
-                          className="pl-9 bg-slate-800/90 border-slate-700 text-white"
+                          className="pl-9 bg-[#1d1d1f] border-[#333336] text-white"
                         />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-xs font-medium text-slate-300 mb-1">
+                        <label className="block text-xs font-medium text-[#86868b] mb-1.5">
                           Owner / Pharmacist Name
                         </label>
                         <div className="relative">
-                          <User className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+                          <User className="absolute left-3 top-3.5 h-4 w-4 text-[#86868b]" />
                           <Input
                             type="text"
                             required
                             placeholder="e.g. Dr. Ramesh Patel"
                             value={fullName}
                             onChange={(e) => setFullName(e.target.value)}
-                            className="pl-9 bg-slate-800/90 border-slate-700 text-white text-xs"
+                            className="pl-9 bg-[#1d1d1f] border-[#333336] text-white text-xs"
                           />
                         </div>
                       </div>
 
                       <div>
-                        <label className="block text-xs font-medium text-slate-300 mb-1">
+                        <label className="block text-xs font-medium text-[#86868b] mb-1.5">
                           Store Contact Phone
                         </label>
                         <div className="relative">
-                          <Phone className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+                          <Phone className="absolute left-3 top-3.5 h-4 w-4 text-[#86868b]" />
                           <Input
                             type="tel"
                             required
                             placeholder="+91 80 2553 4321"
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
-                            className="pl-9 bg-slate-800/90 border-slate-700 text-white text-xs"
+                            className="pl-9 bg-[#1d1d1f] border-[#333336] text-white text-xs"
                           />
                         </div>
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-medium text-slate-300 mb-1">
+                      <label className="block text-xs font-medium text-[#86868b] mb-1.5">
                         Store Street Address & Locality
                       </label>
                       <div className="relative">
-                        <MapPin className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+                        <MapPin className="absolute left-3 top-3.5 h-4 w-4 text-[#86868b]" />
                         <Input
                           type="text"
                           required
                           placeholder="e.g. 80 Feet Road, 4th Block, Koramangala, Bengaluru"
                           value={pharmacyAddress}
                           onChange={(e) => setPharmacyAddress(e.target.value)}
-                          className="pl-9 bg-slate-800/90 border-slate-700 text-white text-xs"
+                          className="pl-9 bg-[#1d1d1f] border-[#333336] text-white text-xs"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-medium text-slate-300 mb-1">
+                      <label className="block text-xs font-medium text-[#86868b] mb-1.5">
                         Drug License Number (Optional)
                       </label>
                       <div className="relative">
-                        <ShieldCheck className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+                        <ShieldCheck className="absolute left-3 top-3.5 h-4 w-4 text-[#86868b]" />
                         <Input
                           type="text"
                           placeholder="e.g. KA-BLR-102934"
                           value={pharmacyLicense}
                           onChange={(e) => setPharmacyLicense(e.target.value)}
-                          className="pl-9 bg-slate-800/90 border-slate-700 text-white text-xs"
+                          className="pl-9 bg-[#1d1d1f] border-[#333336] text-white text-xs"
                         />
                       </div>
                     </div>
@@ -748,28 +742,28 @@ function LoginFormContent() {
                 )}
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">
+                  <label className="block text-xs font-medium text-[#86868b] mb-1.5">
                     Login Email Address
                   </label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+                    <Mail className="absolute left-3 top-3.5 h-4 w-4 text-[#86868b]" />
                     <Input
                       type="email"
                       required
                       placeholder="name@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="pl-9 bg-slate-800/90 border-slate-700 text-white"
+                      className="pl-9 bg-[#1d1d1f] border-[#333336] text-white"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">
+                  <label className="block text-xs font-medium text-[#86868b] mb-1.5">
                     Create Password (min 6 characters)
                   </label>
                   <div className="relative">
-                    <KeyRound className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+                    <KeyRound className="absolute left-3 top-3.5 h-4 w-4 text-[#86868b]" />
                     <Input
                       type="password"
                       required
@@ -777,15 +771,15 @@ function LoginFormContent() {
                       placeholder="••••••••"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="pl-9 bg-slate-800/90 border-slate-700 text-white"
+                      className="pl-9 bg-[#1d1d1f] border-[#333336] text-white"
                     />
                   </div>
                 </div>
 
                 <Button
                   type="submit"
-                  variant="gradient"
-                  className="w-full mt-2"
+                  variant="default"
+                  className="w-full h-11 text-sm font-medium mt-2"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? 'Registering & Updating Supabase...' : `Register & Save ${role} Details in Supabase`}

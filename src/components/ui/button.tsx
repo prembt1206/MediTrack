@@ -9,32 +9,32 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'default', size = 'default', ...props }, ref) => {
     const baseStyles =
-      'inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.96] active:translate-y-0.5 hover:-translate-y-0.5 cursor-pointer select-none';
+      'inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0071e3] focus-visible:ring-offset-2 focus-visible:ring-offset-black disabled:pointer-events-none disabled:opacity-40 active:scale-[0.98] cursor-pointer select-none';
 
     const variants = {
       default:
-        'bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-500 hover:to-teal-500 shadow-md shadow-emerald-500/20 hover:shadow-lg hover:shadow-emerald-500/30 border border-emerald-400/20',
+        'bg-[#0071e3] text-white hover:bg-[#0077ed] active:bg-[#0062c4] shadow-sm border border-transparent',
       destructive:
-        'bg-gradient-to-r from-rose-600 to-red-600 text-white hover:from-rose-500 hover:to-red-500 shadow-md shadow-rose-500/20 hover:shadow-rose-500/30 border border-rose-400/20',
+        'bg-[#ff453a] text-white hover:bg-[#ff3b30] active:bg-[#d70015] shadow-sm border border-transparent',
       outline:
-        'border border-slate-700/80 bg-slate-900/60 hover:bg-slate-800 text-slate-200 hover:text-white hover:border-slate-600 backdrop-blur-md shadow-sm',
+        'border border-[#424245] bg-[#1d1d1f]/60 hover:bg-[#2c2c2e] hover:border-[#6e6e73] text-[#f5f5f7] active:bg-[#3a3a3c] backdrop-blur-sm shadow-sm',
       secondary:
-        'bg-slate-800/80 text-slate-200 hover:bg-slate-700 hover:text-white border border-slate-700/50 shadow-sm',
+        'bg-[#1d1d1f] text-[#f5f5f7] hover:bg-[#2c2c2e] active:bg-[#3a3a3c] border border-[#333336] shadow-sm',
       ghost:
-        'hover:bg-slate-800/60 text-slate-300 hover:text-white shadow-none border border-transparent',
+        'hover:bg-[#1d1d1f] text-[#86868b] hover:text-[#f5f5f7] active:bg-[#2c2c2e] shadow-none border border-transparent',
       link:
-        'text-emerald-400 underline-offset-4 hover:underline shadow-none p-0 h-auto hover:text-emerald-300',
+        'text-[#2997ff] underline-offset-4 hover:underline shadow-none p-0 h-auto hover:text-[#70baff]',
       gradient:
-        'bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-slate-950 font-bold hover:brightness-110 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 border border-emerald-300/30',
+        'bg-[#0071e3] text-white hover:bg-[#0077ed] active:bg-[#0062c4] shadow-sm border border-transparent',
       glow:
-        'bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-bold shadow-[0_0_25px_rgba(16,185,129,0.5)] hover:shadow-[0_0_35px_rgba(16,185,129,0.7)] border border-emerald-300/50',
+        'bg-[#0071e3] text-white hover:bg-[#0077ed] shadow-[0_0_20px_rgba(0,113,227,0.35)] hover:shadow-[0_0_25px_rgba(0,113,227,0.5)] border border-[#2997ff]/40',
     };
 
     const sizes = {
-      default: 'h-10 px-4 py-2',
-      sm: 'h-8 rounded-lg px-3 text-xs',
-      lg: 'h-11 rounded-xl px-6 text-base font-bold',
-      icon: 'h-10 w-10 p-0 rounded-xl',
+      default: 'h-10 px-5 rounded-full',
+      sm: 'h-8 px-3.5 rounded-full text-xs',
+      lg: 'h-12 px-7 rounded-full text-base font-semibold',
+      icon: 'h-10 w-10 p-0 rounded-full',
     };
 
     return (

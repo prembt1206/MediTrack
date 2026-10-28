@@ -7,19 +7,19 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
 
 function Badge({ className, variant = 'default', ...props }: BadgeProps) {
   const variants = {
-    default: 'bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800',
-    secondary: 'bg-slate-100 text-slate-800 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700',
-    destructive: 'bg-rose-100 text-rose-800 border-rose-200 dark:bg-rose-950/60 dark:text-rose-300 dark:border-rose-800',
-    outline: 'border-slate-300 text-slate-700 dark:border-slate-700 dark:text-slate-300',
-    success: 'bg-emerald-500/15 text-emerald-700 border-emerald-300 dark:text-emerald-400 dark:border-emerald-700',
-    warning: 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800',
-    purple: 'bg-indigo-100 text-indigo-800 border-indigo-200 dark:bg-indigo-950/60 dark:text-indigo-300 dark:border-indigo-800',
+    default: 'bg-[#0071e3]/15 text-[#2997ff] border-[#0071e3]/30',
+    secondary: 'bg-[#1d1d1f] text-[#86868b] border-[#333336]',
+    destructive: 'bg-[#ff453a]/15 text-[#ff453a] border-[#ff453a]/30',
+    outline: 'border-[#424245] text-[#86868b] bg-transparent',
+    success: 'bg-[#30d158]/15 text-[#30d158] border-[#30d158]/30',
+    warning: 'bg-[#ff9f0a]/15 text-[#ff9f0a] border-[#ff9f0a]/30',
+    purple: 'bg-[#bf5af2]/15 text-[#bf5af2] border-[#bf5af2]/30',
   };
 
   return (
     <div
       className={cn(
-        'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
+        'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium tracking-tight transition-colors focus:outline-none',
         variants[variant],
         className
       )}
