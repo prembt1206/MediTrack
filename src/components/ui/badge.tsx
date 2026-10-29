@@ -7,19 +7,19 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
 
 function Badge({ className, variant = 'default', ...props }: BadgeProps) {
   const variants = {
-    default: 'bg-[#0071e3]/15 text-[#2997ff] border-[#0071e3]/30',
-    secondary: 'bg-[#1d1d1f] text-[#86868b] border-[#333336]',
-    destructive: 'bg-[#ff453a]/15 text-[#ff453a] border-[#ff453a]/30',
-    outline: 'border-[#424245] text-[#86868b] bg-transparent',
-    success: 'bg-[#30d158]/15 text-[#30d158] border-[#30d158]/30',
-    warning: 'bg-[#ff9f0a]/15 text-[#ff9f0a] border-[#ff9f0a]/30',
-    purple: 'bg-[#bf5af2]/15 text-[#bf5af2] border-[#bf5af2]/30',
+    default: 'bg-[#242432] text-[#ededf3] border-[#70707d]/35',
+    secondary: 'bg-[#1e1e2a] text-[#c3c3cc] border-[#70707d]/30',
+    destructive: 'bg-[#1e1e2a] text-[#ededf3] border-[#70707d]/35',
+    outline: 'border-[#70707d]/30 text-[#c3c3cc] bg-transparent',
+    success: 'bg-[#1e1e2a] text-[#ededf3] border-[#70707d]/35',
+    warning: 'bg-[#1e1e2a] text-[#ededf3] border-[#70707d]/35',
+    purple: 'bg-[#1e1e2a] text-[#ededf3] border-[#70707d]/35',
   };
 
   return (
     <div
       className={cn(
-        'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium tracking-tight transition-colors focus:outline-none',
+        'inline-flex items-center rounded-full border px-3 py-1 text-xs font-normal tracking-[0.01em] transition-colors shadow-none',
         variants[variant],
         className
       )}

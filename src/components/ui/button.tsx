@@ -9,32 +9,33 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'default', size = 'default', ...props }, ref) => {
     const baseStyles =
-      'inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0071e3] focus-visible:ring-offset-2 focus-visible:ring-offset-black disabled:pointer-events-none disabled:opacity-40 active:scale-[0.98] cursor-pointer select-none';
+      'inline-flex items-center justify-center whitespace-nowrap text-sm font-normal transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#70707d] disabled:pointer-events-none disabled:opacity-40 cursor-pointer select-none rounded-full';
 
     const variants = {
+      // Primary conversion button: The ONLY chromatic accent permitted (#5266eb Cobalt)
       default:
-        'bg-[#0071e3] text-white hover:bg-[#0077ed] active:bg-[#0062c4] shadow-sm border border-transparent',
+        'bg-[#5266eb] text-white hover:bg-[#4355d6] active:bg-[#3846b8] border border-transparent shadow-none',
       destructive:
-        'bg-[#ff453a] text-white hover:bg-[#ff3b30] active:bg-[#d70015] shadow-sm border border-transparent',
+        'bg-[#1e1e2a] text-[#ededf3] hover:text-[#ff6b6b] hover:bg-[#281e22] hover:border-[#ff6b6b]/40 border border-[#70707d]/35 shadow-none',
       outline:
-        'border border-[#424245] bg-[#1d1d1f]/60 hover:bg-[#2c2c2e] hover:border-[#6e6e73] text-[#f5f5f7] active:bg-[#3a3a3c] backdrop-blur-sm shadow-sm',
+        'border border-[#70707d]/35 bg-[#1e1e2a] hover:bg-[#242432] hover:border-[#70707d]/60 text-[#ededf3] active:bg-[#171721] shadow-none',
       secondary:
-        'bg-[#1d1d1f] text-[#f5f5f7] hover:bg-[#2c2c2e] active:bg-[#3a3a3c] border border-[#333336] shadow-sm',
+        'bg-[#242432] text-[#ededf3] hover:bg-[#2c2c3e] active:bg-[#1a1a26] border border-[#70707d]/30 shadow-none',
       ghost:
-        'hover:bg-[#1d1d1f] text-[#86868b] hover:text-[#f5f5f7] active:bg-[#2c2c2e] shadow-none border border-transparent',
+        'hover:bg-[#1e1e2a] text-[#c3c3cc] hover:text-[#ededf3] active:bg-[#242432] shadow-none border border-transparent',
       link:
-        'text-[#2997ff] underline-offset-4 hover:underline shadow-none p-0 h-auto hover:text-[#70baff]',
+        'text-[#ededf3] underline-offset-4 hover:underline shadow-none p-0 h-auto hover:text-white',
       gradient:
-        'bg-[#0071e3] text-white hover:bg-[#0077ed] active:bg-[#0062c4] shadow-sm border border-transparent',
+        'bg-[#5266eb] text-white hover:bg-[#4355d6] active:bg-[#3846b8] shadow-none border border-transparent',
       glow:
-        'bg-[#0071e3] text-white hover:bg-[#0077ed] shadow-[0_0_20px_rgba(0,113,227,0.35)] hover:shadow-[0_0_25px_rgba(0,113,227,0.5)] border border-[#2997ff]/40',
+        'bg-[#5266eb] text-white hover:bg-[#4355d6] shadow-none border border-transparent',
     };
 
     const sizes = {
-      default: 'h-10 px-5 rounded-full',
-      sm: 'h-8 px-3.5 rounded-full text-xs',
-      lg: 'h-12 px-7 rounded-full text-base font-semibold',
-      icon: 'h-10 w-10 p-0 rounded-full',
+      default: 'h-10 px-5 text-sm',
+      sm: 'h-8 px-3.5 text-xs',
+      lg: 'h-12 px-7 text-sm font-normal',
+      icon: 'h-10 w-10 p-0',
     };
 
     return (

@@ -33,13 +33,12 @@ import {
   Phone,
   ShieldCheck,
   TrendingUp,
-  AlertCircle,
-  Edit2
+  AlertCircle
 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function PharmacyDashboardPage() {
-  const { user, loading: authLoading, switchDemoRole } = useAuth();
+  const { user, loading: authLoading } = useAuth();
 
   const [pharmacy, setPharmacy] = useState<Pharmacy | null>(null);
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
@@ -66,10 +65,8 @@ export default function PharmacyDashboardPage() {
       if (!user) return;
       setLoading(true);
       try {
-        // Fetch pharmacy for this owner or default to first pharmacy
         let pharm = await dataService.getPharmacyByOwner(user.id);
         if (!pharm) {
-          // If no pharmacy found for this owner, create or link one for smooth UX
           pharm = await dataService.createOrUpdatePharmacy({
             owner_id: user.id,
             name: `${user.fullName}'s Pharmacy`,
@@ -165,7 +162,6 @@ export default function PharmacyDashboardPage() {
     setDosage(dose);
     setQuantity(qty.toString());
     setPrice(pr.toString());
-    // 1 year from now
     const d = new Date();
     d.setFullYear(d.getFullYear() + 1);
     setExpiryDate(d.toISOString().split('T')[0]);
@@ -216,10 +212,10 @@ export default function PharmacyDashboardPage() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="min-h-screen bg-[#171721] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <RefreshCw className="h-7 w-7 animate-spin text-[#2997FF]" />
-          <p className="text-sm font-medium text-[#86868B]">Loading Pharmacy Portal...</p>
+          <RefreshCw className="h-7 w-7 animate-spin text-[#ededf3]" />
+          <p className="text-sm font-normal text-[#c3c3cc]">Loading Pharmacy Portal...</p>
         </div>
       </div>
     );
@@ -228,28 +224,28 @@ export default function PharmacyDashboardPage() {
   // Role Gate check
   if (user && user.role !== 'Pharmacy Owner') {
     return (
-      <div className="min-h-screen bg-black text-[#F5F5F7] flex flex-col">
+      <div className="min-h-screen bg-[#171721] text-[#ededf3] flex flex-col">
         <Navbar />
         <div className="flex-1 flex items-center justify-center p-4">
-          <Card className="max-w-md w-full rounded-[28px] border border-[#333336] bg-[#161617] p-8 space-y-6 text-center">
-            <div className="h-14 w-14 rounded-full bg-[#1D1D1F] border border-[#333336] text-[#FF9F0A] flex items-center justify-center mx-auto">
-              <AlertCircle className="h-7 w-7" />
+          <Card className="max-w-md w-full rounded-[12px] border border-[#70707d]/30 bg-[#1e1e2a] p-8 space-y-6 text-center shadow-none">
+            <div className="h-12 w-12 rounded-full bg-[#171721] border border-[#70707d]/30 text-[#ededf3] flex items-center justify-center mx-auto">
+              <AlertCircle className="h-6 w-6 text-[#c3c3cc]" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-white tracking-tight">
+              <h2 className="text-xl font-medium text-[#ededf3] tracking-[0.015em]">
                 Pharmacy Owner Access Required
               </h2>
-              <p className="text-xs text-[#86868B] mt-2 leading-relaxed">
-                You are currently logged in as a <strong className="text-white">{user.role}</strong>. This dashboard is restricted to verified pharmacy owners with Row Level Security.
+              <p className="text-xs text-[#c3c3cc] mt-2 leading-relaxed font-normal">
+                You are currently logged in as a <strong className="text-[#ededf3] font-normal">{user.role}</strong>. This dashboard is restricted to verified pharmacy owners with Row Level Security.
               </p>
             </div>
             <div className="space-y-3 pt-2">
               <Link href="/patient" className="block w-full">
-                <Button variant="default" className="w-full">
+                <Button variant="default" className="w-full rounded-full bg-[#5266eb] hover:bg-[#4355d6] text-white shadow-none font-normal">
                   Return to Patient Medicine Search
                 </Button>
               </Link>
-              <Link href="/login?role=Pharmacy+Owner" className="block w-full text-center text-xs text-[#86868B] hover:text-[#2997FF] transition-colors">
+              <Link href="/login?role=Pharmacy+Owner" className="block w-full text-center text-xs text-[#c3c3cc] hover:text-[#ededf3] transition-colors">
                 Sign in with a Pharmacy Owner account
               </Link>
             </div>
@@ -260,50 +256,50 @@ export default function PharmacyDashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-[#F5F5F7] flex flex-col selection:bg-[#0071E3] selection:text-white">
+    <div className="min-h-screen bg-[#171721] text-[#ededf3] flex flex-col selection:bg-[#5266eb] selection:text-white">
       <Navbar />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <main className="flex-1 max-w-[1200px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
         
         {/* Pharmacy Profile Banner */}
-        <div className="rounded-[28px] bg-[#161617] border border-[#333336] p-6 sm:p-8 text-white relative overflow-hidden">
+        <div className="rounded-[12px] bg-[#1e1e2a] border border-[#70707d]/30 p-8 text-[#ededf3] relative overflow-hidden shadow-none">
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-2.5">
               <div className="flex flex-wrap items-center gap-2">
-                <Badge variant="outline" className="bg-[#1D1D1F] text-[#30D158] border-[#333336] text-[11px] py-0.5 px-3 rounded-full">
-                  <ShieldCheck className="h-3.5 w-3.5 mr-1 text-[#30D158]" />
+                <Badge variant="outline" className="bg-[#171721] text-[#c3c3cc] border-[#70707d]/30 text-[11px] py-0.5 px-3 rounded-full font-normal shadow-none">
+                  <ShieldCheck className="h-3.5 w-3.5 mr-1 text-[#ededf3]" />
                   Verified Pharmacy Partner
                 </Badge>
-                <Badge variant="outline" className="border-[#333336] bg-[#1D1D1F] text-[#2997FF] text-[11px] py-0.5 px-3 rounded-full">
+                <Badge variant="outline" className="border-[#70707d]/30 bg-[#171721] text-[#c3c3cc] text-[11px] py-0.5 px-3 rounded-full font-normal shadow-none">
                   Supabase RLS Enabled
                 </Badge>
               </div>
 
-              <h1 className="text-2xl sm:text-4xl font-semibold tracking-tight text-white">
+              <h1 className="text-2xl sm:text-3xl font-medium tracking-[0.015em] text-[#ededf3]">
                 {pharmacy?.name || 'Apollo Pharmacy - Koramangala'}
               </h1>
 
-              <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-[#86868B] pt-1">
+              <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-[#c3c3cc] pt-1 font-normal">
                 <span className="flex items-center gap-1.5">
-                  <MapPin className="h-4 w-4 text-[#2997FF]" />
+                  <MapPin className="h-4 w-4 text-[#c3c3cc]" />
                   {pharmacy?.address || 'Koramangala 4th Block, Bengaluru'}
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Phone className="h-4 w-4 text-[#2997FF]" />
+                  <Phone className="h-4 w-4 text-[#c3c3cc]" />
                   {pharmacy?.phone || '+91 80 2553 4321'}
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Store className="h-4 w-4 text-[#2997FF]" />
+                  <Store className="h-4 w-4 text-[#c3c3cc]" />
                   License: {pharmacy?.license_number || 'KA-B1-102934'}
                 </span>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="text-right bg-black/60 px-4 py-2.5 rounded-2xl border border-[#333336]">
-                <p className="text-[11px] uppercase tracking-wider text-[#86868B] font-medium">Live Operating Status</p>
-                <p className="text-sm font-semibold text-white flex items-center justify-end gap-1.5 mt-0.5">
-                  <span className="h-2 w-2 rounded-full bg-[#30D158]" />
+              <div className="text-right bg-[#171721] px-4 py-2.5 rounded-[8px] border border-[#70707d]/30">
+                <p className="text-[11px] uppercase tracking-wider text-[#c3c3cc] font-normal">Live Operating Status</p>
+                <p className="text-sm font-normal text-[#ededf3] flex items-center justify-end gap-1.5 mt-0.5">
+                  <span className="h-2 w-2 rounded-full bg-[#ededf3]" />
                   {pharmacy?.opening_hours || '24 Hours Open'}
                 </p>
               </div>
@@ -313,46 +309,46 @@ export default function PharmacyDashboardPage() {
 
         {/* Stock KPI Summary Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="rounded-[28px] p-6 flex items-center justify-between border-[#333336] bg-[#161617] hover:border-[#424245] transition-all">
+          <Card className="rounded-[12px] p-8 flex items-center justify-between border border-[#70707d]/30 bg-[#1e1e2a] hover:border-[#70707d]/50 transition-colors shadow-none">
             <div>
-              <p className="text-xs font-medium text-[#86868B] uppercase tracking-wider">Total SKUs</p>
-              <h3 className="text-2xl sm:text-3xl font-semibold text-white tracking-tight mt-1">{totalSKUs}</h3>
-              <p className="text-[11px] text-[#86868B] mt-0.5">Cataloged medicines</p>
+              <p className="text-xs font-normal text-[#c3c3cc] uppercase tracking-wider">Total SKUs</p>
+              <h3 className="text-2xl sm:text-3xl font-medium text-[#ededf3] tracking-[0.015em] mt-1">{totalSKUs}</h3>
+              <p className="text-[11px] text-[#c3c3cc] mt-0.5 font-normal">Cataloged medicines</p>
             </div>
-            <div className="h-12 w-12 rounded-2xl bg-[#1D1D1F] border border-[#333336] text-[#2997FF] flex items-center justify-center">
+            <div className="h-11 w-11 rounded-full bg-[#171721] border border-[#70707d]/30 text-[#ededf3] flex items-center justify-center">
               <Package className="h-5 w-5" />
             </div>
           </Card>
 
-          <Card className="rounded-[28px] p-6 flex items-center justify-between border-[#333336] bg-[#161617] hover:border-[#424245] transition-all">
+          <Card className="rounded-[12px] p-8 flex items-center justify-between border border-[#70707d]/30 bg-[#1e1e2a] hover:border-[#70707d]/50 transition-colors shadow-none">
             <div>
-              <p className="text-xs font-medium text-[#86868B] uppercase tracking-wider">Total Units</p>
-              <h3 className="text-2xl sm:text-3xl font-semibold text-white tracking-tight mt-1">{totalUnits}</h3>
-              <p className="text-[11px] text-[#86868B] mt-0.5">In physical stock</p>
+              <p className="text-xs font-normal text-[#c3c3cc] uppercase tracking-wider">Total Units</p>
+              <h3 className="text-2xl sm:text-3xl font-medium text-[#ededf3] tracking-[0.015em] mt-1">{totalUnits}</h3>
+              <p className="text-[11px] text-[#c3c3cc] mt-0.5 font-normal">In physical stock</p>
             </div>
-            <div className="h-12 w-12 rounded-2xl bg-[#1D1D1F] border border-[#333336] text-[#30D158] flex items-center justify-center">
+            <div className="h-11 w-11 rounded-full bg-[#171721] border border-[#70707d]/30 text-[#ededf3] flex items-center justify-center">
               <TrendingUp className="h-5 w-5" />
             </div>
           </Card>
 
-          <Card className="rounded-[28px] p-6 flex items-center justify-between border-[#333336] bg-[#161617] hover:border-[#424245] transition-all">
+          <Card className="rounded-[12px] p-8 flex items-center justify-between border border-[#70707d]/30 bg-[#1e1e2a] hover:border-[#70707d]/50 transition-colors shadow-none">
             <div>
-              <p className="text-xs font-medium text-[#86868B] uppercase tracking-wider">Low Stock</p>
-              <h3 className="text-2xl sm:text-3xl font-semibold text-[#FF9F0A] tracking-tight mt-1">{lowStockCount}</h3>
-              <p className="text-[11px] text-[#86868B] mt-0.5">&lt; 30 units left</p>
+              <p className="text-xs font-normal text-[#c3c3cc] uppercase tracking-wider">Low Stock</p>
+              <h3 className="text-2xl sm:text-3xl font-medium text-[#ededf3] tracking-[0.015em] mt-1">{lowStockCount}</h3>
+              <p className="text-[11px] text-[#c3c3cc] mt-0.5 font-normal">&lt; 30 units left</p>
             </div>
-            <div className="h-12 w-12 rounded-2xl bg-[#1D1D1F] border border-[#333336] text-[#FF9F0A] flex items-center justify-center">
+            <div className="h-11 w-11 rounded-full bg-[#171721] border border-[#70707d]/30 text-[#ededf3] flex items-center justify-center">
               <AlertTriangle className="h-5 w-5" />
             </div>
           </Card>
 
-          <Card className="rounded-[28px] p-6 flex items-center justify-between border-[#333336] bg-[#161617] hover:border-[#424245] transition-all">
+          <Card className="rounded-[12px] p-8 flex items-center justify-between border border-[#70707d]/30 bg-[#1e1e2a] hover:border-[#70707d]/50 transition-colors shadow-none">
             <div>
-              <p className="text-xs font-medium text-[#86868B] uppercase tracking-wider">Out of Stock</p>
-              <h3 className="text-2xl sm:text-3xl font-semibold text-[#FF453A] tracking-tight mt-1">{outOfStockCount}</h3>
-              <p className="text-[11px] text-[#86868B] mt-0.5">Needs restock</p>
+              <p className="text-xs font-normal text-[#c3c3cc] uppercase tracking-wider">Out of Stock</p>
+              <h3 className="text-2xl sm:text-3xl font-medium text-[#ededf3] tracking-[0.015em] mt-1">{outOfStockCount}</h3>
+              <p className="text-[11px] text-[#c3c3cc] mt-0.5 font-normal">Needs restock</p>
             </div>
-            <div className="h-12 w-12 rounded-2xl bg-[#1D1D1F] border border-[#333336] text-[#FF453A] flex items-center justify-center">
+            <div className="h-11 w-11 rounded-full bg-[#171721] border border-[#70707d]/30 text-[#ededf3] flex items-center justify-center">
               <AlertCircle className="h-5 w-5" />
             </div>
           </Card>
@@ -362,92 +358,92 @@ export default function PharmacyDashboardPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
           {/* Supply Form (Left column - 1/3) */}
-          <Card className="rounded-[28px] border-[#333336] bg-[#161617] overflow-hidden lg:col-span-1 h-fit">
-            <CardHeader className="p-6 pb-4 border-b border-[#232326]">
+          <Card className="rounded-[12px] border border-[#70707d]/30 bg-[#1e1e2a] overflow-hidden lg:col-span-1 h-fit shadow-none p-8">
+            <CardHeader className="p-0 pb-4 border-b border-[#70707d]/25">
               <div className="flex items-center gap-2">
-                <PlusCircle className="h-5 w-5 text-[#2997FF]" />
-                <CardTitle className="text-lg font-semibold text-white tracking-tight">Add New Inventory</CardTitle>
+                <PlusCircle className="h-5 w-5 text-[#c3c3cc]" />
+                <CardTitle className="text-lg font-medium text-[#ededf3] tracking-[0.015em]">Add New Inventory</CardTitle>
               </div>
-              <CardDescription className="text-xs text-[#86868B] mt-1">
+              <CardDescription className="text-xs text-[#c3c3cc] mt-1 font-normal">
                 Sync medicine quantity, price, and expiry to live database.
               </CardDescription>
             </CardHeader>
 
-            <CardContent className="p-6 space-y-4">
+            <CardContent className="p-0 pt-6 space-y-4">
               {/* Form Feedback Alerts */}
               {formSuccess && (
-                <div className="p-3.5 rounded-2xl bg-[#1D1D1F] border border-[#30D158]/40 text-[#30D158] text-xs flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-[#30D158]" />
+                <div className="p-3.5 rounded-[8px] bg-[#242432] border border-[#70707d]/40 text-[#ededf3] text-xs flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-[#ededf3]" />
                   <span>{formSuccess}</span>
                 </div>
               )}
               {formError && (
-                <div className="p-3.5 rounded-2xl bg-[#1D1D1F] border border-[#FF453A]/40 text-[#FF453A] text-xs flex items-center gap-2">
-                  <AlertCircle className="h-4 w-4 shrink-0 text-[#FF453A]" />
+                <div className="p-3.5 rounded-[8px] bg-[#242432] border border-[#70707d]/40 text-[#ededf3] text-xs flex items-center gap-2">
+                  <AlertCircle className="h-4 w-4 shrink-0 text-[#c3c3cc]" />
                   <span>{formError}</span>
                 </div>
               )}
 
-              {/* Fast presets for hackathon demo with Apple Pills */}
+              {/* Fast presets for hackathon demo with strict pill buttons */}
               <div>
-                <label className="block text-[11px] font-semibold uppercase text-[#86868B] mb-2 flex items-center gap-1.5">
-                  <Sparkles className="h-3 w-3 text-[#FF9F0A]" />
+                <label className="block text-[11px] font-normal uppercase text-[#c3c3cc] mb-2 flex items-center gap-1.5">
+                  <Sparkles className="h-3 w-3 text-[#c3c3cc]" />
                   Quick Fill Demo Presets:
                 </label>
                 <div className="flex flex-wrap gap-2">
                   <button
                     type="button"
                     onClick={() => applyPreset('Dolo 650', 'Paracetamol', '650mg tablet', 120, 32.5)}
-                    className="text-[11px] px-3 py-1 rounded-full bg-[#1D1D1F] hover:bg-[#2C2C2E] border border-[#333336] text-[#A1A1A6] hover:text-white active:scale-95 transition-all cursor-pointer"
+                    className="text-[11px] px-3 py-1 rounded-full bg-[#171721] hover:bg-[#242432] border border-[#70707d]/30 text-[#c3c3cc] hover:text-[#ededf3] transition-colors cursor-pointer shadow-none font-normal"
                   >
                     + Dolo 650
                   </button>
                   <button
                     type="button"
                     onClick={() => applyPreset('Tazloc AM 40/5', 'Telmisartan + Amlodipine', '40mg / 5mg tablet', 85, 185.0)}
-                    className="text-[11px] px-3 py-1 rounded-full bg-[#1D1D1F] hover:bg-[#2C2C2E] border border-[#333336] text-[#A1A1A6] hover:text-white active:scale-95 transition-all cursor-pointer"
+                    className="text-[11px] px-3 py-1 rounded-full bg-[#171721] hover:bg-[#242432] border border-[#70707d]/30 text-[#c3c3cc] hover:text-[#ededf3] transition-colors cursor-pointer shadow-none font-normal"
                   >
                     + Tazloc AM 40/5
                   </button>
                   <button
                     type="button"
                     onClick={() => applyPreset('TriAzulix DS-2', 'Glimepiride + Metformin + Pioglitazone', 'DS-2 (2mg + 500mg + 15mg)', 60, 240.0)}
-                    className="text-[11px] px-3 py-1 rounded-full bg-[#1D1D1F] hover:bg-[#2C2C2E] border border-[#333336] text-[#A1A1A6] hover:text-white active:scale-95 transition-all cursor-pointer"
+                    className="text-[11px] px-3 py-1 rounded-full bg-[#171721] hover:bg-[#242432] border border-[#70707d]/30 text-[#c3c3cc] hover:text-[#ededf3] transition-colors cursor-pointer shadow-none font-normal"
                   >
                     + TriAzulix DS-2
                   </button>
                   <button
                     type="button"
                     onClick={() => applyPreset('Istamet XR', 'Sitagliptin + Metformin Hydrochloride Extended Release', '100/1000mg tablet', 45, 310.0)}
-                    className="text-[11px] px-3 py-1 rounded-full bg-[#1D1D1F] hover:bg-[#2C2C2E] border border-[#333336] text-[#A1A1A6] hover:text-white active:scale-95 transition-all cursor-pointer"
+                    className="text-[11px] px-3 py-1 rounded-full bg-[#171721] hover:bg-[#242432] border border-[#70707d]/30 text-[#c3c3cc] hover:text-[#ededf3] transition-colors cursor-pointer shadow-none font-normal"
                   >
                     + Istamet XR
                   </button>
                   <button
                     type="button"
                     onClick={() => applyPreset('Cap Pregalin', 'Pregabalin', '75mg capsule', 50, 215.0)}
-                    className="text-[11px] px-3 py-1 rounded-full bg-[#1D1D1F] hover:bg-[#2C2C2E] border border-[#333336] text-[#A1A1A6] hover:text-white active:scale-95 transition-all cursor-pointer"
+                    className="text-[11px] px-3 py-1 rounded-full bg-[#171721] hover:bg-[#242432] border border-[#70707d]/30 text-[#c3c3cc] hover:text-[#ededf3] transition-colors cursor-pointer shadow-none font-normal"
                   >
                     + Cap Pregalin
                   </button>
                   <button
                     type="button"
                     onClick={() => applyPreset('Mecobal SL 1500', 'Methylcobalamin (Mecobalamin)', '1500mcg sublingual tablet', 110, 165.0)}
-                    className="text-[11px] px-3 py-1 rounded-full bg-[#1D1D1F] hover:bg-[#2C2C2E] border border-[#333336] text-[#A1A1A6] hover:text-white active:scale-95 transition-all cursor-pointer"
+                    className="text-[11px] px-3 py-1 rounded-full bg-[#171721] hover:bg-[#242432] border border-[#70707d]/30 text-[#c3c3cc] hover:text-[#ededf3] transition-colors cursor-pointer shadow-none font-normal"
                   >
                     + Mecobal SL
                   </button>
                   <button
                     type="button"
                     onClick={() => applyPreset('Augmentin 625 Duo', 'Amoxicillin + Clavulanic Acid', '625mg tablet', 50, 204.0)}
-                    className="text-[11px] px-3 py-1 rounded-full bg-[#1D1D1F] hover:bg-[#2C2C2E] border border-[#333336] text-[#A1A1A6] hover:text-white active:scale-95 transition-all cursor-pointer"
+                    className="text-[11px] px-3 py-1 rounded-full bg-[#171721] hover:bg-[#242432] border border-[#70707d]/30 text-[#c3c3cc] hover:text-[#ededf3] transition-colors cursor-pointer shadow-none font-normal"
                   >
                     + Augmentin
                   </button>
                   <button
                     type="button"
                     onClick={() => applyPreset('Pan 40', 'Pantoprazole', '40mg tablet', 90, 155.0)}
-                    className="text-[11px] px-3 py-1 rounded-full bg-[#1D1D1F] hover:bg-[#2C2C2E] border border-[#333336] text-[#A1A1A6] hover:text-white active:scale-95 transition-all cursor-pointer"
+                    className="text-[11px] px-3 py-1 rounded-full bg-[#171721] hover:bg-[#242432] border border-[#70707d]/30 text-[#c3c3cc] hover:text-[#ededf3] transition-colors cursor-pointer shadow-none font-normal"
                   >
                     + Pan 40
                   </button>
@@ -456,7 +452,7 @@ export default function PharmacyDashboardPage() {
 
               <form onSubmit={handleAddItem} className="space-y-3.5 pt-1">
                 <div>
-                  <label className="block text-xs font-medium text-[#F5F5F7] mb-1.5">
+                  <label className="block text-xs font-normal text-[#ededf3] mb-1.5">
                     Medicine Brand Name *
                   </label>
                   <Input
@@ -464,37 +460,37 @@ export default function PharmacyDashboardPage() {
                     placeholder="e.g. Dolo 650, Azithral 500"
                     value={medicineName}
                     onChange={(e) => setMedicineName(e.target.value)}
-                    className="bg-[#1D1D1F] border-[#333336] text-[#F5F5F7] placeholder:text-[#6E6E73] rounded-xl focus:border-[#2997FF]"
+                    className="bg-[#171721] border-[#70707d]/30 text-[#ededf3] placeholder:text-[#c3c3cc]/50 rounded-full focus:border-[#70707d]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-[#F5F5F7] mb-1.5">
+                  <label className="block text-xs font-normal text-[#ededf3] mb-1.5">
                     Generic / Active Formula
                   </label>
                   <Input
                     placeholder="e.g. Paracetamol, Azithromycin"
                     value={genericName}
                     onChange={(e) => setGenericName(e.target.value)}
-                    className="bg-[#1D1D1F] border-[#333336] text-[#F5F5F7] placeholder:text-[#6E6E73] rounded-xl focus:border-[#2997FF]"
+                    className="bg-[#171721] border-[#70707d]/30 text-[#ededf3] placeholder:text-[#c3c3cc]/50 rounded-full focus:border-[#70707d]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-[#F5F5F7] mb-1.5">
+                  <label className="block text-xs font-normal text-[#ededf3] mb-1.5">
                     Dosage & Packaging
                   </label>
                   <Input
                     placeholder="e.g. 650mg tablet (Strip of 15)"
                     value={dosage}
                     onChange={(e) => setDosage(e.target.value)}
-                    className="bg-[#1D1D1F] border-[#333336] text-[#F5F5F7] placeholder:text-[#6E6E73] rounded-xl focus:border-[#2997FF]"
+                    className="bg-[#171721] border-[#70707d]/30 text-[#ededf3] placeholder:text-[#c3c3cc]/50 rounded-full focus:border-[#70707d]"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-medium text-[#F5F5F7] mb-1.5">
+                    <label className="block text-xs font-normal text-[#ededf3] mb-1.5">
                       Quantity (Units) *
                     </label>
                     <Input
@@ -504,12 +500,12 @@ export default function PharmacyDashboardPage() {
                       placeholder="100"
                       value={quantity}
                       onChange={(e) => setQuantity(e.target.value)}
-                      className="bg-[#1D1D1F] border-[#333336] text-[#F5F5F7] placeholder:text-[#6E6E73] rounded-xl focus:border-[#2997FF]"
+                      className="bg-[#171721] border-[#70707d]/30 text-[#ededf3] placeholder:text-[#c3c3cc]/50 rounded-full focus:border-[#70707d]"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium text-[#F5F5F7] mb-1.5">
+                    <label className="block text-xs font-normal text-[#ededf3] mb-1.5">
                       Price (₹ INR) *
                     </label>
                     <Input
@@ -520,13 +516,13 @@ export default function PharmacyDashboardPage() {
                       placeholder="35.00"
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
-                      className="bg-[#1D1D1F] border-[#333336] text-[#F5F5F7] placeholder:text-[#6E6E73] rounded-xl focus:border-[#2997FF]"
+                      className="bg-[#171721] border-[#70707d]/30 text-[#ededf3] placeholder:text-[#c3c3cc]/50 rounded-full focus:border-[#70707d]"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-[#F5F5F7] mb-1.5">
+                  <label className="block text-xs font-normal text-[#ededf3] mb-1.5">
                     Expiry Date *
                   </label>
                   <Input
@@ -534,14 +530,15 @@ export default function PharmacyDashboardPage() {
                     required
                     value={expiryDate}
                     onChange={(e) => setExpiryDate(e.target.value)}
-                    className="bg-[#1D1D1F] border-[#333336] text-[#F5F5F7] placeholder:text-[#6E6E73] rounded-xl focus:border-[#2997FF]"
+                    className="bg-[#171721] border-[#70707d]/30 text-[#ededf3] placeholder:text-[#c3c3cc]/50 rounded-full focus:border-[#70707d]"
                   />
                 </div>
 
+                {/* Primary Conversion Button: Single Cobalt #5266eb CTA */}
                 <Button
                   type="submit"
                   variant="default"
-                  className="w-full mt-3 h-11"
+                  className="w-full mt-3 h-11 rounded-full bg-[#5266eb] hover:bg-[#4355d6] text-white shadow-none font-normal"
                   disabled={isSubmitting}
                 >
                   <PlusCircle className="h-4 w-4 mr-2" />
@@ -557,45 +554,45 @@ export default function PharmacyDashboardPage() {
             {/* Table Toolbar */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
               <div className="relative flex-1">
-                <Search className="absolute left-3.5 top-3 h-4 w-4 text-[#86868B]" />
+                <Search className="absolute left-3.5 top-3 h-4 w-4 text-[#c3c3cc]" />
                 <Input
                   placeholder="Filter by medicine name or generic composition..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 h-10 bg-[#161617] border-[#333336] text-[#F5F5F7] placeholder:text-[#86868B] rounded-full focus:border-[#2997FF]"
+                  className="pl-10 h-10 bg-[#1e1e2a] border-[#70707d]/30 text-[#ededf3] placeholder:text-[#c3c3cc]/50 rounded-full focus:border-[#70707d]"
                 />
               </div>
 
-              <div className="text-xs text-[#86868B] flex items-center gap-2 self-end sm:self-auto font-medium">
+              <div className="text-xs text-[#c3c3cc] flex items-center gap-2 self-end sm:self-auto font-normal">
                 <span>Showing {filteredInventory.length} of {inventory.length} items</span>
               </div>
             </div>
 
-            {/* Apple Data Table */}
-            <Card className="rounded-[28px] border-[#333336] bg-[#161617] overflow-hidden">
+            {/* Flat Alpine Data Table */}
+            <Card className="rounded-[12px] border border-[#70707d]/30 bg-[#1e1e2a] overflow-hidden shadow-none p-0">
               {loading ? (
-                <div className="p-12 text-center text-[#86868B] flex flex-col items-center gap-3">
-                  <RefreshCw className="h-6 w-6 animate-spin text-[#2997FF]" />
-                  <p className="text-sm">Fetching your live stock from Supabase...</p>
+                <div className="p-12 text-center text-[#c3c3cc] flex flex-col items-center gap-3">
+                  <RefreshCw className="h-6 w-6 animate-spin text-[#ededf3]" />
+                  <p className="text-sm font-normal">Fetching your live stock from Supabase...</p>
                 </div>
               ) : filteredInventory.length === 0 ? (
-                <div className="p-12 text-center text-[#86868B]">
-                  <Package className="h-10 w-10 mx-auto text-[#6E6E73] mb-2" />
-                  <h4 className="font-semibold text-white">No medicines found</h4>
-                  <p className="text-xs text-[#86868B] mt-1">
+                <div className="p-12 text-center text-[#c3c3cc]">
+                  <Package className="h-10 w-10 mx-auto text-[#70707d] mb-2" />
+                  <h4 className="font-medium text-[#ededf3]">No medicines found</h4>
+                  <p className="text-xs text-[#c3c3cc] mt-1 font-normal">
                     {searchQuery ? 'Try matching another name' : 'Add your first medicine using the form on the left'}
                   </p>
                 </div>
               ) : (
                 <Table>
                   <TableHeader>
-                    <TableRow className="border-b border-[#232326] hover:bg-transparent">
-                      <TableHead className="text-[#86868B] text-xs font-medium">Medicine & Composition</TableHead>
-                      <TableHead className="text-[#86868B] text-xs font-medium">Dosage</TableHead>
-                      <TableHead className="text-[#86868B] text-xs font-medium">Current Stock</TableHead>
-                      <TableHead className="text-[#86868B] text-xs font-medium">Price</TableHead>
-                      <TableHead className="text-[#86868B] text-xs font-medium">Expiry Date</TableHead>
-                      <TableHead className="text-right text-[#86868B] text-xs font-medium">Manage</TableHead>
+                    <TableRow className="border-b border-[#70707d]/25 hover:bg-transparent">
+                      <TableHead className="text-[#c3c3cc] text-xs font-normal">Medicine & Composition</TableHead>
+                      <TableHead className="text-[#c3c3cc] text-xs font-normal">Dosage</TableHead>
+                      <TableHead className="text-[#c3c3cc] text-xs font-normal">Current Stock</TableHead>
+                      <TableHead className="text-[#c3c3cc] text-xs font-normal">Price</TableHead>
+                      <TableHead className="text-[#c3c3cc] text-xs font-normal">Expiry Date</TableHead>
+                      <TableHead className="text-right text-[#c3c3cc] text-xs font-normal">Manage</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -604,27 +601,27 @@ export default function PharmacyDashboardPage() {
                       const isOut = item.quantity === 0;
 
                       return (
-                        <TableRow key={item.id} className="border-b border-[#232326] hover:bg-[#1D1D1F]/50 transition-colors">
-                          <TableCell className="font-medium">
-                            <div className="text-sm font-semibold text-white">
+                        <TableRow key={item.id} className="border-b border-[#70707d]/20 hover:bg-[#242432]/60 transition-colors">
+                          <TableCell className="font-normal">
+                            <div className="text-sm font-medium text-[#ededf3]">
                               {item.medicine_name}
                             </div>
                             {item.generic_name && (
-                              <div className="text-xs text-[#86868B]">
+                              <div className="text-xs text-[#c3c3cc]">
                                 {item.generic_name}
                               </div>
                             )}
                           </TableCell>
 
-                          <TableCell className="text-xs text-[#A1A1A6]">
+                          <TableCell className="text-xs text-[#c3c3cc]">
                             {item.dosage || 'Standard'}
                           </TableCell>
 
                           <TableCell>
                             <div className="flex items-center gap-2">
                               <Badge
-                                variant={isOut ? 'destructive' : isLow ? 'warning' : 'success'}
-                                className="text-xs font-semibold"
+                                variant="secondary"
+                                className="text-xs font-normal rounded-full border-[#70707d]/30 bg-[#171721] text-[#ededf3]"
                               >
                                 {isOut ? '0 (Out)' : `${item.quantity} units`}
                               </Badge>
@@ -636,7 +633,7 @@ export default function PharmacyDashboardPage() {
                                   onClick={() => handleAdjustQuantity(item, -10)}
                                   disabled={actionLoadingId === item.id || item.quantity <= 0}
                                   title="Decrease 10 units"
-                                  className="h-7 w-7 rounded-full bg-[#1D1D1F] hover:bg-[#2C2C2E] active:scale-90 text-xs font-semibold text-[#F5F5F7] border border-[#333336] flex items-center justify-center disabled:opacity-30 transition-all cursor-pointer"
+                                  className="h-7 w-7 rounded-full bg-[#171721] hover:bg-[#242432] text-xs font-normal text-[#ededf3] border border-[#70707d]/30 flex items-center justify-center disabled:opacity-30 transition-colors cursor-pointer shadow-none"
                                 >
                                   -10
                                 </button>
@@ -645,7 +642,7 @@ export default function PharmacyDashboardPage() {
                                   onClick={() => handleAdjustQuantity(item, 10)}
                                   disabled={actionLoadingId === item.id}
                                   title="Increase 10 units"
-                                  className="h-7 w-7 rounded-full bg-[#1D1D1F] hover:bg-[#2C2C2E] active:scale-90 text-xs font-semibold text-[#30D158] border border-[#333336] flex items-center justify-center disabled:opacity-30 transition-all cursor-pointer"
+                                  className="h-7 w-7 rounded-full bg-[#171721] hover:bg-[#242432] text-xs font-normal text-[#ededf3] border border-[#70707d]/30 flex items-center justify-center disabled:opacity-30 transition-colors cursor-pointer shadow-none"
                                 >
                                   +10
                                 </button>
@@ -653,11 +650,11 @@ export default function PharmacyDashboardPage() {
                             </div>
                           </TableCell>
 
-                          <TableCell className="font-semibold text-white">
+                          <TableCell className="font-normal text-[#ededf3]">
                             {formatCurrency(Number(item.price))}
                           </TableCell>
 
-                          <TableCell className="text-xs text-[#86868B]">
+                          <TableCell className="text-xs text-[#c3c3cc]">
                             {formatDate(item.expiry_date)}
                           </TableCell>
 
@@ -667,7 +664,7 @@ export default function PharmacyDashboardPage() {
                               size="sm"
                               onClick={() => handleDeleteItem(item.id)}
                               disabled={actionLoadingId === item.id}
-                              className="text-[#FF453A] hover:text-[#FF453A] hover:bg-[#FF453A]/10 h-8 w-8 p-0 rounded-full active:scale-90 transition-all"
+                              className="text-[#c3c3cc] hover:text-[#ededf3] hover:bg-[#171721] h-8 w-8 p-0 rounded-full transition-colors"
                               title="Delete Item"
                             >
                               <Trash2 className="h-4 w-4" />

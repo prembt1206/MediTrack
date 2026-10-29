@@ -6,7 +6,7 @@ const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElemen
     <div
       ref={ref}
       className={cn(
-        'rounded-[28px] border border-[#333336] bg-[#161617] text-[#f5f5f7] transition-all duration-200',
+        'rounded-[12px] border border-[#70707d]/30 bg-[#1e1e2a] text-[#ededf3] shadow-none transition-colors duration-150',
         className
       )}
       {...props}
@@ -17,7 +17,7 @@ Card.displayName = 'Card';
 
 const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn('flex flex-col space-y-2 p-6 sm:p-7', className)} {...props} />
+    <div ref={ref} className={cn('flex flex-col space-y-2 p-8', className)} {...props} />
   )
 );
 CardHeader.displayName = 'CardHeader';
@@ -26,7 +26,7 @@ const CardTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTML
   ({ className, ...props }, ref) => (
     <h3
       ref={ref}
-      className={cn('text-xl font-semibold leading-tight tracking-tight text-[#f5f5f7]', className)}
+      className={cn('text-xl font-medium leading-[1.2] tracking-[0.015em] text-[#ededf3]', className)}
       {...props}
     />
   )
@@ -35,21 +35,21 @@ CardTitle.displayName = 'CardTitle';
 
 const CardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
   ({ className, ...props }, ref) => (
-    <p ref={ref} className={cn('text-sm text-[#86868b] leading-relaxed', className)} {...props} />
+    <p ref={ref} className={cn('text-sm text-[#c3c3cc] leading-normal font-normal', className)} {...props} />
   )
 );
 CardDescription.displayName = 'CardDescription';
 
 const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
+    <div ref={ref} className={cn('p-8 pt-0', className)} {...props} />
   )
 );
 CardContent.displayName = 'CardContent';
 
 const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn('flex items-center p-6 pt-0', className)} {...props} />
+    <div ref={ref} className={cn('flex items-center p-8 pt-0', className)} {...props} />
   )
 );
 CardFooter.displayName = 'CardFooter';
