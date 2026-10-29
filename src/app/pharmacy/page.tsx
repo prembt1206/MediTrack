@@ -215,7 +215,7 @@ export default function PharmacyDashboardPage() {
       <div className="min-h-screen bg-[#171721] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <RefreshCw className="h-7 w-7 animate-spin text-[#ededf3]" />
-          <p className="text-sm font-normal text-[#c3c3cc]">Loading Pharmacy Portal...</p>
+          <p className="text-base font-normal text-[#c3c3cc]">Loading Pharmacy Portal...</p>
         </div>
       </div>
     );
@@ -227,25 +227,25 @@ export default function PharmacyDashboardPage() {
       <div className="min-h-screen bg-[#171721] text-[#ededf3] flex flex-col">
         <Navbar />
         <div className="flex-1 flex items-center justify-center p-4">
-          <Card className="max-w-md w-full rounded-[12px] border border-[#70707d]/30 bg-[#1e1e2a] p-8 space-y-6 text-center shadow-none">
-            <div className="h-12 w-12 rounded-full bg-[#171721] border border-[#70707d]/30 text-[#ededf3] flex items-center justify-center mx-auto">
-              <AlertCircle className="h-6 w-6 text-[#c3c3cc]" />
+          <Card className="max-w-md w-full rounded-[12px] p-[32px] bg-[#1e1e2a] space-y-6 text-center shadow-none">
+            <div className="h-12 w-12 rounded-[40px] bg-[#272735] text-[#ededf3] flex items-center justify-center mx-auto">
+              <AlertCircle className="h-6 w-6 text-[#ededf3]" />
             </div>
             <div>
-              <h2 className="text-xl font-medium text-[#ededf3] tracking-[0.015em]">
+              <h2 className="text-[28px] font-[480] text-[#ededf3] tracking-[0.42px] leading-[1.2]">
                 Pharmacy Owner Access Required
               </h2>
-              <p className="text-xs text-[#c3c3cc] mt-2 leading-relaxed font-normal">
-                You are currently logged in as a <strong className="text-[#ededf3] font-normal">{user.role}</strong>. This dashboard is restricted to verified pharmacy owners with Row Level Security.
+              <p className="text-base text-[#c3c3cc] mt-2 leading-[1.5] font-normal">
+                You are currently logged in as a <strong className="text-[#ededf3] font-[480]">{user.role}</strong>. This dashboard is restricted to verified pharmacy owners with Row Level Security.
               </p>
             </div>
             <div className="space-y-3 pt-2">
               <Link href="/patient" className="block w-full">
-                <Button variant="default" className="w-full rounded-full bg-[#5266eb] hover:bg-[#4355d6] text-white shadow-none font-normal">
+                <Button variant="default" className="w-full rounded-[32px] bg-[#5266eb] hover:bg-[#4355d6] text-white shadow-none font-normal border-0 text-base">
                   Return to Patient Medicine Search
                 </Button>
               </Link>
-              <Link href="/login?role=Pharmacy+Owner" className="block w-full text-center text-xs text-[#c3c3cc] hover:text-[#ededf3] transition-colors">
+              <Link href="/login?role=Pharmacy+Owner" className="block w-full text-center text-sm text-[#c3c3cc] hover:text-[#ededf3] transition-colors">
                 Sign in with a Pharmacy Owner account
               </Link>
             </div>
@@ -259,47 +259,47 @@ export default function PharmacyDashboardPage() {
     <div className="min-h-screen bg-[#171721] text-[#ededf3] flex flex-col selection:bg-[#5266eb] selection:text-white">
       <Navbar />
 
-      <main className="flex-1 max-w-[1200px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+      <main className="flex-1 max-w-[1200px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-[72px] space-y-[72px]">
         
-        {/* Pharmacy Profile Banner */}
-        <div className="rounded-[12px] bg-[#1e1e2a] border border-[#70707d]/30 p-8 text-[#ededf3] relative overflow-hidden shadow-none">
+        {/* Pharmacy Profile Banner: Graphite Card */}
+        <div className="rounded-[12px] bg-[#1e1e2a] p-[32px] text-[#ededf3] relative overflow-hidden shadow-none">
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="space-y-2.5">
-              <div className="flex flex-wrap items-center gap-2">
-                <Badge variant="outline" className="bg-[#171721] text-[#c3c3cc] border-[#70707d]/30 text-[11px] py-0.5 px-3 rounded-full font-normal shadow-none">
+            <div className="space-y-3">
+              <div className="flex flex-wrap items-center gap-2.5">
+                <Badge variant="outline" className="bg-[#272735] text-[#ededf3] border-0 text-[12px] py-1 px-3.5 rounded-[40px] font-[480] shadow-none">
                   <ShieldCheck className="h-3.5 w-3.5 mr-1 text-[#ededf3]" />
                   Verified Pharmacy Partner
                 </Badge>
-                <Badge variant="outline" className="border-[#70707d]/30 bg-[#171721] text-[#c3c3cc] text-[11px] py-0.5 px-3 rounded-full font-normal shadow-none">
+                <Badge variant="outline" className="border-0 bg-[#272735] text-[#ededf3] text-[12px] py-1 px-3.5 rounded-[40px] font-[480] shadow-none">
                   Supabase RLS Enabled
                 </Badge>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl font-medium tracking-[0.015em] text-[#ededf3]">
+              <h1 className="text-[32px] sm:text-[42px] font-[480] tracking-[0.42px] leading-[1.15] text-[#ededf3]">
                 {pharmacy?.name || 'Apollo Pharmacy - Koramangala'}
               </h1>
 
-              <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-[#c3c3cc] pt-1 font-normal">
+              <div className="flex flex-wrap items-center gap-4 text-sm text-[#c3c3cc] pt-1 font-normal">
                 <span className="flex items-center gap-1.5">
-                  <MapPin className="h-4 w-4 text-[#c3c3cc]" />
+                  <MapPin className="h-4 w-4 text-[#ededf3]" />
                   {pharmacy?.address || 'Koramangala 4th Block, Bengaluru'}
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Phone className="h-4 w-4 text-[#c3c3cc]" />
+                  <Phone className="h-4 w-4 text-[#ededf3]" />
                   {pharmacy?.phone || '+91 80 2553 4321'}
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Store className="h-4 w-4 text-[#c3c3cc]" />
+                  <Store className="h-4 w-4 text-[#ededf3]" />
                   License: {pharmacy?.license_number || 'KA-B1-102934'}
                 </span>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="text-right bg-[#171721] px-4 py-2.5 rounded-[8px] border border-[#70707d]/30">
-                <p className="text-[11px] uppercase tracking-wider text-[#c3c3cc] font-normal">Live Operating Status</p>
-                <p className="text-sm font-normal text-[#ededf3] flex items-center justify-end gap-1.5 mt-0.5">
-                  <span className="h-2 w-2 rounded-full bg-[#ededf3]" />
+              <div className="text-right bg-[#171721] px-5 py-3 rounded-[8px]">
+                <p className="text-[12px] uppercase tracking-[0.12px] text-[#c3c3cc] font-[480]">Live Operating Status</p>
+                <p className="text-sm font-[480] text-[#ededf3] flex items-center justify-end gap-1.5 mt-0.5">
+                  <span className="h-2 w-2 rounded-full bg-[#5266eb]" />
                   {pharmacy?.opening_hours || '24 Hours Open'}
                 </p>
               </div>
@@ -307,62 +307,62 @@ export default function PharmacyDashboardPage() {
           </div>
         </div>
 
-        {/* Stock KPI Summary Cards */}
+        {/* Stock KPI Summary Cards: 72px gap cadence */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="rounded-[12px] p-8 flex items-center justify-between border border-[#70707d]/30 bg-[#1e1e2a] hover:border-[#70707d]/50 transition-colors shadow-none">
+          <Card className="rounded-[12px] p-[32px] flex items-center justify-between bg-[#1e1e2a] shadow-none">
             <div>
-              <p className="text-xs font-normal text-[#c3c3cc] uppercase tracking-wider">Total SKUs</p>
-              <h3 className="text-2xl sm:text-3xl font-medium text-[#ededf3] tracking-[0.015em] mt-1">{totalSKUs}</h3>
-              <p className="text-[11px] text-[#c3c3cc] mt-0.5 font-normal">Cataloged medicines</p>
+              <p className="text-[12px] font-[480] text-[#c3c3cc] uppercase tracking-[0.12px]">Total SKUs</p>
+              <h3 className="text-[32px] font-[480] text-[#ededf3] tracking-[0.48px] leading-[1.15] mt-1">{totalSKUs}</h3>
+              <p className="text-xs text-[#c3c3cc] mt-0.5 font-normal">Cataloged medicines</p>
             </div>
-            <div className="h-11 w-11 rounded-full bg-[#171721] border border-[#70707d]/30 text-[#ededf3] flex items-center justify-center">
+            <div className="h-11 w-11 rounded-[40px] bg-[#272735] text-[#ededf3] flex items-center justify-center">
               <Package className="h-5 w-5" />
             </div>
           </Card>
 
-          <Card className="rounded-[12px] p-8 flex items-center justify-between border border-[#70707d]/30 bg-[#1e1e2a] hover:border-[#70707d]/50 transition-colors shadow-none">
+          <Card className="rounded-[12px] p-[32px] flex items-center justify-between bg-[#1e1e2a] shadow-none">
             <div>
-              <p className="text-xs font-normal text-[#c3c3cc] uppercase tracking-wider">Total Units</p>
-              <h3 className="text-2xl sm:text-3xl font-medium text-[#ededf3] tracking-[0.015em] mt-1">{totalUnits}</h3>
-              <p className="text-[11px] text-[#c3c3cc] mt-0.5 font-normal">In physical stock</p>
+              <p className="text-[12px] font-[480] text-[#c3c3cc] uppercase tracking-[0.12px]">Total Units</p>
+              <h3 className="text-[32px] font-[480] text-[#ededf3] tracking-[0.48px] leading-[1.15] mt-1">{totalUnits}</h3>
+              <p className="text-xs text-[#c3c3cc] mt-0.5 font-normal">In physical stock</p>
             </div>
-            <div className="h-11 w-11 rounded-full bg-[#171721] border border-[#70707d]/30 text-[#ededf3] flex items-center justify-center">
+            <div className="h-11 w-11 rounded-[40px] bg-[#272735] text-[#ededf3] flex items-center justify-center">
               <TrendingUp className="h-5 w-5" />
             </div>
           </Card>
 
-          <Card className="rounded-[12px] p-8 flex items-center justify-between border border-[#70707d]/30 bg-[#1e1e2a] hover:border-[#70707d]/50 transition-colors shadow-none">
+          <Card className="rounded-[12px] p-[32px] flex items-center justify-between bg-[#1e1e2a] shadow-none">
             <div>
-              <p className="text-xs font-normal text-[#c3c3cc] uppercase tracking-wider">Low Stock</p>
-              <h3 className="text-2xl sm:text-3xl font-medium text-[#ededf3] tracking-[0.015em] mt-1">{lowStockCount}</h3>
-              <p className="text-[11px] text-[#c3c3cc] mt-0.5 font-normal">&lt; 30 units left</p>
+              <p className="text-[12px] font-[480] text-[#c3c3cc] uppercase tracking-[0.12px]">Low Stock</p>
+              <h3 className="text-[32px] font-[480] text-[#ededf3] tracking-[0.48px] leading-[1.15] mt-1">{lowStockCount}</h3>
+              <p className="text-xs text-[#c3c3cc] mt-0.5 font-normal">&lt; 30 units left</p>
             </div>
-            <div className="h-11 w-11 rounded-full bg-[#171721] border border-[#70707d]/30 text-[#ededf3] flex items-center justify-center">
+            <div className="h-11 w-11 rounded-[40px] bg-[#272735] text-[#ededf3] flex items-center justify-center">
               <AlertTriangle className="h-5 w-5" />
             </div>
           </Card>
 
-          <Card className="rounded-[12px] p-8 flex items-center justify-between border border-[#70707d]/30 bg-[#1e1e2a] hover:border-[#70707d]/50 transition-colors shadow-none">
+          <Card className="rounded-[12px] p-[32px] flex items-center justify-between bg-[#1e1e2a] shadow-none">
             <div>
-              <p className="text-xs font-normal text-[#c3c3cc] uppercase tracking-wider">Out of Stock</p>
-              <h3 className="text-2xl sm:text-3xl font-medium text-[#ededf3] tracking-[0.015em] mt-1">{outOfStockCount}</h3>
-              <p className="text-[11px] text-[#c3c3cc] mt-0.5 font-normal">Needs restock</p>
+              <p className="text-[12px] font-[480] text-[#c3c3cc] uppercase tracking-[0.12px]">Out of Stock</p>
+              <h3 className="text-[32px] font-[480] text-[#ededf3] tracking-[0.48px] leading-[1.15] mt-1">{outOfStockCount}</h3>
+              <p className="text-xs text-[#c3c3cc] mt-0.5 font-normal">Needs restock</p>
             </div>
-            <div className="h-11 w-11 rounded-full bg-[#171721] border border-[#70707d]/30 text-[#ededf3] flex items-center justify-center">
+            <div className="h-11 w-11 rounded-[40px] bg-[#272735] text-[#ededf3] flex items-center justify-center">
               <AlertCircle className="h-5 w-5" />
             </div>
           </Card>
         </div>
 
-        {/* Two-Column Section: Form to Add Stock + Fast Presets */}
+        {/* Two-Column Section: Form to Add Stock + Table */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
-          {/* Supply Form (Left column - 1/3) */}
-          <Card className="rounded-[12px] border border-[#70707d]/30 bg-[#1e1e2a] overflow-hidden lg:col-span-1 h-fit shadow-none p-8">
-            <CardHeader className="p-0 pb-4 border-b border-[#70707d]/25">
+          {/* Supply Form (Left column - 1/3): Graphite Card */}
+          <Card className="rounded-[12px] bg-[#1e1e2a] overflow-hidden lg:col-span-1 h-fit shadow-none p-[32px]">
+            <CardHeader className="p-0 pb-4 border-b border-[#70707d]/20">
               <div className="flex items-center gap-2">
-                <PlusCircle className="h-5 w-5 text-[#c3c3cc]" />
-                <CardTitle className="text-lg font-medium text-[#ededf3] tracking-[0.015em]">Add New Inventory</CardTitle>
+                <PlusCircle className="h-5 w-5 text-[#ededf3]" />
+                <CardTitle className="text-[21px] font-[480] text-[#ededf3] leading-[1.35]">Add New Inventory</CardTitle>
               </div>
               <CardDescription className="text-xs text-[#c3c3cc] mt-1 font-normal">
                 Sync medicine quantity, price, and expiry to live database.
@@ -370,80 +370,79 @@ export default function PharmacyDashboardPage() {
             </CardHeader>
 
             <CardContent className="p-0 pt-6 space-y-4">
-              {/* Form Feedback Alerts */}
               {formSuccess && (
-                <div className="p-3.5 rounded-[8px] bg-[#242432] border border-[#70707d]/40 text-[#ededf3] text-xs flex items-center gap-2">
+                <div className="p-3.5 rounded-[8px] bg-[#272735] text-[#ededf3] text-xs flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-[#ededf3]" />
                   <span>{formSuccess}</span>
                 </div>
               )}
               {formError && (
-                <div className="p-3.5 rounded-[8px] bg-[#242432] border border-[#70707d]/40 text-[#ededf3] text-xs flex items-center gap-2">
-                  <AlertCircle className="h-4 w-4 shrink-0 text-[#c3c3cc]" />
+                <div className="p-3.5 rounded-[8px] bg-[#272735] text-[#ededf3] text-xs flex items-center gap-2">
+                  <AlertCircle className="h-4 w-4 shrink-0 text-[#ededf3]" />
                   <span>{formError}</span>
                 </div>
               )}
 
-              {/* Fast presets for hackathon demo with strict pill buttons */}
+              {/* Fast Presets: Obsidian Button Pills */}
               <div>
-                <label className="block text-[11px] font-normal uppercase text-[#c3c3cc] mb-2 flex items-center gap-1.5">
-                  <Sparkles className="h-3 w-3 text-[#c3c3cc]" />
+                <label className="block text-[12px] font-[480] uppercase text-[#c3c3cc] tracking-[0.12px] mb-2 flex items-center gap-1.5">
+                  <Sparkles className="h-3 w-3 text-[#ededf3]" />
                   Quick Fill Demo Presets:
                 </label>
                 <div className="flex flex-wrap gap-2">
                   <button
                     type="button"
                     onClick={() => applyPreset('Dolo 650', 'Paracetamol', '650mg tablet', 120, 32.5)}
-                    className="text-[11px] px-3 py-1 rounded-full bg-[#171721] hover:bg-[#242432] border border-[#70707d]/30 text-[#c3c3cc] hover:text-[#ededf3] transition-colors cursor-pointer shadow-none font-normal"
+                    className="text-[12px] px-3.5 py-1.5 rounded-[40px] bg-[#272735] hover:bg-[#323244] text-[#ededf3] transition-colors cursor-pointer shadow-none font-[480]"
                   >
                     + Dolo 650
                   </button>
                   <button
                     type="button"
                     onClick={() => applyPreset('Tazloc AM 40/5', 'Telmisartan + Amlodipine', '40mg / 5mg tablet', 85, 185.0)}
-                    className="text-[11px] px-3 py-1 rounded-full bg-[#171721] hover:bg-[#242432] border border-[#70707d]/30 text-[#c3c3cc] hover:text-[#ededf3] transition-colors cursor-pointer shadow-none font-normal"
+                    className="text-[12px] px-3.5 py-1.5 rounded-[40px] bg-[#272735] hover:bg-[#323244] text-[#ededf3] transition-colors cursor-pointer shadow-none font-[480]"
                   >
                     + Tazloc AM 40/5
                   </button>
                   <button
                     type="button"
                     onClick={() => applyPreset('TriAzulix DS-2', 'Glimepiride + Metformin + Pioglitazone', 'DS-2 (2mg + 500mg + 15mg)', 60, 240.0)}
-                    className="text-[11px] px-3 py-1 rounded-full bg-[#171721] hover:bg-[#242432] border border-[#70707d]/30 text-[#c3c3cc] hover:text-[#ededf3] transition-colors cursor-pointer shadow-none font-normal"
+                    className="text-[12px] px-3.5 py-1.5 rounded-[40px] bg-[#272735] hover:bg-[#323244] text-[#ededf3] transition-colors cursor-pointer shadow-none font-[480]"
                   >
                     + TriAzulix DS-2
                   </button>
                   <button
                     type="button"
                     onClick={() => applyPreset('Istamet XR', 'Sitagliptin + Metformin Hydrochloride Extended Release', '100/1000mg tablet', 45, 310.0)}
-                    className="text-[11px] px-3 py-1 rounded-full bg-[#171721] hover:bg-[#242432] border border-[#70707d]/30 text-[#c3c3cc] hover:text-[#ededf3] transition-colors cursor-pointer shadow-none font-normal"
+                    className="text-[12px] px-3.5 py-1.5 rounded-[40px] bg-[#272735] hover:bg-[#323244] text-[#ededf3] transition-colors cursor-pointer shadow-none font-[480]"
                   >
                     + Istamet XR
                   </button>
                   <button
                     type="button"
                     onClick={() => applyPreset('Cap Pregalin', 'Pregabalin', '75mg capsule', 50, 215.0)}
-                    className="text-[11px] px-3 py-1 rounded-full bg-[#171721] hover:bg-[#242432] border border-[#70707d]/30 text-[#c3c3cc] hover:text-[#ededf3] transition-colors cursor-pointer shadow-none font-normal"
+                    className="text-[12px] px-3.5 py-1.5 rounded-[40px] bg-[#272735] hover:bg-[#323244] text-[#ededf3] transition-colors cursor-pointer shadow-none font-[480]"
                   >
                     + Cap Pregalin
                   </button>
                   <button
                     type="button"
                     onClick={() => applyPreset('Mecobal SL 1500', 'Methylcobalamin (Mecobalamin)', '1500mcg sublingual tablet', 110, 165.0)}
-                    className="text-[11px] px-3 py-1 rounded-full bg-[#171721] hover:bg-[#242432] border border-[#70707d]/30 text-[#c3c3cc] hover:text-[#ededf3] transition-colors cursor-pointer shadow-none font-normal"
+                    className="text-[12px] px-3.5 py-1.5 rounded-[40px] bg-[#272735] hover:bg-[#323244] text-[#ededf3] transition-colors cursor-pointer shadow-none font-[480]"
                   >
                     + Mecobal SL
                   </button>
                   <button
                     type="button"
                     onClick={() => applyPreset('Augmentin 625 Duo', 'Amoxicillin + Clavulanic Acid', '625mg tablet', 50, 204.0)}
-                    className="text-[11px] px-3 py-1 rounded-full bg-[#171721] hover:bg-[#242432] border border-[#70707d]/30 text-[#c3c3cc] hover:text-[#ededf3] transition-colors cursor-pointer shadow-none font-normal"
+                    className="text-[12px] px-3.5 py-1.5 rounded-[40px] bg-[#272735] hover:bg-[#323244] text-[#ededf3] transition-colors cursor-pointer shadow-none font-[480]"
                   >
                     + Augmentin
                   </button>
                   <button
                     type="button"
                     onClick={() => applyPreset('Pan 40', 'Pantoprazole', '40mg tablet', 90, 155.0)}
-                    className="text-[11px] px-3 py-1 rounded-full bg-[#171721] hover:bg-[#242432] border border-[#70707d]/30 text-[#c3c3cc] hover:text-[#ededf3] transition-colors cursor-pointer shadow-none font-normal"
+                    className="text-[12px] px-3.5 py-1.5 rounded-[40px] bg-[#272735] hover:bg-[#323244] text-[#ededf3] transition-colors cursor-pointer shadow-none font-[480]"
                   >
                     + Pan 40
                   </button>
@@ -460,7 +459,7 @@ export default function PharmacyDashboardPage() {
                     placeholder="e.g. Dolo 650, Azithral 500"
                     value={medicineName}
                     onChange={(e) => setMedicineName(e.target.value)}
-                    className="bg-[#171721] border-[#70707d]/30 text-[#ededf3] placeholder:text-[#c3c3cc]/50 rounded-full focus:border-[#70707d]"
+                    className="bg-[#171721] border-[#e2e3ed]/25 text-[#ededf3] placeholder:text-[#c3c3cc] rounded-[32px]"
                   />
                 </div>
 
@@ -472,7 +471,7 @@ export default function PharmacyDashboardPage() {
                     placeholder="e.g. Paracetamol, Azithromycin"
                     value={genericName}
                     onChange={(e) => setGenericName(e.target.value)}
-                    className="bg-[#171721] border-[#70707d]/30 text-[#ededf3] placeholder:text-[#c3c3cc]/50 rounded-full focus:border-[#70707d]"
+                    className="bg-[#171721] border-[#e2e3ed]/25 text-[#ededf3] placeholder:text-[#c3c3cc] rounded-[32px]"
                   />
                 </div>
 
@@ -484,7 +483,7 @@ export default function PharmacyDashboardPage() {
                     placeholder="e.g. 650mg tablet (Strip of 15)"
                     value={dosage}
                     onChange={(e) => setDosage(e.target.value)}
-                    className="bg-[#171721] border-[#70707d]/30 text-[#ededf3] placeholder:text-[#c3c3cc]/50 rounded-full focus:border-[#70707d]"
+                    className="bg-[#171721] border-[#e2e3ed]/25 text-[#ededf3] placeholder:text-[#c3c3cc] rounded-[32px]"
                   />
                 </div>
 
@@ -500,7 +499,7 @@ export default function PharmacyDashboardPage() {
                       placeholder="100"
                       value={quantity}
                       onChange={(e) => setQuantity(e.target.value)}
-                      className="bg-[#171721] border-[#70707d]/30 text-[#ededf3] placeholder:text-[#c3c3cc]/50 rounded-full focus:border-[#70707d]"
+                      className="bg-[#171721] border-[#e2e3ed]/25 text-[#ededf3] placeholder:text-[#c3c3cc] rounded-[32px]"
                     />
                   </div>
 
@@ -516,7 +515,7 @@ export default function PharmacyDashboardPage() {
                       placeholder="35.00"
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
-                      className="bg-[#171721] border-[#70707d]/30 text-[#ededf3] placeholder:text-[#c3c3cc]/50 rounded-full focus:border-[#70707d]"
+                      className="bg-[#171721] border-[#e2e3ed]/25 text-[#ededf3] placeholder:text-[#c3c3cc] rounded-[32px]"
                     />
                   </div>
                 </div>
@@ -530,15 +529,15 @@ export default function PharmacyDashboardPage() {
                     required
                     value={expiryDate}
                     onChange={(e) => setExpiryDate(e.target.value)}
-                    className="bg-[#171721] border-[#70707d]/30 text-[#ededf3] placeholder:text-[#c3c3cc]/50 rounded-full focus:border-[#70707d]"
+                    className="bg-[#171721] border-[#e2e3ed]/25 text-[#ededf3] placeholder:text-[#c3c3cc] rounded-[32px]"
                   />
                 </div>
 
-                {/* Primary Conversion Button: Single Cobalt #5266eb CTA */}
+                {/* Primary Conversion Button: Cobalt #5266eb */}
                 <Button
                   type="submit"
                   variant="default"
-                  className="w-full mt-3 h-11 rounded-full bg-[#5266eb] hover:bg-[#4355d6] text-white shadow-none font-normal"
+                  className="w-full mt-3 h-11 rounded-[32px] bg-[#5266eb] hover:bg-[#4355d6] text-white shadow-none font-normal border-0 text-base"
                   disabled={isSubmitting}
                 >
                   <PlusCircle className="h-4 w-4 mr-2" />
@@ -554,22 +553,22 @@ export default function PharmacyDashboardPage() {
             {/* Table Toolbar */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
               <div className="relative flex-1">
-                <Search className="absolute left-3.5 top-3 h-4 w-4 text-[#c3c3cc]" />
+                <Search className="absolute left-4 top-3.5 h-4 w-4 text-[#c3c3cc]" />
                 <Input
                   placeholder="Filter by medicine name or generic composition..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 h-10 bg-[#1e1e2a] border-[#70707d]/30 text-[#ededf3] placeholder:text-[#c3c3cc]/50 rounded-full focus:border-[#70707d]"
+                  className="pl-11 h-11 bg-[#1e1e2a] border-[#e2e3ed]/25 text-[#ededf3] placeholder:text-[#c3c3cc] rounded-[32px]"
                 />
               </div>
 
-              <div className="text-xs text-[#c3c3cc] flex items-center gap-2 self-end sm:self-auto font-normal">
+              <div className="text-xs text-[#c3c3cc] flex items-center gap-2 self-end sm:self-auto font-[480]">
                 <span>Showing {filteredInventory.length} of {inventory.length} items</span>
               </div>
             </div>
 
-            {/* Flat Alpine Data Table */}
-            <Card className="rounded-[12px] border border-[#70707d]/30 bg-[#1e1e2a] overflow-hidden shadow-none p-0">
+            {/* Flat Graphite Data Table: 12px radius, no shadow */}
+            <Card className="rounded-[12px] bg-[#1e1e2a] overflow-hidden shadow-none p-0">
               {loading ? (
                 <div className="p-12 text-center text-[#c3c3cc] flex flex-col items-center gap-3">
                   <RefreshCw className="h-6 w-6 animate-spin text-[#ededf3]" />
@@ -578,7 +577,7 @@ export default function PharmacyDashboardPage() {
               ) : filteredInventory.length === 0 ? (
                 <div className="p-12 text-center text-[#c3c3cc]">
                   <Package className="h-10 w-10 mx-auto text-[#70707d] mb-2" />
-                  <h4 className="font-medium text-[#ededf3]">No medicines found</h4>
+                  <h4 className="font-[480] text-[#ededf3]">No medicines found</h4>
                   <p className="text-xs text-[#c3c3cc] mt-1 font-normal">
                     {searchQuery ? 'Try matching another name' : 'Add your first medicine using the form on the left'}
                   </p>
@@ -586,13 +585,13 @@ export default function PharmacyDashboardPage() {
               ) : (
                 <Table>
                   <TableHeader>
-                    <TableRow className="border-b border-[#70707d]/25 hover:bg-transparent">
-                      <TableHead className="text-[#c3c3cc] text-xs font-normal">Medicine & Composition</TableHead>
-                      <TableHead className="text-[#c3c3cc] text-xs font-normal">Dosage</TableHead>
-                      <TableHead className="text-[#c3c3cc] text-xs font-normal">Current Stock</TableHead>
-                      <TableHead className="text-[#c3c3cc] text-xs font-normal">Price</TableHead>
-                      <TableHead className="text-[#c3c3cc] text-xs font-normal">Expiry Date</TableHead>
-                      <TableHead className="text-right text-[#c3c3cc] text-xs font-normal">Manage</TableHead>
+                    <TableRow className="border-b border-[#70707d]/20 hover:bg-transparent">
+                      <TableHead className="text-[#c3c3cc] text-xs font-[480]">Medicine & Composition</TableHead>
+                      <TableHead className="text-[#c3c3cc] text-xs font-[480]">Dosage</TableHead>
+                      <TableHead className="text-[#c3c3cc] text-xs font-[480]">Current Stock</TableHead>
+                      <TableHead className="text-[#c3c3cc] text-xs font-[480]">Price</TableHead>
+                      <TableHead className="text-[#c3c3cc] text-xs font-[480]">Expiry Date</TableHead>
+                      <TableHead className="text-right text-[#c3c3cc] text-xs font-[480]">Manage</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -601,9 +600,9 @@ export default function PharmacyDashboardPage() {
                       const isOut = item.quantity === 0;
 
                       return (
-                        <TableRow key={item.id} className="border-b border-[#70707d]/20 hover:bg-[#242432]/60 transition-colors">
+                        <TableRow key={item.id} className="border-b border-[#70707d]/15 hover:bg-[#272735]/40 transition-colors">
                           <TableCell className="font-normal">
-                            <div className="text-sm font-medium text-[#ededf3]">
+                            <div className="text-sm font-[480] text-[#ededf3]">
                               {item.medicine_name}
                             </div>
                             {item.generic_name && (
@@ -621,7 +620,7 @@ export default function PharmacyDashboardPage() {
                             <div className="flex items-center gap-2">
                               <Badge
                                 variant="secondary"
-                                className="text-xs font-normal rounded-full border-[#70707d]/30 bg-[#171721] text-[#ededf3]"
+                                className="text-xs font-[480] rounded-[40px] bg-[#272735] text-[#ededf3]"
                               >
                                 {isOut ? '0 (Out)' : `${item.quantity} units`}
                               </Badge>
@@ -633,7 +632,7 @@ export default function PharmacyDashboardPage() {
                                   onClick={() => handleAdjustQuantity(item, -10)}
                                   disabled={actionLoadingId === item.id || item.quantity <= 0}
                                   title="Decrease 10 units"
-                                  className="h-7 w-7 rounded-full bg-[#171721] hover:bg-[#242432] text-xs font-normal text-[#ededf3] border border-[#70707d]/30 flex items-center justify-center disabled:opacity-30 transition-colors cursor-pointer shadow-none"
+                                  className="h-7 w-7 rounded-[32px] bg-[#171721] hover:bg-[#272735] text-xs font-[480] text-[#ededf3] flex items-center justify-center disabled:opacity-30 transition-colors cursor-pointer shadow-none"
                                 >
                                   -10
                                 </button>
@@ -642,7 +641,7 @@ export default function PharmacyDashboardPage() {
                                   onClick={() => handleAdjustQuantity(item, 10)}
                                   disabled={actionLoadingId === item.id}
                                   title="Increase 10 units"
-                                  className="h-7 w-7 rounded-full bg-[#171721] hover:bg-[#242432] text-xs font-normal text-[#ededf3] border border-[#70707d]/30 flex items-center justify-center disabled:opacity-30 transition-colors cursor-pointer shadow-none"
+                                  className="h-7 w-7 rounded-[32px] bg-[#171721] hover:bg-[#272735] text-xs font-[480] text-[#ededf3] flex items-center justify-center disabled:opacity-30 transition-colors cursor-pointer shadow-none"
                                 >
                                   +10
                                 </button>
@@ -650,7 +649,7 @@ export default function PharmacyDashboardPage() {
                             </div>
                           </TableCell>
 
-                          <TableCell className="font-normal text-[#ededf3]">
+                          <TableCell className="font-[480] text-[#ededf3]">
                             {formatCurrency(Number(item.price))}
                           </TableCell>
 
@@ -664,7 +663,7 @@ export default function PharmacyDashboardPage() {
                               size="sm"
                               onClick={() => handleDeleteItem(item.id)}
                               disabled={actionLoadingId === item.id}
-                              className="text-[#c3c3cc] hover:text-[#ededf3] hover:bg-[#171721] h-8 w-8 p-0 rounded-full transition-colors"
+                              className="text-[#c3c3cc] hover:text-[#ededf3] hover:bg-[#171721] h-8 w-8 p-0 rounded-[40px] transition-colors"
                               title="Delete Item"
                             >
                               <Trash2 className="h-4 w-4" />

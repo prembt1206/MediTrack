@@ -2,37 +2,162 @@
 
 :root {
   /* Mercury — Alpine Banking Design Tokens */
-  --canvas-onyx: #171721;
-  --surface-graphite: #1e1e2a;
-  --surface-elevated: #242432;
-  --surface-well: #13131b;
+  /* Colors */
+  --color-onyx-canvas: #171721;
+  --color-graphite-card: #1e1e2a;
+  --color-obsidian-button: #272735;
+  --color-slate-border: #70707d;
+  --color-mist-border: #e2e3ed;
+  --color-ash-text: #c3c3cc;
+  --color-ivory-text: #ededf3;
+  --color-cobalt: #5266eb;
+  --color-pure-white: #ffffff;
 
-  --text-ivory: #ededf3;
-  --text-ash: #c3c3cc;
-  --text-muted: #8e8e99;
-  --text-slate: #70707d;
+  /* Typography — Font Families */
+  --font-arcadia: var(--font-inter), 'arcadia', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-arcadiadisplay: var(--font-inter), 'arcadiaDisplay', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  --border-slate: #70707d;
-  --border-slate-subtle: rgba(112, 112, 125, 0.28);
-  --border-mist: #e2e3ed;
-  --border-mist-subtle: rgba(226, 227, 237, 0.12);
+  /* Typography — Scale */
+  --text-caption: 12px;
+  --leading-caption: 1;
+  --tracking-caption: 0.12px;
+  --text-body-sm: 14px;
+  --leading-body-sm: 1;
+  --tracking-body-sm: 0.07px;
+  --text-body: 16px;
+  --leading-body: 1.5;
+  --text-body-lg: 18px;
+  --leading-body-lg: 1.35;
+  --text-subheading: 21px;
+  --leading-subheading: 1.35;
+  --text-heading-sm: 28px;
+  --leading-heading-sm: 1.2;
+  --tracking-heading-sm: 0.42px;
+  --text-heading: 32px;
+  --leading-heading: 1.15;
+  --tracking-heading: 0.48px;
+  --text-heading-lg: 42px;
+  --leading-heading-lg: 1.15;
+  --tracking-heading-lg: 0.42px;
+  --text-display: 65px;
+  --leading-display: 1.1;
 
-  --accent-cobalt: #5266eb;
-  --accent-cobalt-hover: #4355d6;
-  --accent-cobalt-active: #3846b8;
+  /* Typography — Weights */
+  --font-weight-w360: 360;
+  --font-weight-regular: 400;
+  --font-weight-w420: 420;
+  --font-weight-w480: 480;
+  --font-weight-w530: 530;
+
+  /* Spacing */
+  --spacing-unit: 4px;
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
+  --spacing-56: 56px;
+  --spacing-72: 72px;
+  --spacing-112: 112px;
+  --spacing-128: 128px;
+
+  /* Layout */
+  --page-max-width: 1200px;
+  --section-gap: 72px;
+  --card-padding: 32px;
+  --element-gap: 12px;
+
+  /* Border Radius */
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-3xl: 32px;
+  --radius-3xl-2: 40px;
+
+  /* Named Radii */
+  --radius-nav: 40px;
+  --radius-tags: 40px;
+  --radius-cards: 12px;
+  --radius-inputs: 32px;
+  --radius-buttons: 32px;
+  --radius-default: 4px;
+
+  /* Surfaces */
+  --surface-onyx-canvas: #171721;
+  --surface-graphite-card: #1e1e2a;
+  --surface-obsidian-button: #272735;
 
   --background: #171721;
   --foreground: #ededf3;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono: "JetBrains Mono", "SF Mono", Monaco, Inconsolata, monospace;
+@theme {
+  /* Colors */
+  --color-onyx-canvas: #171721;
+  --color-graphite-card: #1e1e2a;
+  --color-obsidian-button: #272735;
+  --color-slate-border: #70707d;
+  --color-mist-border: #e2e3ed;
+  --color-ash-text: #c3c3cc;
+  --color-ivory-text: #ededf3;
+  --color-cobalt: #5266eb;
+  --color-pure-white: #ffffff;
+
+  /* Typography */
+  --font-arcadia: var(--font-inter), 'arcadia', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-arcadiadisplay: var(--font-inter), 'arcadiaDisplay', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Typography — Scale */
+  --text-caption: 12px;
+  --leading-caption: 1;
+  --tracking-caption: 0.12px;
+  --text-body-sm: 14px;
+  --leading-body-sm: 1;
+  --tracking-body-sm: 0.07px;
+  --text-body: 16px;
+  --leading-body: 1.5;
+  --text-body-lg: 18px;
+  --leading-body-lg: 1.35;
+  --text-subheading: 21px;
+  --leading-subheading: 1.35;
+  --text-heading-sm: 28px;
+  --leading-heading-sm: 1.2;
+  --tracking-heading-sm: 0.42px;
+  --text-heading: 32px;
+  --leading-heading: 1.15;
+  --tracking-heading: 0.48px;
+  --text-heading-lg: 42px;
+  --leading-heading-lg: 1.15;
+  --tracking-heading-lg: 0.42px;
+  --text-display: 65px;
+  --leading-display: 1.1;
+
+  /* Spacing */
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
+  --spacing-56: 56px;
+  --spacing-72: 72px;
+  --spacing-112: 112px;
+  --spacing-128: 128px;
+
+  /* Border Radius */
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-3xl: 32px;
+  --radius-3xl-2: 40px;
 }
 
-/* Reset & Global Alpine Banking Onyx Canvas */
+/* Reset & Global Canvas */
 html {
   color-scheme: dark;
   scroll-behavior: smooth;
@@ -41,14 +166,14 @@ html {
 body {
   background-color: #171721;
   color: #ededf3;
-  font-family: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-arcadia);
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
   font-weight: 400;
-  letter-spacing: 0.005em;
+  letter-spacing: 0;
   selection-background-color: #5266eb;
   selection-color: #ffffff;
 }
@@ -58,58 +183,118 @@ body {
   color: #ffffff;
 }
 
-/* Alpine Banking Architectural Typography */
+/* Mercury Typography Utility Classes */
+.text-caption-mercury {
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.12px;
+  font-weight: 480;
+}
+
+.text-body-sm-mercury {
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0.07px;
+  font-weight: 400;
+}
+
+.text-body-mercury {
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.text-body-lg-mercury {
+  font-size: 18px;
+  line-height: 1.35;
+  font-weight: 480;
+}
+
+.text-subheading-mercury {
+  font-size: 21px;
+  line-height: 1.35;
+  font-weight: 480;
+}
+
+.text-heading-sm-mercury {
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: 0.42px;
+  font-weight: 480;
+}
+
+.text-heading-mercury {
+  font-size: 32px;
+  line-height: 1.15;
+  letter-spacing: 0.48px;
+  font-weight: 480;
+}
+
+.text-heading-lg-mercury {
+  font-size: 42px;
+  line-height: 1.15;
+  letter-spacing: 0.42px;
+  font-weight: 480;
+}
+
+.text-display-mercury {
+  font-size: clamp(2.5rem, 5.5vw, 65px);
+  line-height: 1.1;
+  font-weight: 480;
+}
+
+/* Headings with Arcadia Display Intermediate Weight (480) */
 .headline-hero {
-  font-size: clamp(2.5rem, 5.5vw, 4.5rem);
-  line-height: 1.12;
-  letter-spacing: 0.015em;
-  font-weight: 500;
+  font-family: var(--font-arcadiadisplay);
+  font-size: clamp(2.5rem, 5.5vw, 65px);
+  line-height: 1.1;
+  font-weight: 480;
+  letter-spacing: 0.01em;
 }
 
 .headline-section {
-  font-size: clamp(1.85rem, 3.5vw, 2.75rem);
+  font-family: var(--font-arcadiadisplay);
+  font-size: clamp(1.75rem, 3.2vw, 32px);
   line-height: 1.15;
-  letter-spacing: 0.015em;
-  font-weight: 500;
+  letter-spacing: 0.48px;
+  font-weight: 480;
 }
 
 .headline-sub {
-  font-size: clamp(1.2rem, 2vw, 1.5rem);
-  line-height: 1.25;
-  letter-spacing: 0.01em;
-  font-weight: 500;
+  font-family: var(--font-arcadiadisplay);
+  font-size: clamp(1.25rem, 2vw, 21px);
+  line-height: 1.35;
+  font-weight: 480;
 }
 
 .text-apple-sub {
   color: #c3c3cc;
-  font-size: 1rem;
+  font-size: 16px;
   line-height: 1.5;
-  letter-spacing: 0.005em;
   font-weight: 400;
 }
 
-/* Alpine Flat Surface Treatment (No Drop Shadows, Value Contrast Only) */
+/* Mercury Graphite Card: 12px radius, 32px padding, no shadow, no border */
+.alpine-card,
 .apple-card,
-.glass-card,
-.alpine-card {
+.glass-card {
   background-color: #1e1e2a;
-  border: 1px solid rgba(112, 112, 125, 0.28);
   border-radius: 12px;
+  padding: 32px;
   box-shadow: none !important;
 }
 
+.alpine-card-interactive,
 .apple-card-interactive,
-.interactive-card,
-.alpine-card-interactive {
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+.interactive-card {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
   box-shadow: none !important;
 }
 
+.alpine-card-interactive:hover,
 .apple-card-interactive:hover,
-.interactive-card:hover,
-.alpine-card-interactive:hover {
-  border-color: rgba(226, 227, 237, 0.35);
-  background-color: #212130;
+.interactive-card:hover {
+  background-color: #242432;
   box-shadow: none !important;
   transform: none !important;
 }
@@ -118,41 +303,41 @@ body {
 .glass-panel,
 .alpine-panel {
   background-color: #1e1e2a;
-  border: 1px solid rgba(112, 112, 125, 0.28);
   box-shadow: none !important;
 }
 
-/* Alpine Header / Nav - Flat hairline, no glow */
-.apple-blur-nav,
-.alpine-nav {
-  background-color: #171721;
-  border-bottom: 1px solid rgba(112, 112, 125, 0.25);
+/* Mercury Transparent Navigation Bar */
+.alpine-nav,
+.apple-blur-nav {
+  background-color: rgba(23, 23, 33, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(112, 112, 125, 0.2);
   box-shadow: none !important;
 }
 
 .apple-glass-dialog,
 .alpine-dialog {
   background-color: #1e1e2a;
-  border: 1px solid rgba(112, 112, 125, 0.3);
   border-radius: 12px;
   box-shadow: none !important;
 }
 
-/* Alpine Strict Pill Input */
-.apple-input,
-.alpine-input {
+/* Mercury Pill Input: 32px border-radius, Mist hairline border */
+.alpine-input,
+.apple-input {
   background-color: #1e1e2a;
-  border: 1px solid rgba(112, 112, 125, 0.3);
+  border: 1px solid rgba(226, 227, 237, 0.25);
   color: #ededf3;
-  border-radius: 9999px;
+  border-radius: 32px;
   transition: border-color 0.15s ease;
   box-shadow: none !important;
 }
 
-.apple-input:focus,
-.alpine-input:focus {
+.alpine-input:focus,
+.apple-input:focus {
   outline: none;
-  border-color: #70707d;
+  border-color: #e2e3ed;
   box-shadow: none !important;
 }
 
@@ -172,8 +357,8 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2a2a3a;
-  border-radius: 9999px;
+  background: #272735;
+  border-radius: 40px;
 }
 
 ::-webkit-scrollbar-thumb:hover {

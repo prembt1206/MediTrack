@@ -118,7 +118,6 @@ export default function PatientSearchPage() {
 
   // Initial auto-detection & load
   useEffect(() => {
-    // 1. Check if user previously saved their verified location
     const saved = typeof window !== 'undefined' ? localStorage.getItem('meditrack_user_location') : null;
     if (saved) {
       try {
@@ -130,7 +129,6 @@ export default function PatientSearchPage() {
       } catch {}
     }
 
-    // 2. Auto-detect real client location via fast server-side IP lookup
     fetch('/api/location?action=detect')
       .then((res) => res.json())
       .then((data) => {
@@ -187,7 +185,6 @@ export default function PatientSearchPage() {
     }
   };
 
-  // Detect Live GPS using high accuracy
   const detectLiveLocation = () => {
     setIsDetectingLocation(true);
     setLocationFeedback('📡 Requesting high-accuracy GPS coordinates...');
@@ -391,25 +388,25 @@ export default function PatientSearchPage() {
       <div className="min-h-screen bg-[#171721] text-[#ededf3] flex flex-col">
         <Navbar />
         <div className="flex-1 flex items-center justify-center p-4">
-          <Card className="max-w-md w-full border border-[#70707d]/30 bg-[#1e1e2a] text-[#ededf3] shadow-none rounded-[12px] p-8">
+          <Card className="max-w-md w-full rounded-[12px] p-[32px] bg-[#1e1e2a] text-[#ededf3] shadow-none">
             <CardHeader className="p-0 pb-6">
-              <div className="h-11 w-11 rounded-full bg-[#171721] border border-[#70707d]/30 text-[#ededf3] flex items-center justify-center mb-4">
+              <div className="h-11 w-11 rounded-[40px] bg-[#272735] text-[#ededf3] flex items-center justify-center mb-4">
                 <Store className="h-5 w-5" />
               </div>
-              <CardTitle className="text-xl font-medium text-[#ededf3] tracking-[0.015em]">
+              <CardTitle className="text-[28px] font-[480] text-[#ededf3] tracking-[0.42px] leading-[1.2]">
                 Pharmacy Owner Account
               </CardTitle>
-              <CardDescription className="text-[#c3c3cc] text-sm font-normal mt-2 leading-relaxed">
-                You are currently signed in as a <strong className="text-[#ededf3] font-normal">Pharmacy Owner</strong>. This page contains Patient medicine search topics. Please access your dedicated Pharmacy Owner Dashboard.
+              <CardDescription className="text-base text-[#c3c3cc] font-normal mt-2 leading-[1.5]">
+                You are currently signed in as a <strong className="text-[#ededf3] font-[480]">Pharmacy Owner</strong>. This page contains Patient medicine search topics. Please access your dedicated Pharmacy Owner Dashboard.
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0 space-y-3">
               <Link href="/pharmacy" className="block w-full">
-                <Button variant="default" className="w-full h-11 rounded-full bg-[#5266eb] hover:bg-[#4355d6] text-white shadow-none font-normal">
+                <Button variant="default" className="w-full h-11 rounded-[32px] bg-[#5266eb] hover:bg-[#4355d6] text-white shadow-none font-normal border-0 text-base">
                   Go to Store Inventory Dashboard
                 </Button>
               </Link>
-              <Link href="/login?role=Patient" className="block w-full text-center text-xs text-[#c3c3cc] hover:text-[#ededf3] transition-colors">
+              <Link href="/login?role=Patient" className="block w-full text-center text-sm text-[#c3c3cc] hover:text-[#ededf3] transition-colors">
                 Sign in with a Patient account instead
               </Link>
             </CardContent>
@@ -423,61 +420,61 @@ export default function PatientSearchPage() {
     <div className="min-h-screen bg-[#171721] text-[#ededf3] flex flex-col relative overflow-hidden selection:bg-[#5266eb] selection:text-white">
       <Navbar />
 
-      <main className="flex-1 max-w-[1200px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16 relative z-10">
+      <main className="flex-1 max-w-[1200px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-[72px] space-y-[72px] relative z-10">
         
         {/* Hero Section */}
         <div className="text-center max-w-3xl mx-auto space-y-4 relative py-2">
           
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1e1e2a] text-[#c3c3cc] border border-[#70707d]/30 text-xs font-normal shadow-none">
-            <Sparkles className="h-3.5 w-3.5 text-[#c3c3cc]" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-[40px] bg-[#1e1e2a] text-[#ededf3] text-xs font-[480] tracking-[0.12px] shadow-none">
+            <Sparkles className="h-3.5 w-3.5 text-[#ededf3]" />
             <span className="text-[#ededf3]">AI-Powered Prescription</span>
             <span className="text-[#70707d]">•</span>
-            <span>Realtime Inventory Finder</span>
+            <span className="text-[#c3c3cc]">Realtime Inventory Finder</span>
           </div>
 
-          <h1 className="headline-section text-[#ededf3] font-medium tracking-[0.015em]">
+          <h1 className="headline-section text-[#ededf3]">
             Find Medicine in Local Pharmacies{' '}
             <span className="text-[#c3c3cc]">
               In Real Time
             </span>
           </h1>
 
-          <p className="text-sm sm:text-base text-[#c3c3cc] max-w-2xl mx-auto leading-relaxed font-normal">
+          <p className="text-base text-[#c3c3cc] max-w-2xl mx-auto leading-[1.5] font-normal">
             Search 50+ medications across 8 verified Bengaluru pharmacies or snap a photo of your doctor's handwritten prescription. We decode shorthand, check live store stock, and calculate exact distances.
           </p>
 
-          {/* Quick Metrics Bar */}
+          {/* Quick Metrics Bar: 72px section gap spacing */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto pt-2">
-            <div className="p-6 rounded-[12px] bg-[#1e1e2a] border border-[#70707d]/30 text-center shadow-none">
-              <p className="text-2xl font-medium text-[#ededf3] tracking-[0.015em]">8 Stores</p>
-              <p className="text-[11px] text-[#c3c3cc] font-normal mt-0.5">Verified in Bengaluru</p>
+            <div className="p-6 rounded-[12px] bg-[#1e1e2a] text-center shadow-none">
+              <p className="text-[28px] font-[480] text-[#ededf3] tracking-[0.42px]">8 Stores</p>
+              <p className="text-[12px] text-[#c3c3cc] font-[480] mt-0.5">Verified in Bengaluru</p>
             </div>
-            <div className="p-6 rounded-[12px] bg-[#1e1e2a] border border-[#70707d]/30 text-center shadow-none">
-              <p className="text-2xl font-medium text-[#ededf3] tracking-[0.015em]">50+ Meds</p>
-              <p className="text-[11px] text-[#c3c3cc] font-normal mt-0.5">In Live Catalog</p>
+            <div className="p-6 rounded-[12px] bg-[#1e1e2a] text-center shadow-none">
+              <p className="text-[28px] font-[480] text-[#ededf3] tracking-[0.42px]">50+ Meds</p>
+              <p className="text-[12px] text-[#c3c3cc] font-[480] mt-0.5">In Live Catalog</p>
             </div>
-            <div className="p-6 rounded-[12px] bg-[#1e1e2a] border border-[#70707d]/30 text-center shadow-none">
-              <p className="text-2xl font-medium text-[#ededf3] tracking-[0.015em]">&lt; 1.2s</p>
-              <p className="text-[11px] text-[#c3c3cc] font-normal mt-0.5">Stock Sync Speed</p>
+            <div className="p-6 rounded-[12px] bg-[#1e1e2a] text-center shadow-none">
+              <p className="text-[28px] font-[480] text-[#ededf3] tracking-[0.42px]">&lt; 1.2s</p>
+              <p className="text-[12px] text-[#c3c3cc] font-[480] mt-0.5">Stock Sync Speed</p>
             </div>
-            <div className="p-6 rounded-[12px] bg-[#1e1e2a] border border-[#70707d]/30 text-center shadow-none">
-              <p className="text-2xl font-medium text-[#ededf3] tracking-[0.015em]">100% Free</p>
-              <p className="text-[11px] text-[#c3c3cc] font-normal mt-0.5">Counter Hold</p>
+            <div className="p-6 rounded-[12px] bg-[#1e1e2a] text-center shadow-none">
+              <p className="text-[28px] font-[480] text-[#ededf3] tracking-[0.42px]">100% Free</p>
+              <p className="text-[12px] text-[#c3c3cc] font-[480] mt-0.5">Counter Hold</p>
             </div>
           </div>
         </div>
 
         {/* Interactive Category Ribbon */}
         <div className="space-y-3">
-          <div className="flex items-center justify-between text-xs text-[#c3c3cc] font-normal px-1">
+          <div className="flex items-center justify-between text-xs text-[#c3c3cc] font-[480] px-1">
             <span className="flex items-center gap-1.5 text-[#ededf3]">
-              <Filter className="h-3.5 w-3.5 text-[#c3c3cc]" />
+              <Filter className="h-3.5 w-3.5 text-[#ededf3]" />
               Browse by Health Need:
             </span>
             <span>Click any pill to instantly filter stock</span>
           </div>
 
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
+          <div className="flex items-center gap-2.5 overflow-x-auto pb-2 no-scrollbar">
             {CATEGORIES.map((cat) => {
               const isActive = selectedCategory === cat.id;
               return (
@@ -485,10 +482,10 @@ export default function PatientSearchPage() {
                   key={cat.id}
                   type="button"
                   onClick={() => handleCategorySelect(cat)}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-normal whitespace-nowrap transition-colors cursor-pointer shadow-none ${
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-[40px] text-sm font-normal whitespace-nowrap transition-colors cursor-pointer shadow-none ${
                     isActive
-                      ? 'bg-[#242432] text-[#ededf3] border border-[#e2e3ed]/40'
-                      : 'bg-[#1e1e2a] text-[#c3c3cc] hover:text-[#ededf3] border border-[#70707d]/30 hover:border-[#70707d]/60'
+                      ? 'bg-[#272735] text-[#ededf3]'
+                      : 'bg-[#1e1e2a] text-[#c3c3cc] hover:text-[#ededf3] hover:bg-[#272735]/60'
                   }`}
                 >
                   <span>{cat.icon}</span>
@@ -503,13 +500,13 @@ export default function PatientSearchPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
           {/* Left: Text Search & Location (7 cols) */}
-          <Card className="lg:col-span-7 border border-[#70707d]/30 bg-[#1e1e2a] rounded-[12px] p-8 shadow-none">
-            <CardHeader className="p-0 pb-4 border-b border-[#70707d]/25">
-              <CardTitle className="text-lg flex items-center gap-2.5 text-[#ededf3] font-medium tracking-[0.015em]">
-                <Search className="h-5 w-5 text-[#c3c3cc]" />
+          <Card className="lg:col-span-7 bg-[#1e1e2a] rounded-[12px] p-[32px] shadow-none">
+            <CardHeader className="p-0 pb-4 border-b border-[#70707d]/20">
+              <CardTitle className="text-[21px] font-[480] flex items-center gap-2.5 text-[#ededf3] leading-[1.35]">
+                <Search className="h-5 w-5 text-[#ededf3]" />
                 Search Medicine or Active Formula
               </CardTitle>
-              <CardDescription className="text-xs text-[#c3c3cc] font-normal">
+              <CardDescription className="text-sm text-[#c3c3cc] font-normal mt-1">
                 Live query across verified Bengaluru pharmacies (Koramangala, Indiranagar, HSR, Whitefield & more)
               </CardDescription>
             </CardHeader>
@@ -526,11 +523,11 @@ export default function PatientSearchPage() {
                       setSelectedCategory('all');
                       executeSearch(e.target.value);
                     }}
-                    className="pl-11 h-11 text-sm bg-[#171721] border-[#70707d]/30 text-[#ededf3] placeholder:text-[#c3c3cc]/50 rounded-full focus:border-[#70707d]"
+                    className="pl-11 h-11 text-base bg-[#171721] border-[#e2e3ed]/25 text-[#ededf3] placeholder:text-[#c3c3cc] rounded-[32px]"
                   />
                 </div>
-                {/* Single Cobalt #5266eb Primary Conversion Button */}
-                <Button type="submit" variant="default" className="h-11 px-6 text-sm rounded-full bg-[#5266eb] hover:bg-[#4355d6] text-white shadow-none font-normal shrink-0">
+                {/* Primary Conversion Button: Cobalt #5266eb */}
+                <Button type="submit" variant="default" className="h-11 px-6 text-base rounded-[32px] bg-[#5266eb] hover:bg-[#4355d6] text-white shadow-none font-normal shrink-0 border-0">
                   <Search className="h-4 w-4 mr-1.5" />
                   Search
                 </Button>
@@ -538,8 +535,8 @@ export default function PatientSearchPage() {
 
               {/* Quick Popular Pills */}
               <div className="flex flex-wrap items-center gap-2 text-xs">
-                <span className="text-[#c3c3cc] font-normal flex items-center gap-1">
-                  <Zap className="h-3 w-3 text-[#c3c3cc]" />
+                <span className="text-[#c3c3cc] font-[480] flex items-center gap-1">
+                  <Zap className="h-3 w-3 text-[#ededf3]" />
                   Popular:
                 </span>
                 {['Dolo 650', 'Augmentin 625', 'Azithral 500', 'Pan 40', 'Glycomet 500', 'Telma 40', 'Shelcal 500', 'Montair LC'].map((med) => (
@@ -551,7 +548,7 @@ export default function PatientSearchPage() {
                       setSelectedCategory('all');
                       executeSearch(med);
                     }}
-                    className="px-3 py-1 rounded-full bg-[#171721] hover:bg-[#242432] text-[#c3c3cc] hover:text-[#ededf3] border border-[#70707d]/30 transition-colors cursor-pointer text-xs font-normal shadow-none"
+                    className="px-3.5 py-1.5 rounded-[40px] bg-[#272735] hover:bg-[#323244] text-[#ededf3] transition-colors cursor-pointer text-xs font-[480] shadow-none"
                   >
                     {med}
                   </button>
@@ -559,10 +556,9 @@ export default function PatientSearchPage() {
               </div>
 
               {/* Patient Live Location Bar & Search */}
-              <div className="pt-3.5 border-t border-[#70707d]/25 space-y-2.5">
-                {/* Real-time Feedback Banner */}
+              <div className="pt-4 border-t border-[#70707d]/20 space-y-3">
                 {locationFeedback && (
-                  <div className="text-xs p-3 rounded-[8px] bg-[#242432] border border-[#70707d]/40 text-[#ededf3] flex items-center justify-between gap-2 shadow-none animate-in fade-in">
+                  <div className="text-xs p-3 rounded-[8px] bg-[#272735] text-[#ededf3] flex items-center justify-between gap-2 shadow-none animate-in fade-in">
                     <div className="flex items-center gap-2 min-w-0">
                       <Navigation className="h-4 w-4 text-[#ededf3] shrink-0" />
                       <span className="truncate">{locationFeedback}</span>
@@ -578,25 +574,25 @@ export default function PatientSearchPage() {
                 )}
 
                 {/* Current Location Badge & GPS Controls */}
-                <div className="flex flex-wrap items-center justify-between gap-3 text-xs bg-[#171721] p-3.5 rounded-[8px] border border-[#70707d]/30">
+                <div className="flex flex-wrap items-center justify-between gap-3 text-sm bg-[#171721] p-3.5 rounded-[8px]">
                   <div className="flex items-center gap-2 flex-wrap min-w-0">
-                    <div className="flex items-center gap-1.5 font-normal text-[#ededf3]">
-                      <MapPin className="h-4 w-4 text-[#c3c3cc] shrink-0" />
+                    <div className="flex items-center gap-1.5 font-[480] text-[#ededf3]">
+                      <MapPin className="h-4 w-4 text-[#ededf3] shrink-0" />
                       <span className="truncate max-w-[200px] sm:max-w-xs">{patientLocation.name}</span>
                     </div>
 
                     {patientLocation.isLiveGps ? (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-normal bg-[#242432] text-[#ededf3] border border-[#70707d]/35">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#ededf3]" />
+                      <span className="inline-flex items-center gap-1 px-3 py-0.5 rounded-[40px] text-[12px] font-[480] bg-[#272735] text-[#ededf3]">
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#5266eb]" />
                         Exact GPS Live
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] text-[#c3c3cc] bg-[#1e1e2a] border border-[#70707d]/30">
+                      <span className="inline-flex items-center gap-1 px-3 py-0.5 rounded-[40px] text-[12px] text-[#c3c3cc] bg-[#1e1e2a]">
                         {patientLocation.city || 'Hub Selected'}
                       </span>
                     )}
 
-                    <span className="text-[10px] text-[#70707d] font-mono hidden sm:inline">
+                    <span className="text-[12px] text-[#70707d] font-mono hidden sm:inline">
                       ({patientLocation.lat.toFixed(4)}°, {patientLocation.lon.toFixed(4)}°)
                     </span>
                   </div>
@@ -608,9 +604,9 @@ export default function PatientSearchPage() {
                       size="sm"
                       onClick={detectLiveLocation}
                       disabled={isDetectingLocation}
-                      className="h-8 text-xs px-3.5 rounded-full border-[#70707d]/30 bg-[#1e1e2a] hover:bg-[#242432] text-[#ededf3] font-normal"
+                      className="h-8 text-xs px-4 rounded-[40px] text-[#ededf3] font-normal"
                     >
-                      <Navigation className={`h-3.5 w-3.5 mr-1 text-[#c3c3cc] ${isDetectingLocation ? 'animate-spin' : ''}`} />
+                      <Navigation className={`h-3.5 w-3.5 mr-1 text-[#ededf3] ${isDetectingLocation ? 'animate-spin' : ''}`} />
                       {isDetectingLocation ? 'Locating...' : 'Detect Exact GPS'}
                     </Button>
 
@@ -619,9 +615,9 @@ export default function PatientSearchPage() {
                       variant="ghost"
                       size="sm"
                       onClick={() => setShowLocationModal(!showLocationModal)}
-                      className="h-8 text-xs text-[#c3c3cc] hover:text-[#ededf3] rounded-full font-normal"
+                      className="h-8 text-xs text-[#ededf3] rounded-[40px] font-normal"
                     >
-                      <Search className="h-3.5 w-3.5 mr-1 text-[#c3c3cc]" />
+                      <Search className="h-3.5 w-3.5 mr-1 text-[#ededf3]" />
                       {showLocationModal ? 'Close' : 'Change Area'}
                     </Button>
                   </div>
@@ -629,9 +625,9 @@ export default function PatientSearchPage() {
 
                 {/* Quick Hub Dropdown & Custom Search Drawer */}
                 {showLocationModal && (
-                  <div className="p-4 rounded-[8px] bg-[#171721] border border-[#70707d]/30 space-y-3 animate-in fade-in">
+                  <div className="p-4 rounded-[8px] bg-[#171721] space-y-3 animate-in fade-in">
                     <div>
-                      <label className="block text-[11px] font-normal text-[#c3c3cc] uppercase tracking-wider mb-1.5">
+                      <label className="block text-[12px] font-[480] text-[#c3c3cc] uppercase tracking-[0.12px] mb-1.5">
                         Search Any Locality or City:
                       </label>
                       <div className="relative">
@@ -640,27 +636,27 @@ export default function PatientSearchPage() {
                           placeholder="Type Balmatta, Kadri, Surathkal, Koramangala, Indiranagar..."
                           value={customLocationQuery}
                           onChange={(e) => handleCustomLocationSearch(e.target.value)}
-                          className="h-10 pl-9 text-xs bg-[#13131b] border-[#70707d]/30 text-[#ededf3] placeholder:text-[#c3c3cc]/50 rounded-full"
+                          className="h-10 pl-9 text-xs bg-[#1e1e2a] border-[#e2e3ed]/20 text-[#ededf3] placeholder:text-[#c3c3cc] rounded-[32px]"
                         />
                         {isSearchingLocation && (
-                          <RefreshCw className="absolute right-3.5 top-3 h-3.5 w-3.5 text-[#c3c3cc] animate-spin" />
+                          <RefreshCw className="absolute right-3.5 top-3 h-3.5 w-3.5 text-[#ededf3] animate-spin" />
                         )}
                       </div>
 
                       {/* Autocomplete Suggestions */}
                       {locationSuggestions.length > 0 && (
-                        <div className="mt-2 border border-[#70707d]/30 rounded-[8px] bg-[#13131b] overflow-hidden divide-y divide-[#70707d]/20 max-h-48 overflow-y-auto">
+                        <div className="mt-2 rounded-[8px] bg-[#1e1e2a] overflow-hidden divide-y divide-[#70707d]/20 max-h-48 overflow-y-auto">
                           {locationSuggestions.map((item, idx) => (
                             <button
                               key={idx}
                               type="button"
                               onClick={() => selectCustomLocation(item)}
-                              className="w-full text-left p-3 text-xs hover:bg-[#1e1e2a] text-[#ededf3] flex items-start gap-2.5 transition-colors cursor-pointer"
+                              className="w-full text-left p-3 text-xs hover:bg-[#272735] text-[#ededf3] flex items-start gap-2.5 transition-colors cursor-pointer"
                             >
-                              <MapPin className="h-3.5 w-3.5 text-[#c3c3cc] shrink-0 mt-0.5" />
+                              <MapPin className="h-3.5 w-3.5 text-[#ededf3] shrink-0 mt-0.5" />
                               <div className="min-w-0">
-                                <p className="font-normal text-[#ededf3] truncate">{item.name}</p>
-                                <p className="text-[10px] text-[#c3c3cc] truncate">{item.displayName}</p>
+                                <p className="font-[480] text-[#ededf3] truncate">{item.name}</p>
+                                <p className="text-[11px] text-[#c3c3cc] truncate">{item.displayName}</p>
                               </div>
                             </button>
                           ))}
@@ -670,7 +666,7 @@ export default function PatientSearchPage() {
 
                     {/* Predefined Hubs by Region */}
                     <div>
-                      <label className="block text-[11px] font-normal text-[#c3c3cc] uppercase tracking-wider mb-1.5">
+                      <label className="block text-[12px] font-[480] text-[#c3c3cc] uppercase tracking-[0.12px] mb-1.5">
                         Or Pick a Medical Hub:
                       </label>
                       <select
@@ -685,7 +681,7 @@ export default function PatientSearchPage() {
                             setTimeout(() => setLocationFeedback(null), 5000);
                           }
                         }}
-                        className="w-full bg-[#13131b] border border-[#70707d]/30 rounded-full px-4 py-2 text-xs font-normal text-[#ededf3] cursor-pointer focus:outline-none focus:border-[#70707d]"
+                        className="w-full bg-[#1e1e2a] border border-[#e2e3ed]/20 rounded-[32px] px-4 py-2 text-xs font-normal text-[#ededf3] cursor-pointer focus:outline-none focus:border-[#e2e3ed]"
                       >
                         <optgroup label="📍 Mangaluru & Coastal Karnataka Hubs" className="bg-[#1e1e2a] text-[#ededf3]">
                           {LOCATIONS.filter((l) => l.city === 'Mangaluru').map((loc) => (
@@ -711,18 +707,18 @@ export default function PatientSearchPage() {
           </Card>
 
           {/* Right: AI Prescription OCR (5 cols) */}
-          <Card className="lg:col-span-5 border border-[#70707d]/30 bg-[#1e1e2a] rounded-[12px] p-8 shadow-none">
-            <CardHeader className="p-0 pb-4 border-b border-[#70707d]/25">
+          <Card className="lg:col-span-5 bg-[#1e1e2a] rounded-[12px] p-[32px] shadow-none">
+            <CardHeader className="p-0 pb-4 border-b border-[#70707d]/20">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-lg flex items-center gap-2 text-[#ededf3] font-medium tracking-[0.015em]">
-                  <FileText className="h-5 w-5 text-[#c3c3cc]" />
+                <CardTitle className="text-[21px] font-[480] flex items-center gap-2 text-[#ededf3] leading-[1.35]">
+                  <FileText className="h-5 w-5 text-[#ededf3]" />
                   Prescription OCR
                 </CardTitle>
-                <Badge variant="outline" className="text-[10px] border-[#70707d]/30 bg-[#171721] text-[#c3c3cc] flex items-center gap-1 rounded-full font-normal">
-                  <Cloud className="h-3 w-3 text-[#c3c3cc]" /> Google Cloud Vision
+                <Badge variant="outline" className="text-[12px] border-[#e2e3ed]/20 text-[#ededf3] flex items-center gap-1 rounded-[40px] font-[480]">
+                  <Cloud className="h-3 w-3 text-[#ededf3]" /> Google Cloud Vision
                 </Badge>
               </div>
-              <CardDescription className="text-xs text-[#c3c3cc] font-normal">
+              <CardDescription className="text-sm text-[#c3c3cc] font-normal mt-1">
                 Snap or upload doctor's handwritten prescription
               </CardDescription>
             </CardHeader>
@@ -743,73 +739,73 @@ export default function PatientSearchPage() {
               {/* Upload Dropzone */}
               <div
                 onClick={() => fileInputRef.current?.click()}
-                className="group relative border border-dashed border-[#70707d]/35 hover:border-[#70707d]/65 rounded-[8px] p-6 text-center cursor-pointer bg-[#171721] hover:bg-[#1a1a24] transition-colors flex flex-col items-center justify-center gap-2.5 shadow-none"
+                className="group relative border border-dashed border-[#70707d]/35 hover:border-[#e2e3ed]/60 rounded-[8px] p-6 text-center cursor-pointer bg-[#171721] hover:bg-[#1e1e2a] transition-colors flex flex-col items-center justify-center gap-2.5 shadow-none"
               >
-                <div className="h-11 w-11 rounded-full bg-[#1e1e2a] border border-[#70707d]/30 text-[#ededf3] flex items-center justify-center">
+                <div className="h-11 w-11 rounded-[40px] bg-[#272735] text-[#ededf3] flex items-center justify-center">
                   <UploadCloud className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-xs font-normal text-[#ededf3]">
+                  <p className="text-sm font-[480] text-[#ededf3]">
                     Click to upload prescription photo
                   </p>
-                  <p className="text-[11px] text-[#c3c3cc] mt-0.5">
+                  <p className="text-xs text-[#c3c3cc] mt-0.5">
                     Supports JPG, PNG, WEBP, or Camera capture
                   </p>
                 </div>
               </div>
 
               {/* 3 Fast 1-Click Demo Prescriptions */}
-              <div className="bg-[#171721] p-3.5 rounded-[8px] border border-[#70707d]/30 space-y-2">
-                <span className="text-[11px] text-[#c3c3cc] font-normal flex items-center gap-1.5">
-                  <Sparkles className="h-3.5 w-3.5 text-[#c3c3cc]" />
+              <div className="bg-[#171721] p-3.5 rounded-[8px] space-y-2">
+                <span className="text-[12px] text-[#ededf3] font-[480] flex items-center gap-1.5">
+                  <Sparkles className="h-3.5 w-3.5 text-[#ededf3]" />
                   Try 1-Click Doctor Rx Demos:
                 </span>
-                <div className="grid grid-cols-3 gap-1.5">
+                <div className="grid grid-cols-3 gap-2">
                   <button
                     type="button"
                     onClick={() => handleSamplePrescription('fever')}
                     disabled={ocrLoading}
-                    className="p-2 text-left rounded-[8px] bg-[#1e1e2a] hover:bg-[#242432] border border-[#70707d]/30 text-[10px] text-[#c3c3cc] hover:text-[#ededf3] transition-colors disabled:opacity-50 cursor-pointer shadow-none"
+                    className="p-2.5 text-left rounded-[8px] bg-[#1e1e2a] hover:bg-[#272735] text-[11px] text-[#c3c3cc] hover:text-[#ededf3] transition-colors disabled:opacity-50 cursor-pointer shadow-none"
                   >
-                    <span className="font-medium block text-[#ededf3] text-[11px]">🩺 Fever Rx</span>
+                    <span className="font-[480] block text-[#ededf3] text-[12px]">🩺 Fever Rx</span>
                     <span className="text-[#c3c3cc] block line-clamp-1">Augmentin + Dolo</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => handleSamplePrescription('allergy')}
                     disabled={ocrLoading}
-                    className="p-2 text-left rounded-[8px] bg-[#1e1e2a] hover:bg-[#242432] border border-[#70707d]/30 text-[10px] text-[#c3c3cc] hover:text-[#ededf3] transition-colors disabled:opacity-50 cursor-pointer shadow-none"
+                    className="p-2.5 text-left rounded-[8px] bg-[#1e1e2a] hover:bg-[#272735] text-[11px] text-[#c3c3cc] hover:text-[#ededf3] transition-colors disabled:opacity-50 cursor-pointer shadow-none"
                   >
-                    <span className="font-medium block text-[#ededf3] text-[11px]">🤧 Allergy Rx</span>
+                    <span className="font-[480] block text-[#ededf3] text-[12px]">🤧 Allergy Rx</span>
                     <span className="text-[#c3c3cc] block line-clamp-1">Montair + Allegra</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => handleSamplePrescription('chronic')}
                     disabled={ocrLoading}
-                    className="p-2 text-left rounded-[8px] bg-[#1e1e2a] hover:bg-[#242432] border border-[#70707d]/30 text-[10px] text-[#c3c3cc] hover:text-[#ededf3] transition-colors disabled:opacity-50 cursor-pointer shadow-none"
+                    className="p-2.5 text-left rounded-[8px] bg-[#1e1e2a] hover:bg-[#272735] text-[11px] text-[#c3c3cc] hover:text-[#ededf3] transition-colors disabled:opacity-50 cursor-pointer shadow-none"
                   >
-                    <span className="font-medium block text-[#ededf3] text-[11px]">🩸 Diabetes Rx</span>
+                    <span className="font-[480] block text-[#ededf3] text-[12px]">🩸 Diabetes Rx</span>
                     <span className="text-[#c3c3cc] block line-clamp-1">Glycomet + Telma</span>
                   </button>
                 </div>
               </div>
 
               {ocrLoading && (
-                <div className="p-4 rounded-[8px] bg-[#242432] border border-[#70707d]/30 text-center space-y-2">
+                <div className="p-4 rounded-[8px] bg-[#272735] text-center space-y-2">
                   <RefreshCw className="h-5 w-5 animate-spin text-[#ededf3] mx-auto" />
-                  <p className="text-xs font-normal text-[#ededf3]">
+                  <p className="text-sm font-[480] text-[#ededf3]">
                     Analyzing handwritten prescription with Gemini Vision...
                   </p>
-                  <p className="text-[10px] text-[#c3c3cc]">
+                  <p className="text-xs text-[#c3c3cc]">
                     Decoding medical shorthand (1-0-1, AC, PC, SOS) into plain English
                   </p>
                 </div>
               )}
 
               {ocrError && (
-                <div className="p-3.5 rounded-[8px] bg-[#242432] border border-[#70707d]/30 text-[#ededf3] text-xs flex items-start gap-2">
-                  <AlertCircle className="h-4 w-4 shrink-0 text-[#c3c3cc] mt-0.5" />
+                <div className="p-3.5 rounded-[8px] bg-[#272735] text-[#ededf3] text-xs flex items-start gap-2">
+                  <AlertCircle className="h-4 w-4 shrink-0 text-[#ededf3] mt-0.5" />
                   <span>{ocrError}</span>
                 </div>
               )}
@@ -820,10 +816,10 @@ export default function PatientSearchPage() {
 
         {/* OCR Decoded Medicine Cards */}
         {ocrMedicines.length > 0 && (
-          <div className="p-8 rounded-[12px] bg-[#1e1e2a] border border-[#70707d]/30 shadow-none space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#70707d]/25 pb-3.5">
+          <div className="p-[32px] rounded-[12px] bg-[#1e1e2a] shadow-none space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#70707d]/20 pb-4">
               <div>
-                <h3 className="text-base font-medium text-[#ededf3] flex items-center gap-2">
+                <h3 className="text-lg font-[480] text-[#ededf3] flex items-center gap-2">
                   <CheckCircle2 className="h-5 w-5 text-[#ededf3]" />
                   Gemini Vision OCR Decoded {ocrMedicines.length} Prescribed Medicines
                 </h3>
@@ -833,35 +829,35 @@ export default function PatientSearchPage() {
                   </p>
                 )}
               </div>
-              <Badge variant="secondary" className="w-fit text-xs rounded-full font-normal">
+              <Badge variant="secondary" className="w-fit text-xs rounded-[40px] font-[480] bg-[#272735] text-[#ededf3]">
                 Clinical JSON Validated
               </Badge>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               {ocrMedicines.map((med, idx) => (
-                <Card key={idx} className="bg-[#171721] border border-[#70707d]/30 hover:border-[#70707d]/50 shadow-none transition-colors rounded-[8px]">
+                <Card key={idx} className="bg-[#171721] shadow-none transition-colors rounded-[8px]">
                   <CardHeader className="p-4 pb-2">
                     <div className="flex items-start justify-between">
-                      <CardTitle className="text-sm font-medium text-[#ededf3]">
+                      <CardTitle className="text-sm font-[480] text-[#ededf3]">
                         {med.name}
                       </CardTitle>
                       {med.dosage && (
-                        <Badge variant="outline" className="text-[10px] rounded-full">
+                        <Badge variant="outline" className="text-[10px] rounded-[40px]">
                           {med.dosage}
                         </Badge>
                       )}
                     </div>
                     {med.generic && (
-                      <p className="text-[11px] text-[#c3c3cc]">{med.generic}</p>
+                      <p className="text-xs text-[#c3c3cc]">{med.generic}</p>
                     )}
                   </CardHeader>
                   <CardContent className="p-4 pt-1 space-y-2 text-xs">
-                    <div className="bg-[#13131b] p-2.5 rounded-[6px] border border-[#70707d]/25">
-                      <span className="text-[10px] uppercase font-normal text-[#ededf3] block">
+                    <div className="bg-[#1e1e2a] p-2.5 rounded-[6px]">
+                      <span className="text-[10px] uppercase font-[480] text-[#ededf3] block">
                         Doctor Shorthand: {med.frequency || '1-0-1'}
                       </span>
-                      <p className="text-[11px] text-[#c3c3cc] mt-0.5 leading-snug">
+                      <p className="text-xs text-[#c3c3cc] mt-0.5 leading-snug font-normal">
                         {med.instructions || 'Take as advised by physician'}
                       </p>
                     </div>
@@ -869,7 +865,7 @@ export default function PatientSearchPage() {
                     <Button
                       size="sm"
                       variant="outline"
-                      className="w-full text-xs h-8 rounded-full border-[#70707d]/30 text-[#ededf3] hover:bg-[#242432] font-normal"
+                      className="w-full text-xs h-8 rounded-[40px] text-[#ededf3] hover:bg-[#272735] font-normal"
                       onClick={() => {
                         setSearchQuery(med.name);
                         setSelectedCategory('all');
@@ -887,37 +883,35 @@ export default function PatientSearchPage() {
         )}
 
         {/* Results Toolbar */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-6 border-t border-[#70707d]/25">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-6 border-t border-[#70707d]/20">
           <div>
-            <h2 className="text-xl font-medium text-[#ededf3] tracking-[0.015em] flex items-center gap-2.5">
-              <Store className="h-5 w-5 text-[#c3c3cc]" />
+            <h2 className="text-[28px] font-[480] text-[#ededf3] tracking-[0.42px] leading-[1.2] flex items-center gap-2.5">
+              <Store className="h-6 w-6 text-[#ededf3]" />
               Live Pharmacy Availability ({filteredResults.length} In-Stock Matches)
             </h2>
-            <p className="text-xs text-[#c3c3cc] mt-0.5 font-normal">
+            <p className="text-sm text-[#c3c3cc] mt-1 font-normal">
               Filtered for {patientLocation.name} &bull; Exact distance & pricing compared
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-4">
-            {/* Filter: In Stock Only */}
-            <label className="flex items-center gap-2 text-xs font-normal text-[#c3c3cc] cursor-pointer select-none hover:text-[#ededf3] transition-colors">
+            <label className="flex items-center gap-2 text-sm font-normal text-[#ededf3] cursor-pointer select-none hover:text-white transition-colors">
               <input
                 type="checkbox"
                 checked={inStockOnly}
                 onChange={(e) => setInStockOnly(e.target.checked)}
-                className="h-4 w-4 rounded-full border-[#70707d]/40 bg-[#1e1e2a] text-[#5266eb] focus:ring-0 cursor-pointer"
+                className="h-4 w-4 rounded-[4px] border-[#e2e3ed]/30 bg-[#1e1e2a] text-[#5266eb] focus:ring-0 cursor-pointer"
               />
               In Stock Only
             </label>
 
-            {/* Sort Dropdown */}
-            <div className="flex items-center gap-2 text-xs text-[#c3c3cc]">
-              <SlidersHorizontal className="h-3.5 w-3.5 text-[#c3c3cc]" />
+            <div className="flex items-center gap-2 text-sm text-[#c3c3cc]">
+              <SlidersHorizontal className="h-4 w-4 text-[#ededf3]" />
               <span>Sort:</span>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as 'distance' | 'price')}
-                className="bg-[#1e1e2a] border border-[#70707d]/30 rounded-full px-3.5 py-1.5 text-xs font-normal text-[#ededf3] cursor-pointer focus:outline-none focus:border-[#70707d] transition-colors"
+                className="bg-[#1e1e2a] border border-[#e2e3ed]/20 rounded-[32px] px-4 py-1.5 text-xs font-normal text-[#ededf3] cursor-pointer focus:outline-none focus:border-[#e2e3ed] transition-colors"
               >
                 <option value="distance" className="bg-[#171721] text-[#ededf3]">Nearest Distance (km)</option>
                 <option value="price" className="bg-[#171721] text-[#ededf3]">Lowest Price (₹)</option>
@@ -926,39 +920,38 @@ export default function PatientSearchPage() {
           </div>
         </div>
 
-        {/* Results Grid - Flat Alpine Cards */}
+        {/* Results Grid - Flat Graphite Cards */}
         {loading ? (
           <div className="p-16 text-center text-[#c3c3cc] flex flex-col items-center gap-3">
             <RefreshCw className="h-8 w-8 animate-spin text-[#ededf3]" />
-            <p className="text-sm font-normal">Querying live pharmacy inventories...</p>
+            <p className="text-base font-normal">Querying live pharmacy inventories...</p>
           </div>
         ) : filteredResults.length === 0 ? (
-          <Card className="p-12 text-center rounded-[12px] border border-[#70707d]/30 bg-[#1e1e2a] shadow-none">
+          <Card className="p-[32px] text-center rounded-[12px] bg-[#1e1e2a] shadow-none">
             <Pill className="h-10 w-10 text-[#70707d] mx-auto mb-2 opacity-60" />
-            <h3 className="text-base font-medium text-[#ededf3]">
+            <h3 className="text-base font-[480] text-[#ededf3]">
               No matching medicines found
             </h3>
-            <p className="text-xs text-[#c3c3cc] mt-1 max-w-sm mx-auto font-normal">
+            <p className="text-sm text-[#c3c3cc] mt-1 max-w-sm mx-auto font-normal">
               We couldn't find "{searchQuery}" in nearby stock. Try searching "Dolo 650", "Augmentin", or click a quick category pill above.
             </p>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredResults.map((item) => {
               const estimatedDriveMins = Math.max(3, Math.round(item.distance_km * 2.8));
 
               return (
                 <Card
                   key={item.inventory_id}
-                  className={`overflow-hidden transition-colors duration-150 rounded-[12px] bg-[#1e1e2a] border border-[#70707d]/30 hover:border-[#70707d]/50 shadow-none ${
+                  className={`overflow-hidden transition-colors duration-150 rounded-[12px] bg-[#1e1e2a] shadow-none ${
                     !item.in_stock ? 'opacity-70' : ''
                   }`}
                 >
-                  {/* Top Header */}
-                  <div className="p-5 pb-3">
+                  <div className="p-6 pb-4">
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <h3 className="font-medium text-base text-[#ededf3] leading-tight tracking-[0.015em]">
+                        <h3 className="font-[480] text-lg text-[#ededf3] leading-snug tracking-[0.01em]">
                           {item.medicine_name}
                         </h3>
                         {item.generic_name && (
@@ -968,72 +961,64 @@ export default function PatientSearchPage() {
                         )}
                       </div>
 
-                      {/* Stock Status Badge */}
                       <Badge
                         variant="secondary"
-                        className="shrink-0 text-xs font-normal gap-1.5 rounded-full border-[#70707d]/30 bg-[#171721] text-[#ededf3]"
+                        className="shrink-0 text-xs font-[480] gap-1.5 rounded-[40px] bg-[#272735] text-[#ededf3]"
                       >
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#ededf3]" />
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#5266eb]" />
                         {item.in_stock
                           ? `${item.quantity} In Stock`
                           : 'Out of Stock'}
                       </Badge>
                     </div>
 
-                    <p className="text-[11px] text-[#c3c3cc] mt-1 font-mono">
+                    <p className="text-[12px] text-[#c3c3cc] mt-1 font-mono">
                       Dosage: {item.dosage || 'Standard'}
                     </p>
                   </div>
 
-                  {/* Pharmacy Information & Distance */}
-                  <CardContent className="px-5 py-3 space-y-2.5 border-t border-[#70707d]/20 text-xs p-0">
-                    
-                    {/* Pharmacy Name & Rating */}
+                  <CardContent className="px-6 py-4 space-y-3 border-t border-[#70707d]/20 text-sm p-0">
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-1.5 min-w-0">
-                        <Store className="h-4 w-4 text-[#c3c3cc] shrink-0" />
-                        <span className="font-normal text-[#ededf3] text-sm truncate">
+                        <Store className="h-4 w-4 text-[#ededf3] shrink-0" />
+                        <span className="font-[480] text-[#ededf3] text-sm truncate">
                           {item.pharmacy_name}
                         </span>
                       </div>
-                      <span className="flex items-center gap-1 text-[11px] text-[#c3c3cc] font-normal shrink-0">
-                        <Star className="h-3 w-3 fill-[#c3c3cc]" />
+                      <span className="flex items-center gap-1 text-xs text-[#ededf3] font-[480] shrink-0">
+                        <Star className="h-3.5 w-3.5 fill-[#ededf3]" />
                         4.9
                       </span>
                     </div>
 
-                    {/* Address */}
                     <div className="flex items-start gap-2 text-[#c3c3cc]">
-                      <MapPin className="h-3.5 w-3.5 text-[#70707d] shrink-0 mt-0.5" />
-                      <span className="line-clamp-2 leading-snug font-normal">{item.pharmacy_address}</span>
+                      <MapPin className="h-4 w-4 text-[#70707d] shrink-0 mt-0.5" />
+                      <span className="line-clamp-2 leading-snug font-normal text-xs">{item.pharmacy_address}</span>
                     </div>
 
-                    {/* Distance & Drive Time Display */}
                     <div className="flex items-center justify-between pt-1">
                       <div className="flex items-center gap-1.5">
-                        <Compass className="h-3.5 w-3.5 text-[#c3c3cc]" />
-                        <span className="font-normal text-[#ededf3]">
+                        <Compass className="h-4 w-4 text-[#ededf3]" />
+                        <span className="font-normal text-[#ededf3] text-xs">
                           {item.distance_km} km away
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-1.5 text-[11px] text-[#c3c3cc] bg-[#171721] px-2.5 py-0.5 rounded-full border border-[#70707d]/30">
-                        <Car className="h-3 w-3 text-[#c3c3cc]" />
+                      <div className="flex items-center gap-1 text-xs text-[#ededf3] bg-[#272735] px-3 py-1 rounded-[40px]">
+                        <Car className="h-3.5 w-3.5 text-[#ededf3]" />
                         <span>~{estimatedDriveMins} mins</span>
                       </div>
                     </div>
 
-                    {/* Price */}
                     <div className="flex items-center justify-between pt-1">
-                      <span className="text-[#c3c3cc] font-normal">Price per unit:</span>
-                      <span className="text-lg font-medium text-[#ededf3]">
+                      <span className="text-[#c3c3cc] text-xs font-normal">Price per unit:</span>
+                      <span className="text-lg font-[480] text-[#ededf3]">
                         {formatCurrency(item.price)}
                       </span>
                     </div>
                   </CardContent>
 
-                  {/* Card Footer Actions */}
-                  <CardFooter className="px-5 py-3 bg-[#171721] border-t border-[#70707d]/20 flex items-center justify-between gap-2 p-0">
+                  <CardFooter className="px-6 py-4 bg-[#171721] border-t border-[#70707d]/20 flex items-center justify-between gap-2.5 p-0">
                     <a
                       href={`tel:${item.pharmacy_phone || '+918025534321'}`}
                       className="flex-1"
@@ -1041,9 +1026,9 @@ export default function PatientSearchPage() {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="w-full text-xs h-9 rounded-full border-[#70707d]/30 text-[#ededf3] bg-[#1e1e2a] hover:bg-[#242432] font-normal"
+                        className="w-full text-xs h-9 rounded-[40px] text-[#ededf3] font-normal"
                       >
-                        <Phone className="h-3.5 w-3.5 mr-1 text-[#c3c3cc]" />
+                        <Phone className="h-3.5 w-3.5 mr-1 text-[#ededf3]" />
                         Call
                       </Button>
                     </a>
@@ -1057,9 +1042,9 @@ export default function PatientSearchPage() {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="w-full text-xs h-9 rounded-full border-[#70707d]/30 text-[#ededf3] bg-[#1e1e2a] hover:bg-[#242432] font-normal"
+                        className="w-full text-xs h-9 rounded-[40px] text-[#ededf3] font-normal"
                       >
-                        <Navigation className="h-3.5 w-3.5 mr-1 text-[#c3c3cc]" />
+                        <Navigation className="h-3.5 w-3.5 mr-1 text-[#ededf3]" />
                         Maps
                       </Button>
                     </a>
@@ -1067,7 +1052,7 @@ export default function PatientSearchPage() {
                     <Button
                       variant="secondary"
                       size="sm"
-                      className="flex-1 text-xs h-9 rounded-full bg-[#242432] hover:bg-[#2c2c3e] border border-[#70707d]/30 text-[#ededf3] font-normal"
+                      className="flex-1 text-xs h-9 rounded-[32px] bg-[#272735] hover:bg-[#323244] text-[#ededf3] font-normal"
                       onClick={() => {
                         const randomCode = 'RES-' + Math.floor(10000 + Math.random() * 90000);
                         setReservationModal({
@@ -1094,28 +1079,28 @@ export default function PatientSearchPage() {
 
       {/* Interactive Reservation Confirmation Modal */}
       {reservationModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#171721]/90 animate-in fade-in duration-200">
-          <div className="w-full max-w-md rounded-[12px] bg-[#1e1e2a] border border-[#70707d]/30 shadow-none p-8 space-y-4 text-center relative overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#171721]/90 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="w-full max-w-md rounded-[12px] bg-[#1e1e2a] shadow-none p-[32px] space-y-5 text-center relative overflow-hidden">
             <button
               onClick={() => setReservationModal(null)}
-              className="absolute top-4 right-4 text-[#c3c3cc] hover:text-[#ededf3] p-1.5 rounded-full hover:bg-[#242432] transition-colors cursor-pointer"
+              className="absolute top-4 right-4 text-[#c3c3cc] hover:text-[#ededf3] p-1.5 rounded-[40px] hover:bg-[#272735] transition-colors cursor-pointer"
             >
               <X className="h-5 w-5" />
             </button>
 
-            <div className="mx-auto h-12 w-12 rounded-full bg-[#171721] border border-[#70707d]/30 text-[#ededf3] flex items-center justify-center">
+            <div className="mx-auto h-12 w-12 rounded-[40px] bg-[#272735] text-[#ededf3] flex items-center justify-center">
               {reservationModal.inStock ? (
                 <CheckCircle2 className="h-6 w-6 text-[#ededf3]" />
               ) : (
-                <Clock className="h-6 w-6 text-[#c3c3cc]" />
+                <Clock className="h-6 w-6 text-[#ededf3]" />
               )}
             </div>
 
             <div>
-              <h3 className="text-xl font-medium text-[#ededf3] tracking-[0.015em]">
+              <h3 className="text-[21px] font-[480] text-[#ededf3] tracking-[0.01em] leading-[1.35]">
                 {reservationModal.inStock ? 'Medicine Held at Counter' : 'Restock Request Sent'}
               </h3>
-              <p className="text-xs text-[#c3c3cc] mt-1 max-w-xs mx-auto font-normal">
+              <p className="text-xs text-[#c3c3cc] mt-1.5 max-w-xs mx-auto font-normal">
                 {reservationModal.inStock
                   ? 'Show your reservation token to the pharmacist upon arrival for zero-wait checkout.'
                   : 'We notified the pharmacy owner to replenish this item in their inventory.'}
@@ -1124,20 +1109,20 @@ export default function PatientSearchPage() {
 
             {/* Token Badge */}
             {reservationModal.inStock && (
-              <div className="py-2.5 px-6 rounded-[8px] bg-[#171721] border border-[#70707d]/30 inline-block">
-                <p className="text-[10px] uppercase font-normal text-[#c3c3cc] tracking-wider">Pickup Pass Token</p>
-                <p className="text-2xl font-mono font-medium text-[#ededf3] tracking-widest">{reservationModal.code}</p>
+              <div className="py-2.5 px-6 rounded-[8px] bg-[#171721] inline-block">
+                <p className="text-[12px] uppercase font-[480] text-[#c3c3cc] tracking-[0.12px]">Pickup Pass Token</p>
+                <p className="text-[32px] font-mono font-[480] text-[#ededf3] tracking-widest leading-none mt-1">{reservationModal.code}</p>
               </div>
             )}
 
-            <div className="bg-[#171721] rounded-[8px] p-4 border border-[#70707d]/20 text-left space-y-2.5 text-xs">
+            <div className="bg-[#171721] rounded-[8px] p-4 text-left space-y-2.5 text-xs text-[#c3c3cc]">
               <div className="flex justify-between">
                 <span className="text-[#c3c3cc]">Medicine:</span>
-                <span className="font-normal text-[#ededf3]">{reservationModal.medicine}</span>
+                <span className="font-[480] text-[#ededf3]">{reservationModal.medicine}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[#c3c3cc]">Pharmacy:</span>
-                <span className="font-normal text-[#ededf3]">{reservationModal.pharmacy}</span>
+                <span className="font-[480] text-[#ededf3]">{reservationModal.pharmacy}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[#c3c3cc]">Store Address:</span>
@@ -1145,29 +1130,29 @@ export default function PatientSearchPage() {
               </div>
               <div className="flex justify-between">
                 <span className="text-[#c3c3cc]">Counter Price:</span>
-                <span className="font-medium text-[#ededf3]">{formatCurrency(reservationModal.price)}</span>
+                <span className="font-[480] text-[#ededf3]">{formatCurrency(reservationModal.price)}</span>
               </div>
               {reservationModal.inStock && (
-                <div className="flex justify-between border-t border-[#70707d]/20 pt-2 text-[11px] text-[#c3c3cc]">
+                <div className="flex justify-between border-t border-[#70707d]/20 pt-2 text-[11px] text-[#ededf3]">
                   <span>Hold Guarantee:</span>
-                  <span className="font-normal text-[#ededf3]">Valid for 2 Hours (Free Hold)</span>
+                  <span className="font-[480] text-[#ededf3]">Valid for 2 Hours (Free Hold)</span>
                 </div>
               )}
             </div>
 
-            <div className="flex gap-2.5 pt-2">
+            <div className="flex gap-3 pt-2">
               <a
                 href={`tel:${reservationModal.phone}`}
                 className="flex-1"
               >
-                <Button variant="outline" className="w-full text-xs h-10 rounded-full border-[#70707d]/30 text-[#ededf3] hover:bg-[#242432] font-normal">
-                  <Phone className="h-3.5 w-3.5 mr-1 text-[#c3c3cc]" />
+                <Button variant="outline" className="w-full text-sm h-10 rounded-[40px] text-[#ededf3] font-normal">
+                  <Phone className="h-4 w-4 mr-1.5 text-[#ededf3]" />
                   Call Store
                 </Button>
               </a>
               <Button
                 variant="default"
-                className="flex-1 text-xs h-10 rounded-full bg-[#5266eb] hover:bg-[#4355d6] text-white shadow-none font-normal"
+                className="flex-1 text-sm h-10 rounded-[32px] bg-[#5266eb] hover:bg-[#4355d6] text-white shadow-none font-normal border-0"
                 onClick={() => setReservationModal(null)}
               >
                 Got It, Thanks

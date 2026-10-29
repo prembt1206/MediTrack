@@ -26,32 +26,32 @@ export function Navbar() {
   const isOwner = user?.role === 'Pharmacy Owner';
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-[#70707d]/25 bg-[#171721] transition-colors shadow-none">
+    <header className="sticky top-0 z-40 w-full border-b border-[#70707d]/20 bg-[#171721]/90 backdrop-blur-md transition-colors shadow-none">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-4">
           
           {/* Logo & Portal Identity */}
           <div className="flex items-center gap-6">
             <Link href={isOwner ? '/pharmacy' : '/patient'} className="flex items-center gap-2.5 group">
-              <div className="relative h-9 w-9 rounded-full bg-[#1e1e2a] border border-[#70707d]/30 flex items-center justify-center text-[#ededf3] group-hover:border-[#70707d]/60 group-hover:bg-[#242432] transition-colors">
+              <div className="relative h-9 w-9 rounded-[40px] bg-[#1e1e2a] border border-[#e2e3ed]/20 flex items-center justify-center text-[#ededf3] group-hover:bg-[#272735] transition-colors">
                 <Pill className="h-4 w-4 text-[#ededf3]" />
                 <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#70707d]" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#5266eb]" />
                 </span>
               </div>
               <div className="flex items-center gap-2.5">
-                <span className="font-medium text-lg tracking-[0.015em] text-[#ededf3] group-hover:text-white transition-colors">
+                <span className="font-[480] text-lg tracking-[0.015em] text-[#ededf3] group-hover:text-white transition-colors">
                   MediTrack
                 </span>
                 {user && (
-                  <span className="text-[10px] font-normal tracking-wide uppercase px-2.5 py-0.5 rounded-full border border-[#70707d]/30 bg-[#1e1e2a] text-[#c3c3cc]">
+                  <span className="text-[12px] font-[480] tracking-[0.12px] uppercase px-3 py-1 rounded-[40px] bg-[#272735] text-[#ededf3]">
                     {isPatient ? 'Patient Portal' : 'Owner Portal'}
                   </span>
                 )}
               </div>
             </Link>
 
-            {/* Strict Role-Specific Navigation Links */}
+            {/* Strict Role-Specific Navigation Links — Navigation Pill Link */}
             <nav className="hidden md:flex items-center gap-1.5">
               
               {/* If PATIENT: Show ONLY Patient topics */}
@@ -59,20 +59,20 @@ export function Navbar() {
                 <>
                   <Link
                     href="/patient"
-                    className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-normal tracking-[0.005em] transition-colors ${
+                    className={`flex items-center gap-2 px-5 py-2 rounded-[40px] text-base font-normal transition-colors ${
                       pathname === '/patient'
-                        ? 'bg-[#242432] text-[#ededf3] border border-[#70707d]/40'
-                        : 'text-[#c3c3cc] hover:text-[#ededf3] hover:bg-[#1e1e2a]'
+                        ? 'bg-[#272735] text-[#ededf3]'
+                        : 'text-[#ededf3] hover:bg-[#272735]/60'
                     }`}
                   >
-                    <Search className="h-3.5 w-3.5 text-[#c3c3cc]" />
+                    <Search className="h-4 w-4 text-[#ededf3]" />
                     <span>Find Medicine</span>
                   </Link>
                   <Link
                     href="/patient"
-                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-normal tracking-[0.005em] text-[#c3c3cc] hover:text-[#ededf3] hover:bg-[#1e1e2a] transition-colors"
+                    className="flex items-center gap-2 px-5 py-2 rounded-[40px] text-base font-normal text-[#ededf3] hover:bg-[#272735]/60 transition-colors"
                   >
-                    <FileText className="h-3.5 w-3.5 text-[#c3c3cc]" />
+                    <FileText className="h-4 w-4 text-[#ededf3]" />
                     <span>Prescription OCR</span>
                   </Link>
                 </>
@@ -83,20 +83,20 @@ export function Navbar() {
                 <>
                   <Link
                     href="/pharmacy"
-                    className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-normal tracking-[0.005em] transition-colors ${
+                    className={`flex items-center gap-2 px-5 py-2 rounded-[40px] text-base font-normal transition-colors ${
                       pathname === '/pharmacy'
-                        ? 'bg-[#242432] text-[#ededf3] border border-[#70707d]/40'
-                        : 'text-[#c3c3cc] hover:text-[#ededf3] hover:bg-[#1e1e2a]'
+                        ? 'bg-[#272735] text-[#ededf3]'
+                        : 'text-[#ededf3] hover:bg-[#272735]/60'
                     }`}
                   >
-                    <Store className="h-3.5 w-3.5 text-[#c3c3cc]" />
+                    <Store className="h-4 w-4 text-[#ededf3]" />
                     <span>Store Inventory</span>
                   </Link>
                   <Link
                     href="/pharmacy"
-                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-normal tracking-[0.005em] text-[#c3c3cc] hover:text-[#ededf3] hover:bg-[#1e1e2a] transition-colors"
+                    className="flex items-center gap-2 px-5 py-2 rounded-[40px] text-base font-normal text-[#ededf3] hover:bg-[#272735]/60 transition-colors"
                   >
-                    <PackagePlus className="h-3.5 w-3.5 text-[#c3c3cc]" />
+                    <PackagePlus className="h-4 w-4 text-[#ededf3]" />
                     <span>Add Stock</span>
                   </Link>
                 </>
@@ -106,24 +106,24 @@ export function Navbar() {
           </div>
 
           {/* Right Action Center */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-3">
             
             {/* Google Cloud Badge */}
             <Badge
               variant="outline"
-              className="hidden lg:inline-flex items-center gap-1.5 border-[#70707d]/30 bg-[#1e1e2a] text-[#c3c3cc] text-[11px] py-1 px-3 rounded-full font-normal shadow-none"
+              className="hidden lg:inline-flex items-center gap-1.5 border-[#e2e3ed]/20 bg-transparent text-[#ededf3] text-[12px] py-1 px-3.5 rounded-[40px] font-[480] shadow-none"
             >
-              <Cloud className="h-3 w-3 text-[#c3c3cc]" />
+              <Cloud className="h-3.5 w-3.5 text-[#ededf3]" />
               <span>Google Cloud AI</span>
             </Badge>
 
             {/* Supabase Connection Status Badge */}
             <Badge
               variant="secondary"
-              className="hidden sm:inline-flex items-center gap-1.5 text-[11px] py-1 px-3 rounded-full font-normal border-[#70707d]/30 bg-[#1e1e2a] text-[#c3c3cc] shadow-none"
+              className="hidden sm:inline-flex items-center gap-1.5 text-[12px] py-1 px-3.5 rounded-[40px] font-[480] bg-[#272735] text-[#ededf3] shadow-none"
             >
-              <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${isConfigured ? 'bg-[#ededf3]' : 'bg-[#70707d]'}`} />
-              <Database className="h-3 w-3 text-[#c3c3cc]" />
+              <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${isConfigured ? 'bg-[#5266eb]' : 'bg-[#70707d]'}`} />
+              <Database className="h-3.5 w-3.5 text-[#ededf3]" />
               <span>{isConfigured ? 'Supabase Live' : 'Demo DB Synced'}</span>
             </Badge>
 
@@ -131,10 +131,10 @@ export function Navbar() {
             {user ? (
               <div className="flex items-center gap-3">
                 <div className="text-right hidden sm:block">
-                  <p className="text-xs font-medium text-[#ededf3] leading-tight">
+                  <p className="text-sm font-[480] text-[#ededf3] leading-tight">
                     {user.fullName}
                   </p>
-                  <p className="text-[11px] text-[#c3c3cc]">
+                  <p className="text-[12px] text-[#c3c3cc]">
                     {user.role}
                   </p>
                 </div>
@@ -142,23 +142,23 @@ export function Navbar() {
                   variant="outline"
                   size="sm"
                   onClick={() => signOut()}
-                  className="flex items-center gap-1.5 text-xs text-[#c3c3cc] hover:text-[#ededf3] border-[#70707d]/30 rounded-full"
+                  className="flex items-center gap-1.5 text-xs text-[#ededf3] rounded-[40px]"
                 >
-                  <LogOut className="h-3.5 w-3.5 text-[#c3c3cc]" />
+                  <LogOut className="h-3.5 w-3.5 text-[#ededf3]" />
                   <span className="hidden sm:inline">Sign Out</span>
                 </Button>
               </div>
             ) : (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <Link href="/login?role=Patient">
-                  <Button size="sm" variant="default" className="text-xs px-3.5 h-8 rounded-full">
-                    <User className="h-3.5 w-3.5 mr-1" />
+                  <Button size="sm" variant="default" className="text-sm px-5 h-9 rounded-[32px]">
+                    <User className="h-4 w-4 mr-1.5" />
                     Patient Sign In
                   </Button>
                 </Link>
                 <Link href="/login?role=Pharmacy+Owner">
-                  <Button size="sm" variant="outline" className="text-xs px-3.5 h-8 rounded-full border-[#70707d]/35">
-                    <Store className="h-3.5 w-3.5 mr-1 text-[#c3c3cc]" />
+                  <Button size="sm" variant="outline" className="text-sm px-5 h-9 rounded-[40px]">
+                    <Store className="h-4 w-4 mr-1.5 text-[#ededf3]" />
                     Pharmacy Owner Sign In
                   </Button>
                 </Link>

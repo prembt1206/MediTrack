@@ -110,24 +110,24 @@ export function ChatWidget() {
       {/* Floating Launcher Button */}
       {!isOpen && (
         <div className="relative">
-          <div className="absolute -top-8 right-1 pointer-events-none flex items-center gap-1.5 text-[10px] font-normal bg-[#1e1e2a] text-[#ededf3] border border-[#70707d]/30 px-2.5 py-0.5 rounded-full shadow-none whitespace-nowrap">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#ededf3]" />
+          <div className="absolute -top-8 right-1 pointer-events-none flex items-center gap-1.5 text-[10px] font-[480] bg-[#1e1e2a] text-[#ededf3] border border-[#e2e3ed]/20 px-2.5 py-0.5 rounded-[40px] shadow-none whitespace-nowrap">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#5266eb]" />
             <span>MediBot AI Online</span>
           </div>
 
           <button
             onClick={() => setIsOpen(true)}
-            className="group relative flex items-center gap-2.5 h-12 px-4 rounded-full bg-[#1e1e2a] hover:bg-[#242432] border border-[#70707d]/30 hover:border-[#70707d]/60 text-[#ededf3] shadow-none transition-colors cursor-pointer"
+            className="group relative flex items-center gap-2.5 h-12 px-4 rounded-[40px] bg-[#1e1e2a] hover:bg-[#272735] text-[#ededf3] shadow-none transition-colors cursor-pointer"
             aria-label="Open MediBot AI Pharmacy Assistant"
           >
             <div className="relative">
               <Bot className="h-5 w-5 text-[#ededf3]" />
               <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#70707d]" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#5266eb]" />
               </span>
             </div>
             <div className="text-left hidden sm:block">
-              <p className="text-xs font-normal leading-tight flex items-center gap-1 text-[#ededf3]">
+              <p className="text-xs font-[480] leading-tight flex items-center gap-1 text-[#ededf3]">
                 MediBot <Sparkles className="h-3 w-3 text-[#c3c3cc]" />
               </p>
               <p className="text-[10px] text-[#c3c3cc]">AI Assistant</p>
@@ -136,20 +136,20 @@ export function ChatWidget() {
         </div>
       )}
 
-      {/* Floating Chat Modal */}
+      {/* Floating Chat Modal: 12px radius, no shadow */}
       {isOpen && (
-        <div className="w-[360px] sm:w-[400px] h-[540px] max-h-[85vh] rounded-[12px] bg-[#1e1e2a] border border-[#70707d]/30 shadow-none flex flex-col overflow-hidden animate-in fade-in duration-200">
+        <div className="w-[360px] sm:w-[400px] h-[540px] max-h-[85vh] rounded-[12px] bg-[#1e1e2a] shadow-none flex flex-col overflow-hidden animate-in fade-in duration-200">
           
           {/* Header */}
-          <div className="p-4 bg-[#171721] border-b border-[#70707d]/25 text-[#ededf3] flex items-center justify-between">
+          <div className="p-4 bg-[#171721] border-b border-[#70707d]/20 text-[#ededf3] flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="h-9 w-9 rounded-full bg-[#1e1e2a] border border-[#70707d]/30 flex items-center justify-center text-[#ededf3]">
+              <div className="h-9 w-9 rounded-[40px] bg-[#272735] flex items-center justify-center text-[#ededf3]">
                 <Bot className="h-4 w-4" />
               </div>
               <div>
-                <h3 className="text-sm font-medium flex items-center gap-2 text-[#ededf3] tracking-[0.01em]">
+                <h3 className="text-sm font-[480] flex items-center gap-2 text-[#ededf3] tracking-[0.01em]">
                   MediBot AI
-                  <span className="text-[9px] px-2 py-0.5 rounded-full bg-[#242432] text-[#c3c3cc] border border-[#70707d]/30 font-normal">
+                  <span className="text-[9px] px-2 py-0.5 rounded-[40px] bg-[#272735] text-[#c3c3cc] font-[480]">
                     Google Cloud AI
                   </span>
                 </h3>
@@ -163,7 +163,7 @@ export function ChatWidget() {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setIsOpen(false)}
-                className="h-7 w-7 rounded-full bg-[#1e1e2a] hover:bg-[#242432] flex items-center justify-center text-[#c3c3cc] hover:text-[#ededf3] transition-colors cursor-pointer"
+                className="h-7 w-7 rounded-[40px] bg-[#272735] hover:bg-[#323244] flex items-center justify-center text-[#c3c3cc] hover:text-[#ededf3] transition-colors cursor-pointer"
                 aria-label="Close Chat"
               >
                 <X className="h-4 w-4" />
@@ -172,7 +172,7 @@ export function ChatWidget() {
           </div>
 
           {/* Language Selector Bar */}
-          <div className="px-3.5 py-2 bg-[#171721] border-b border-[#70707d]/20 flex items-center justify-between text-xs">
+          <div className="px-3.5 py-2 bg-[#171721] border-b border-[#70707d]/15 flex items-center justify-between text-xs">
             <div className="flex items-center gap-1.5 text-[#c3c3cc] font-normal">
               <Languages className="h-3.5 w-3.5 text-[#c3c3cc]" />
               <span>Language:</span>
@@ -180,7 +180,7 @@ export function ChatWidget() {
             <select
               value={selectedLanguage}
               onChange={(e) => setSelectedLanguage(e.target.value)}
-              className="bg-[#1e1e2a] border border-[#70707d]/30 text-[#ededf3] rounded-full px-3 py-1 text-xs font-normal focus:outline-none focus:border-[#70707d] cursor-pointer"
+              className="bg-[#1e1e2a] border border-[#e2e3ed]/20 text-[#ededf3] rounded-[32px] px-3 py-1 text-xs font-normal focus:outline-none focus:border-[#e2e3ed] cursor-pointer"
             >
               {SUPPORTED_LANGUAGES.map((lang) => (
                 <option key={lang.code} value={lang.code} className="bg-[#171721] text-[#ededf3]">
@@ -200,7 +200,7 @@ export function ChatWidget() {
                   className={`flex items-start gap-2 ${isBot ? 'justify-start' : 'justify-end'}`}
                 >
                   {isBot && (
-                    <div className="h-7 w-7 rounded-full bg-[#1e1e2a] border border-[#70707d]/30 text-[#ededf3] flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="h-7 w-7 rounded-[40px] bg-[#1e1e2a] text-[#ededf3] flex items-center justify-center shrink-0 mt-0.5">
                       <Bot className="h-3.5 w-3.5" />
                     </div>
                   )}
@@ -208,8 +208,8 @@ export function ChatWidget() {
                   <div
                     className={`max-w-[80%] rounded-[8px] p-3 shadow-none ${
                       isBot
-                        ? 'bg-[#1e1e2a] text-[#ededf3] border border-[#70707d]/30'
-                        : 'bg-[#242432] text-[#ededf3] border border-[#70707d]/40 font-normal'
+                        ? 'bg-[#1e1e2a] text-[#ededf3]'
+                        : 'bg-[#272735] text-[#ededf3] font-normal'
                     }`}
                   >
                     <p className="whitespace-pre-line leading-relaxed font-normal">{msg.content}</p>
@@ -218,7 +218,7 @@ export function ChatWidget() {
                     >
                       <span>{msg.timestamp}</span>
                       {msg.inventoryContextUsed && (
-                        <span className="flex items-center gap-0.5 text-[8px] bg-[#13131b] text-[#ededf3] border border-[#70707d]/30 px-1.5 py-0.5 rounded-full font-normal">
+                        <span className="flex items-center gap-0.5 text-[8px] bg-[#171721] text-[#ededf3] px-1.5 py-0.5 rounded-[40px] font-normal">
                           ✓ Verified Stock
                         </span>
                       )}
@@ -226,7 +226,7 @@ export function ChatWidget() {
                   </div>
 
                   {!isBot && (
-                    <div className="h-7 w-7 rounded-full bg-[#1e1e2a] text-[#ededf3] flex items-center justify-center shrink-0 mt-0.5 border border-[#70707d]/30">
+                    <div className="h-7 w-7 rounded-[40px] bg-[#272735] text-[#ededf3] flex items-center justify-center shrink-0 mt-0.5">
                       <User className="h-3.5 w-3.5" />
                     </div>
                   )}
@@ -245,18 +245,18 @@ export function ChatWidget() {
           </div>
 
           {/* Quick Suggested Inquiries */}
-          <div className="px-3 py-2 bg-[#171721] border-t border-[#70707d]/20 overflow-x-auto flex gap-1.5 no-scrollbar">
+          <div className="px-3 py-2 bg-[#171721] border-t border-[#70707d]/15 overflow-x-auto flex gap-1.5 no-scrollbar">
             <button
               type="button"
               onClick={() => handleSendMessage('Is Dolo 650 in stock near Koramangala?')}
-              className="text-[10px] whitespace-nowrap px-2.5 py-1 rounded-full bg-[#1e1e2a] hover:bg-[#242432] text-[#c3c3cc] hover:text-[#ededf3] border border-[#70707d]/30 transition-colors cursor-pointer shadow-none font-normal"
+              className="text-[10px] whitespace-nowrap px-3 py-1 rounded-[40px] bg-[#272735] hover:bg-[#323244] text-[#ededf3] transition-colors cursor-pointer shadow-none font-[480]"
             >
               💊 Dolo 650 Stock
             </button>
             <button
               type="button"
               onClick={() => handleSendMessage('Do you have Augmentin 625 Duo?')}
-              className="text-[10px] whitespace-nowrap px-2.5 py-1 rounded-full bg-[#1e1e2a] hover:bg-[#242432] text-[#c3c3cc] hover:text-[#ededf3] border border-[#70707d]/30 transition-colors cursor-pointer shadow-none font-normal"
+              className="text-[10px] whitespace-nowrap px-3 py-1 rounded-[40px] bg-[#272735] hover:bg-[#323244] text-[#ededf3] transition-colors cursor-pointer shadow-none font-[480]"
             >
               🏥 Augmentin Antibiotic
             </button>
@@ -266,7 +266,7 @@ export function ChatWidget() {
                 setSelectedLanguage('Kannada');
                 handleSendMessage('ನನಗೆ ಡೋಲೋ 650 ಸಿಗುತ್ತಾ? (Do you have Dolo 650 in Kannada?)');
               }}
-              className="text-[10px] whitespace-nowrap px-2.5 py-1 rounded-full bg-[#1e1e2a] hover:bg-[#242432] text-[#c3c3cc] hover:text-[#ededf3] border border-[#70707d]/30 transition-colors cursor-pointer shadow-none font-normal"
+              className="text-[10px] whitespace-nowrap px-3 py-1 rounded-[40px] bg-[#272735] hover:bg-[#323244] text-[#ededf3] transition-colors cursor-pointer shadow-none font-[480]"
             >
               🇮🇳 ಕನ್ನಡ ಪ್ರಶ್ನೆ
             </button>
@@ -278,22 +278,22 @@ export function ChatWidget() {
               e.preventDefault();
               handleSendMessage();
             }}
-            className="p-3 bg-[#171721] border-t border-[#70707d]/25 flex items-center gap-2"
+            className="p-3 bg-[#171721] border-t border-[#70707d]/20 flex items-center gap-2"
           >
             <Input
               type="text"
               placeholder={`Ask in ${selectedLanguage} (e.g. Is Pan 40 available?)...`}
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
-              className="text-xs h-9 bg-[#13131b] border-[#70707d]/30 text-[#ededf3] placeholder:text-[#c3c3cc]/50 rounded-full focus:border-[#70707d]"
+              className="text-xs h-9 bg-[#1e1e2a] border-[#e2e3ed]/20 text-[#ededf3] placeholder:text-[#c3c3cc] rounded-[32px] focus:border-[#e2e3ed]"
               disabled={loading}
             />
-            {/* Single Cobalt #5266eb button for chat send */}
+            {/* Primary Cobalt Button */}
             <Button
               type="submit"
               size="sm"
               variant="default"
-              className="h-9 w-9 p-0 rounded-full shrink-0 bg-[#5266eb] hover:bg-[#4355d6] text-white shadow-none"
+              className="h-9 w-9 p-0 rounded-[32px] shrink-0 bg-[#5266eb] hover:bg-[#4355d6] text-white shadow-none border-0"
               disabled={loading || !inputMessage.trim()}
             >
               <Send className="h-4 w-4" />
