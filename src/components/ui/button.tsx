@@ -9,28 +9,28 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'default', size = 'default', ...props }, ref) => {
     const baseStyles =
-      'inline-flex items-center justify-center whitespace-nowrap text-base font-normal transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#70707d] disabled:pointer-events-none disabled:opacity-40 cursor-pointer select-none';
+      'inline-flex items-center justify-center whitespace-nowrap text-base font-semibold transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#393737] disabled:pointer-events-none disabled:opacity-40 cursor-pointer select-none font-sans rounded-[100px]';
 
     const variants = {
-      // Primary CTA Button (Cobalt): Sole chromatic action (#5266eb), 32px radius, no border, no shadow
+      // Pill CTA Button: Dark filled pill, 100px radius, Messina Sans 16px weight 600, white text on Warm Graphite (#393737), no border, no shadow
       default:
-        'bg-[#5266eb] text-white hover:bg-[#4355d6] active:bg-[#3846b8] border-0 shadow-none rounded-[32px]',
-      // Ghost Outline Button: Transparent bg, 1px solid #ededf3 Ivory border, Ivory text, 40px radius
-      outline:
-        'border border-[#ededf3] bg-transparent hover:bg-[#ededf3]/10 text-[#ededf3] active:bg-[#ededf3]/15 shadow-none rounded-[40px]',
-      // Obsidian Button: #272735 fill, Ivory text, 32px radius
+        'bg-[#393737] text-white hover:bg-[#2b2929] active:bg-[#1f1e1e] border-0 shadow-none',
+      // Secondary: Paper White (#ffffff), 1px Warm Graphite border at low opacity, Warm Graphite text, soft shadow
       secondary:
-        'bg-[#272735] text-[#ededf3] hover:bg-[#323244] active:bg-[#1e1e2a] border-0 shadow-none rounded-[32px]',
+        'bg-[#ffffff] text-[#393737] border border-[#393737]/15 hover:bg-[#f7f7f7] active:bg-[#eeeeee] shadow-[0_4px_20px_rgba(0,0,0,0.05)]',
+      // Ghost Outline Button: Transparent bg, 1px Warm Graphite border at 20% opacity, Warm Graphite text
+      outline:
+        'border border-[#393737]/25 bg-transparent hover:bg-[#393737]/5 text-[#393737] active:bg-[#393737]/10 shadow-none',
       destructive:
-        'bg-[#272735] text-[#ededf3] hover:text-[#ff6b6b] hover:bg-[#3a2228] border border-[#70707d]/40 shadow-none rounded-[32px]',
+        'bg-[#ffffff] text-[#393737] hover:bg-[#f3f0f8] border border-[#393737]/20 shadow-[0_4px_20px_rgba(0,0,0,0.05)]',
       ghost:
-        'hover:bg-[#272735] text-[#ededf3] active:bg-[#1e1e2a] shadow-none border-0 rounded-[40px]',
+        'hover:bg-[#393737]/5 text-[#393737] active:bg-[#393737]/10 shadow-none border-0',
       link:
-        'text-[#ededf3] underline-offset-4 hover:underline shadow-none p-0 h-auto hover:text-white rounded-none',
+        'text-[#393737] underline-offset-4 hover:underline shadow-none p-0 h-auto rounded-none',
       gradient:
-        'bg-[#5266eb] text-white hover:bg-[#4355d6] shadow-none border-0 rounded-[32px]',
+        'bg-[#393737] text-white hover:bg-[#2b2929] shadow-none border-0',
       glow:
-        'bg-[#5266eb] text-white hover:bg-[#4355d6] shadow-none border-0 rounded-[32px]',
+        'bg-[#393737] text-white hover:bg-[#2b2929] shadow-none border-0',
     };
 
     const sizes = {
